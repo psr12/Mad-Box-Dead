@@ -1,0 +1,8 @@
+
+
+
+
+
+- BPM = FPS/FPB * 60
+- FPB = FPS / (BPM / 60)
+- FPS = (FPB * BPM) / 60

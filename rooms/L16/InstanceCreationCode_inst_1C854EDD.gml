@@ -1,0 +1,4 @@
+textlist= [
+"Huh?",
+"Stand up..."
+]

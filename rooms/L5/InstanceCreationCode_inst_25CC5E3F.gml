@@ -1,0 +1,1 @@
+wasfacing = -1;

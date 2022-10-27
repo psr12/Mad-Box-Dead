@@ -1,0 +1,48 @@
+Converting GML script: ${project_dir}\scripts\input_initialize\input_initialize.gml
+Converted description /// @description input_initialize()
+
+Converting GML script: ${project_dir}\scripts\update_input\update_input.gml
+Converted description /// @description update_input()
+
+Converting GML script: ${project_dir}\scripts\input_check\input_check.gml
+Converted description /// @description input_check(key, [index])/// @param key
+/// @param  [index]
+
+Converting GML script: ${project_dir}\scripts\input_check_pressed\input_check_pressed.gml
+Converted description /// @description input_check_pressed(key, [index])/// @param key
+/// @param  [index]
+
+Converting GML script: ${project_dir}\scripts\input_check_released\input_check_released.gml
+Converted description /// @description input_check_released(key, [index])/// @param key
+/// @param  [index]
+
+Converting GML script: ${project_dir}\scripts\input_press\input_press.gml
+Converted description /// @description input_press(key, [index])/// @param key
+/// @param  [index]
+
+Converting GML script: ${project_dir}\scripts\input_release\input_release.gml
+Converted description /// @description input_release(key, [index])/// @param key
+/// @param  [index]
+
+Converting GML script: ${project_dir}\scripts\input_hold\input_hold.gml
+Converted description /// @description input_hold(key, [index])/// @param key
+/// @param  [index]
+
+Converting GML script: ${project_dir}\scripts\input_anykey\input_anykey.gml
+Converted description /// @description input_anykey([index])/// @param [index]
+
+Converting GML script: ${project_dir}\scripts\input_lastkey\input_lastkey.gml
+Converted description /// @description input_lastkey([index])/// @param [index]
+
+Converting GML script: ${project_dir}\scripts\key_value\key_value.gml
+Converted description /// @description key_value(key)/// @param key
+Converted string - line 63: "\" -> "\\"
+
+Converting GML script: ${project_dir}\scripts\gamepad_lastbutton\gamepad_lastbutton.gml
+Converted description /// @description gamepad_lastbutton([index])/// @param [index]
+
+Converting GML script: ${project_dir}\scripts\update_scheme\update_scheme.gml
+Converted description /// @description update_scheme()
+
+Font font0 has been converted to font family Arial (Regular)
+GameMaker Studio 1 font texture has been backed up at ${project_dir}\fonts\font0\font0.gms1.png

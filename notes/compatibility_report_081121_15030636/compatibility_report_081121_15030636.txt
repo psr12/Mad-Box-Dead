@@ -1,0 +1,22 @@
+Converting GML script: ${project_dir}\objects\TMC_Frame_Skip_demo_v2_Static_obj\Create_0.gml
+Converted builtin - line 5: background_visible[0] =0 -> __background_set( e__BG.Visible, 0, 0 )
+
+Converting GML script: ${project_dir}\objects\TMC_Frame_Skip_demo_v2_obj\Create_0.gml
+Converted builtin - line 5: background_visible[0] =0 -> __background_set( e__BG.Visible, 0, 0 )
+
+Converting GML script: ${project_dir}\objects\TMC_Frame_Skip_demo_v1_obj\Create_0.gml
+Converted builtin - line 5: background_visible[0] =0 -> __background_set( e__BG.Visible, 0, 0 )
+
+Added compatibility script 'action/action_wrap.gml'
+Added compatibility script 'background/__background_set.gml'
+Added compatibility script 'background/__background_set_internal.gml'
+Added compatibility script 'draw/draw_set_blend_mode.gml'
+Added compatibility script 'instance/instance_create.gml'
+Added compatibility script 'object/object_get_depth.gml'
+Added compatibility script 'action/__init_action.gml'
+Added compatibility script 'background/__init_background.gml'
+Added compatibility script '__init_global.gml'
+Added compatibility script 'background/__background_get_element.gml'
+Added compatibility script 'background/__background_get_internal.gml'
+Added compatibility script 'background/__background_set_element.gml'
+Added compatibility script '__global_object_depths.gml'

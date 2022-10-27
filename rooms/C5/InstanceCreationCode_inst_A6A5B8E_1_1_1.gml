@@ -1,0 +1,28 @@
+ds_list_add(que,
+
+[scr_makedummy, 400,550, asq_mr_tired, asq_mr_tired, 1, 2],
+[scr_makedummy, 1000,550, csh_armscrossed, csh_armscrossed, -1, 1.5],
+[scr_changeheartface,  h_face9],
+[scr_changevar, obj_seqdummy, 1, "float", true ],
+
+[scr_textbox, 1000, 300, @"A bit uncalled for, 
+if you ask me...", snd_zap, global.heartname],
+
+[scr_changedummyseq, 0, asq_mr_shocked, asq_mr_shockedext],
+[scr_changedummyseq, 1, ch_shocked, ch_shocked],
+[scr_playmusic, intro_glow],
+[scr_makeflair,600, 400, spr_redalert, 40],
+[scr_shakecamera, 100],
+[scr_wait, 120*2],
+[scr_changedummyseq, 1, csh_thinking, csh_thinking],
+[scr_changeheartface,  h_face10],
+[scr_textbox, 1000, 300, "A fire alarm?", snd_zap, global.heartname],
+[scr_changedummyseq, 0, asq_mr_headclutch, asq_mr_headclutch],
+[scr_textbox, 300, 300, "We're caught!", snd_zap, global.ratname],
+[scr_moveobj, obj_seqdummy, 0, 2000, 550, 10],
+[scr_changedummyseq, 0, asq_mr_dashdash, asq_mr_dashdash],
+[scr_wait, 120/2],
+[scr_changedummyseq, 1, ch_shocked, ch_shocked, 1],
+[scr_textbox, 1000, 300, "No! W-wait! ", snd_zap, global.heartname],
+[scr_endcutscene, L5],
+)

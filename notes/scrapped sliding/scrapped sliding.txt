@@ -1,0 +1,85 @@
+var slide = instance_place(x, y+10, obj_slideplatform) 
+if slide { 
+	jumps = 2; //refresh jumps
+	dashes = 1;
+	charges = 1;
+	
+	var check = slide.image_angle; 
+	var side = slide.top; 
+	var vertsp = 20; //maximum values for vertical and horizontal speed
+	var horsp = 20;
+	//180 = flat yellow / 360 or 0 = flat red......
+//red
+if side == "red"{
+	if check > 290{ //  \ going _
+	//start with high vsp/low hsp, 45 balanced, flat low both
+	vliding = unlerp(360, 290, check) * vertsp; //vertical
+	sliding = dsin( unlerp(290, 360, check) * 180 ) * horsp; //horizontal
+	}
+	if check < 60 {//   / going _		negative vsp for ramping?
+	vliding = -unlerp(0, 60, check) * vertsp; //steeper angle = lower vsp = move upwards faster <<<<<( -= !? )
+	sliding =  horsp; //horizontal
+	}
+}
+//yellow
+if side == "yellow"
+{
+	if check < 250 && check > 180 { //  / going _
+	vliding = unlerp(180, 250, check) * vertsp;
+	sliding = -dsin( unlerp(180, 250, check) * 180 ) * horsp; //horizontal
+	}
+	if check > 100 && check < 180 { //  \ going _
+	vliding = unlerp(100, 180, check) * vertsp; //vertical
+	sliding = -dsin( unlerp(180, 100, check) * 180 ) * horsp; //horizontal
+	}
+}
+		//if check == "red" sliding = slidespeed;
+		//if check == "yellow" sliding = -slidespeed;
+		//vsp += jumppower/2; // stick to the platform
+		if !sequence_exists(sdrop )scr_changeseq( sdrop, scale);  //if is to reduce flashing
+		vsp = vliding; // overwrite vsp while touching slide
+	}
+
+
+
+var slide = instance_place(x, y+10, obj_slideplatform) 
+if slide { 
+	jumps = 2; //refresh jumps
+	dashes = 1;
+	charges = 1;
+	
+	var check = slide.image_angle; 
+	var side = slide.top; 
+	var vertsp = 20; //maximum values for vertical and horizontal speed
+	var horsp = 20;
+	//180 = flat yellow / 360 or 0 = flat red......
+//red
+if side == "red"{
+	if check > 290{ //  \ going _
+	//start with high vsp/low hsp, 45 balanced, flat low both
+	vliding = Approach( vliding, unlerp(360, 290, check) * vertsp ,1 ) //vertical
+	sliding = Approach( sliding, dsin( unlerp(290, 360, check) * 180 ) * horsp ,1 ) //horizontal
+	}
+	if check < 60 {//   / going _		negative vsp for ramping?
+	vliding = Approach( vliding, -unlerp(0, 60, check) * vertsp ,1 )//steeper angle = lower vsp = move upwards faster <<<<<( -= !? )
+	sliding = Approach( sliding,  horsp,1  ) //horizontal
+	}
+}
+//yellow
+if side == "yellow"
+{
+	if check < 250 && check > 180 { //  / going _
+	vliding = Approach( vliding, unlerp(180, 250, check) * vertsp ,1 )
+	sliding = Approach( sliding, -dsin( unlerp(180, 250, check) * 180 ) * horsp ,1 ) //horizontal
+	}
+	if check > 100 && check < 180 { //  \ going _
+	vliding = Approach( vliding, unlerp(100, 180, check) * vertsp ,1 ) //vertical
+	sliding = Approach( sliding, -dsin( unlerp(100, 180, check) * 180 ) * horsp ,1  )//horizontal
+	}
+}
+		//if check == "red" vliding = Approach( sliding, slidespeed;
+		//if check == "yellow" vliding = Approach( sliding, -slidespeed;
+		//vsp += jumppower/2; // stick to the platform
+		if !sequence_exists(sdrop )scr_changeseq( sdrop, scale);  //if is to reduce flashing
+		vsp = vliding; // overwrite vsp while touching slide
+	}
