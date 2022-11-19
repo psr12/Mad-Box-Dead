@@ -55,7 +55,7 @@
     "PhysicsWorldPixToMetres": 0.1,
   },
   "parent": {
-    "name": "STORYLINE",
-    "path": "folders/Rooms/STORYLINE.yy",
+    "name": "CUTSCENES",
+    "path": "folders/Rooms/STORYLINE/CUTSCENES.yy",
   },
 }

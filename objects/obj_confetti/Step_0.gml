@@ -7,7 +7,7 @@ timer++;
 if timer == 30
 {
 	repeat( irandom(1)+1 ) {
-		part_particles_create(sys, x+random_range(-100, 50), y+random_range(-100, 50), popper, 1)
+		part_particles_create(global.under_partsys, x+random_range(-100, 50), y+random_range(-100, 50), popper, 1)
 	}
 }
 

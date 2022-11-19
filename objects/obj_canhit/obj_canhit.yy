@@ -1,7 +1,11 @@
 {
+  "resourceType": "GMObject",
+  "resourceVersion": "1.0",
+  "name": "obj_canhit",
   "spriteId": null,
   "solid": false,
   "visible": true,
+  "managed": true,
   "spriteMaskId": null,
   "persistent": false,
   "parentObjectId": {
@@ -27,8 +31,4 @@
     "name": "enemies",
     "path": "folders/Objects/enemies.yy",
   },
-  "resourceVersion": "1.0",
-  "name": "obj_canhit",
-  "tags": [],
-  "resourceType": "GMObject",
 }

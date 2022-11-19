@@ -423,9 +423,11 @@ var str_hei = string_height("A")
 				}
 
 			var input = notelist[| i]
-			if input //if there is a note
+			if input || input == -6//if there is a note
 			{
 					var sprite = whitebar; 
+					var barcolor = c_white;
+					if input == -6 barcolor = c_green;
 					if redactive || templastred //there are or were red notes
 					{
 						if input == 1 {sprite = redbar2; redactive = false; templastred=false;}  //big red bar
@@ -438,9 +440,9 @@ var str_hei = string_height("A")
 					}
 
 				
-				draw_sprite_ext(sprite, 0, x+distfromcenter + i*dist - showingfrom*dist, y, 1, 1, 0, c_white, 1)
+				draw_sprite_ext(sprite, 0, x+distfromcenter + i*dist - showingfrom*dist, y, 1, 1, 0, barcolor, 1)
 				//right side
-				draw_sprite_ext(sprite, 0, x-distfromcenter - i*dist + showingfrom*dist, y, -1, 1, 0, c_white, 1)
+				draw_sprite_ext(sprite, 0, x-distfromcenter - i*dist + showingfrom*dist, y, -1, 1, 0, barcolor, 1)
 				//left side
 			}
 			if (redactive || templastred) && state > 5//draw red background for red notes, lastred only for playback
@@ -561,6 +563,7 @@ if (state == 6 || state >= 10) && state < 60{ //playback, notes
 			if input //if there is a note
 			{
 					var sprite = whitebar; 
+					//if input == 5 continue;
 					if redactive || templastred //there are or were red notes
 					{
 						if input == 1 {sprite = redbar2; redactive = false; templastred=false;}  //big red bar

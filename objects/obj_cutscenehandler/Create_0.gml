@@ -6,6 +6,7 @@ x = cam_w /2;
 y = cam_h /2;
 
 if !instance_exists(obj_cameraman) instance_create(x,y,obj_cameraman)
+gotoroom = L1
 
 que = ds_list_create()
 
@@ -16,7 +17,7 @@ wait = false; //true while, for example, waiting on a textbox to be closed
 
 songinst = snd_blank;
 	music = noone; //for streaming music
-
+music_wobble = false;
 //depth -= 300;
 
 ratface = mr_face1;

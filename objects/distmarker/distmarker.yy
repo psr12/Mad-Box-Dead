@@ -28,7 +28,7 @@
   "properties": [],
   "overriddenProperties": [],
   "parent": {
-    "name": "other",
-    "path": "folders/Sprites/other.yy",
+    "name": "Objects",
+    "path": "folders/Objects.yy",
   },
 }

@@ -7,7 +7,7 @@ event_inherited();
 image_xscale = 2
 image_yscale = 0.1
 
-life = 120 * 1.5; 
+life = 120 * 0.8; 
 
 timer = 0;
 waittill = 120 * 0.5

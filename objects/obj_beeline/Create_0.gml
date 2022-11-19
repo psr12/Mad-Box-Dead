@@ -19,7 +19,7 @@ ptime = 1; //how often to spawn
 
 particle = global.beeline_part
 
-if room = L15 {particle = global.beeline_part_glitchy;
+if instance_exists(obj_glitchy) {particle = global.beeline_part_glitchy;
 glitchy = true
 }
 glitchy_alarm_max = 25;

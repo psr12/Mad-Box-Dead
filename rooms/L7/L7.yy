@@ -599,7 +599,7 @@
     "PhysicsWorldPixToMetres": 0.1,
   },
   "parent": {
-    "name": "STORYLINE",
-    "path": "folders/Rooms/STORYLINE.yy",
+    "name": "LEVELS",
+    "path": "folders/Rooms/STORYLINE/LEVELS.yy",
   },
 }

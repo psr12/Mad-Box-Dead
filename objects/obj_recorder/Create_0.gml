@@ -1,7 +1,11 @@
 /// @description Insert description here
 /// @description Insert description here
 // You can write your code in this editor
-ley = layer_create(-1000, "recorder_layer")
+
+//room_goto(TheTestRoom)
+
+ley = layer_create(-500, "recorder_layer")
+partlay = layer_create(100, "underparticles")
 layer = ley
 fuckmeDeltaTime = 0;
 global.zoom = 1;
@@ -273,6 +277,7 @@ ds_list_add(madratpartslist,
 "spr_p_spin",
 "spr_p_charge",
 "spr_p_line",
+"mr_stomponthis",
 )
 
 var size = ds_list_size(madratpartslist)
@@ -338,6 +343,9 @@ ds_list_add(heartpartlist,
 "h_face9",
 "h_face10",
 "h_face11",
+//12 and 13 are animated
+"h_face14",
+"h_face15",
 "h_hand1",
 "h_hand2",
 "h_hand3",
@@ -411,19 +419,19 @@ ds_list_destroy(uilist)
 
 storylevellist = [
 
-Cfunni,
+Cfunni, //0
 
-C1,
+C1, //1
 C2,
 C3,
 C3e1,
-C4,
+C4, //5
 C5,
 C6,
 C6e1,
 C7,
-C8,
-//C8e1,
+C8, //10
+//C8e1, 
 C9,
 C10,
 C11,
@@ -433,8 +441,17 @@ C14,
 C15,
 C16,
 C17,
-C18,
 
+CE1, //previously, the credits, better look around
+CE2, //a pod?
+CE3, //it's malfunctioning!
+CE4, //a meteorite?
+CE5, //shut up!
+CE6, //memory crawl
+CE7, //....frequency
+CE8, //mad dash
+CE9, // final battle
+CE10, // credits
 
 ]
 storysonglist = [
@@ -462,7 +479,32 @@ storysonglist = [
 "selfsimilarity_shorter.ogg", //16
 "You Are Mine.ogg", //17
 
-"Drawing Theme.ogg", //18, credits
+
+"Old House.ogg", //18				ce1
+"Macuilxochitl.ogg", //19			ce2
+"Scorching Back.ogg", //20			ce3
+"Here We Are.ogg", //21			ce4
+"Undying.ogg", //22			ce5 
+"Crazy.ogg", //23			ce6
+"Soul to Burn.ogg", //24			ce7
+"GO BACK 2 YOUR RAVE.ogg", //25			ce8
+"Indefatigable.ogg", //26			ce9
+
+"Drawing Theme.ogg", //27			ce10
+
+
+
+//".ogg", //
+//".ogg", //
+//".ogg", //
+//".ogg", //
+//".ogg", //
+//".ogg", //
+//".ogg", //
+
+
+
+//"Drawing Theme.ogg", //
 
 ]
 
@@ -474,6 +516,10 @@ seqscale = 1;
 
 global.ratname = "Lab Rat"
 global.heartname = "Arty"
+global.virusname = "Virus"
+
+global.skipammount = 30; //for skip notes, how large the skip is
+skipwait= 0;
 
 hold_to_scroll_timer_max = 60;
 hold_to_scroll_timer_cooldown = 12;
@@ -529,18 +575,61 @@ rewind_leftright_select = 0;
 alarm[8] = 3; //set bbox references for drawGUI, incase of custom sprites
 
 #region particles
-global.partsys = part_system_create()
+global.partsys = part_system_create_layer(layer, true)
+global.under_partsys = part_system_create_layer(partlay, true)
 
 // Setup:
 global.part_cloud = part_type_create()
 part_type_shape(global.part_cloud, pt_shape_cloud)
-part_type_life(global.part_cloud, 60, 70)
-part_type_size(global.part_cloud, 3,4, 0.05, 0.05)
-part_type_direction(global.part_cloud, 90,90, 0, 0.5)
-part_type_speed(global.part_cloud, 4, 4, 0, 0.1)
-part_type_alpha2(global.part_cloud, 1, 0)
+part_type_life(global.part_cloud, 330, 470)
+part_type_color1(global.part_cloud, c_ltgray)
+part_type_size(global.part_cloud, 2,3, 0.1, 0.05)
+part_type_direction(global.part_cloud, 88,92, 0, 0)
+part_type_speed(global.part_cloud, 4, 3, 0, 0.1)
+part_type_alpha2(global.part_cloud, 0.2, 0)
 part_type_orientation(global.part_cloud, 0, 360, 0, 1, 0)
+part_type_gravity(global.part_cloud, 0.01, 90)
 
+global.part_hole = part_type_create()
+part_type_shape(global.part_hole, pt_shape_disk)
+part_type_life(global.part_hole, 44, 44)
+part_type_color1(global.part_hole, c_black)
+part_type_size(global.part_hole, 0.2, 0.8, 0, 0)
+
+
+
+global.part_trail = part_type_create()
+part_type_shape(global.part_trail, pt_shape_cloud)
+part_type_life(global.part_trail, 30, 30)
+part_type_color1(global.part_trail, c_ltgray)
+part_type_size(global.part_trail, 1, 1, 0, 0.05)
+part_type_direction(global.part_trail, 88,92, 0, 0)
+part_type_speed(global.part_trail, 4, 3, 0, 0.1)
+part_type_alpha2(global.part_trail, 0.2, 0)
+part_type_orientation(global.part_trail, 0, 360, 0, 1, 0)
+part_type_gravity(global.part_trail, 0.01, 90)
+	
+	
+	global.part_sparks = part_type_create()
+	part_type_shape(global.part_sparks, pt_shape_spark)
+	part_type_color1(global.part_sparks, c_aqua);
+	part_type_alpha2(global.part_sparks, 0.7,0)
+	part_type_orientation(global.part_sparks, 0, 359, 0, 10, true)
+	part_type_size(global.part_sparks, 3,4, -0.05, 0.1)
+	part_type_life(global.part_sparks, 30, 50)
+	part_type_direction(global.part_sparks, 0, 359, 0, 10)
+	part_type_speed(global.part_sparks, 5,10, -0.1, 0)
+	
+	global.part_laserline = part_type_create()
+	part_type_shape(global.part_laserline, pt_shape_square)
+	part_type_color1(global.part_laserline, c_white);
+	part_type_alpha2(global.part_laserline, 1,0)
+	//part_type_orientation(global.part_laserline, 0, 359, 0, 10, true)
+	part_type_size(global.part_laserline, 0.7, 0.7, 0, 0)
+	part_type_life(global.part_laserline, 30, 30)
+	//part_type_direction(global.part_laserline, 0, 359, 0, 10)
+	//part_type_speed(global.part_laserline, 1, 2, 0, 0)
+	
 global.part_rain = part_type_create()
 part_type_shape(global.part_rain, pt_shape_line)
 part_type_color1(global.part_rain, c_white)
@@ -597,6 +686,17 @@ part_type_life(global.water_part, 99, 99)
 part_type_gravity(global.water_part, 0.5, 270)
 part_type_orientation(global.water_part, 0, 359, 0, 0, false)
 
+global.tear_part = part_type_create()
+part_type_shape(global.tear_part,pt_shape_explosion)
+part_type_alpha2(global.tear_part, 1, 0)
+part_type_color1(global.tear_part, c_aqua)
+part_type_size(global.tear_part, 0.5, 0.7, 0, 0.1)
+part_type_life(global.tear_part, 33, 44)
+part_type_gravity(global.tear_part, 0.5, 270)
+part_type_speed(global.tear_part, 7, 9, -0.1, 0)
+part_type_orientation(global.tear_part, 0, 359, 0, 0.2, false)
+part_type_direction(global.tear_part, 120, 130, 0, 0.1)
+
 global.yelspark = part_type_create()
 part_type_shape(global.yelspark,pt_shape_spark)
 part_type_color1(global.yelspark,c_yellow)
@@ -627,6 +727,15 @@ part_type_orientation(global.yelspark, 0, 359, 0, 0, false)
 	part_type_direction(global.part_sprinkler, 0, 0, 0, 0)
 	part_type_orientation(global.part_sprinkler, 0, 0, 0, 0, true)
 	part_type_gravity(global.part_sprinkler, 1, 270);
+	
+	global.part_bubble = part_type_create()
+	part_type_alpha2(global.part_bubble, 0.7, 0)
+	part_type_color1(global.part_bubble, c_white)
+	part_type_shape(global.part_bubble, pt_shape_circle)
+	part_type_life(global.part_bubble, 130, 150)
+	part_type_size(global.part_bubble, 0.3, 0.4,  0, 0)
+	part_type_speed(global.part_bubble, 5, 6, -0.01, 0)
+	part_type_direction(global.part_bubble, 90, 90, 0, 0)
 	
 #endregion
 

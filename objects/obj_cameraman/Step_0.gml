@@ -78,13 +78,13 @@ camera_set_view_size(cam, finalwidth, finalheight )
 if instance_exists( obj_recorder) {
 	if obj_recorder.state == 99 
 	{
-		if !instance_exists(obj_cutscenehandler){
-			instance_activate_all()
-			instance_deactivate_region(x-finalwidth, y-finalheight, x+finalwidth*2, y+finalheight*2, false, true)
-			instance_activate_object(par_important)
-			instance_activate_object(obj_oneway)
-			instance_activate_object(obj_dropplatform)
-		}
+		//if !instance_exists(obj_cutscenehandler){
+		//	instance_activate_all()
+		//	instance_deactivate_region(x-finalwidth, y-finalheight, x+finalwidth*2, y+finalheight*2, false, true)
+		//	instance_activate_object(par_important)
+		//	instance_activate_object(obj_oneway)
+		//	instance_activate_object(obj_dropplatform)
+		//}
 		
 			//cutscenes
 			var ldx = lengthdir_x( spd, point_direction(x, y, targetx, targety) )

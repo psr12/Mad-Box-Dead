@@ -1,10 +1,20 @@
 {
-  "spriteId": null,
+  "resourceType": "GMObject",
+  "resourceVersion": "1.0",
+  "name": "obj_glitchy",
+  "spriteId": {
+    "name": "spr_beeline3",
+    "path": "sprites/spr_beeline3/spr_beeline3.yy",
+  },
   "solid": false,
   "visible": true,
+  "managed": true,
   "spriteMaskId": null,
   "persistent": false,
-  "parentObjectId": null,
+  "parentObjectId": {
+    "name": "obj_onbeat",
+    "path": "objects/obj_onbeat/obj_onbeat.yy",
+  },
   "physicsObject": false,
   "physicsSensor": false,
   "physicsShape": 1,
@@ -17,15 +27,13 @@
   "physicsStartAwake": true,
   "physicsKinematic": false,
   "physicsShapePoints": [],
-  "eventList": [],
+  "eventList": [
+    {"resourceType":"GMEvent","resourceVersion":"1.0","name":"","isDnD":false,"eventNum":0,"eventType":3,"collisionObjectId":null,},
+  ],
   "properties": [],
   "overriddenProperties": [],
   "parent": {
     "name": "cutscenes",
     "path": "folders/Objects/cutscenes.yy",
   },
-  "resourceVersion": "1.0",
-  "name": "obj_glitchy",
-  "tags": [],
-  "resourceType": "GMObject",
 }

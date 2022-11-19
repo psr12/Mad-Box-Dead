@@ -23,7 +23,7 @@ case 1:
 break;
 	
 case 2: 
-	draw_ctext(cam_w/2, cam_h/2, "What is the most important thing in the world?")
+	draw_ctext(cam_w/2, cam_h/2, "What is the most important quality in a person?")
 	draw_ctext(cam_w/2, cam_h/2 + inputdist, keyboard_string + textcursor)
 break;
 	

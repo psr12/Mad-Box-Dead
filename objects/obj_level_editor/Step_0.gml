@@ -46,11 +46,15 @@ switch state
 		if keyboard_check_pressed(vk_f4) {current_asset_layer = asset_layer_under}
 		if keyboard_check_pressed(vk_f3) or keyboard_check_pressed(vk_f4) {play_sound(snd_menutick,1)}
 		
+		//if keyboard_check_pressed(ord("F") ) {if instance_exists(obj_glitchy) instance_destroy(obj_glitchy) 
+		//	else instance_create(mouse_x, mouse_y, obj_glitchy) }
+		
 		//scroll menu
 		var abba = scr_detect_number_input()
 		if abba
 		{	abba--; //1 goes to 0
 				selection = abba; 
+				selection = clamp(selection, 0, size)
 		}
 
 		if mouse_wheel_up() && !keyboard_check(vk_shift)
@@ -74,15 +78,20 @@ switch state
 				else{ with obj_assetlayer {image_alpha = 1 } } 
 				showmenu = 0;
 			}
-			
+		if keyboard_check_pressed(ord("F")) { //open glitchy list
+			onlist = 4; //
+			size = glitchy_list_size //
+
+		}
 
 		
 		if mouse_check_button_pressed(mb_left)
 		{
 			var object_list = ds_list_create()
-			if onlist == 0 || onlist == 1 { //objects
+			if onlist == 0 || onlist == 1 || onlist == 4 { //objects
 				if onlist == 0 ds_list_copy(object_list, platform_list)
 				if onlist == 1 ds_list_copy(object_list, enemy_list)
+				if onlist == 4 ds_list_copy(object_list, glitchy_list)
 				if selection != 0 // not on move tool, create object
 				{
 						var objtype = object_list[| selection]
@@ -122,9 +131,10 @@ switch state
 								if victim.object_index == obj_trigger {exit;}
 					
 									//asset tab or obj tab?
-									if onlist <2 { //obj tabs, if selected obj is on a list...
+									if onlist <2 || onlist == 4{ //obj tabs, if selected obj is on a list...
 										if (ds_list_find_index(platform_list, victim.object_index) != -1
-											or ds_list_find_index(enemy_list, victim.object_index) != -1)
+											or ds_list_find_index(enemy_list, victim.object_index) != -1
+											or ds_list_find_index(glitchy_list, victim.object_index) != -1)
 											{valid_target = true;} //can proceed
 									}//if on assets, and got an asset
 									if onlist == 2 and victim.object_index == obj_assetlayer {valid_target = true;}
@@ -431,7 +441,8 @@ switch state
 					
 						if onlist != 2 and //anything but assets
 							(ds_list_find_index(platform_list, victim.object_index) != -1
-							or ds_list_find_index(enemy_list, victim.object_index) != -1)
+							or ds_list_find_index(enemy_list, victim.object_index) != -1
+							or ds_list_find_index(glitchy_list, victim.object_index) != -1)
 									{instance_destroy(victim)} 
 
 						if onlist == 2 and victim.object_index == obj_assetlayer 
@@ -448,7 +459,9 @@ switch state
 					
 							if onlist != 2 and //anything but assets
 							(ds_list_find_index(platform_list, victim.object_index) != -1
-							or ds_list_find_index(enemy_list, victim.object_index) != -1)
+							or ds_list_find_index(enemy_list, victim.object_index) != -1
+							or ds_list_find_index(glitchy_list, victim.object_index) != -
+1)
 									{instance_destroy(victim)} 
 
 						
@@ -483,7 +496,8 @@ switch state
 					var victim = templist[| i];
 					if onlist < 2{ //if selecting objects
 							if (ds_list_find_index(platform_list, victim.object_index) != -1
-								or ds_list_find_index(enemy_list, victim.object_index) != -1)
+								or ds_list_find_index(enemy_list, victim.object_index) != -1
+								or ds_list_find_index(glitchy_list, victim.object_index) != -1)
 										{ds_list_add(selected_list, victim); } //if not placeable obj, remove from selection
 						}
 					if onlist == 2 {//if selecting assets

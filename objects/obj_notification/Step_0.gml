@@ -9,7 +9,8 @@ if state == 0 {
 		if !contact_wait {
 			play_sound(snd_notification,1);
 			state = 1;
-			obj_recorder.corner_heart_overwrite = csh_notification;
+			if !instance_exists(obj_dontshowheart) obj_recorder.corner_heart_overwrite = csh_notification;
+			else obj_recorder.corner_heart_overwrite = seq_exclamationpoint;
 		}
 	}
 }
@@ -28,7 +29,9 @@ if state == 1
 	
 	if !place_meeting(x,y,obj_MadSquare) //out of range
 	{
-		obj_recorder.corner_heart_overwrite = 0;
+		if instance_exists(obj_dontshowheart) obj_recorder.corner_heart_overwrite = seq_blank;
+		else obj_recorder.corner_heart_overwrite = 0;
+
 		state = 0;
 	}
 }

@@ -12,3 +12,6 @@ image_alpha = 0;
 state = 0;
 
 first_time = true;
+
+if instance_exists(obj_glitchy) {max_wait = 16;active_time = 1; }
+//glitchy = faster

@@ -1,4 +1,7 @@
 {
+  "resourceType": "GMObject",
+  "resourceVersion": "1.0",
+  "name": "obj_canthit",
   "spriteId": null,
   "solid": false,
   "visible": true,
@@ -28,8 +31,4 @@
     "name": "enemies",
     "path": "folders/Objects/enemies.yy",
   },
-  "resourceVersion": "1.0",
-  "name": "obj_canthit",
-  "tags": [],
-  "resourceType": "GMObject",
 }

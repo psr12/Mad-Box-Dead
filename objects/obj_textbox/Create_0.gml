@@ -23,7 +23,7 @@ introscale = 2;
 widmin = 300;
 heimin = 100;
 
-depth-=300;
+depth-=900;
 
 glitch_time = 60;
 glitch_timer = glitch_time;

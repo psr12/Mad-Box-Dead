@@ -7,6 +7,8 @@ event_inherited();
 image_xscale = 1;
 image_yscale = 1;
 
+if instance_exists(obj_glitchy) eachattacktakes = 120*  6; //glitchy attacks faster
+
 if musicstarted {mask_index = spr_blank;
 	if instance_exists(obj_MadSquare)
 	x = obj_MadSquare.x -500

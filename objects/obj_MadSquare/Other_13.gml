@@ -1,5 +1,7 @@
 ///@desc step sets this off
 
+if indefatigable {battery_charge = Approach(battery_charge, battery_max_charge, 1) }
+
 //battery animation
 battery_bulge = Approach(battery_bulge, 0, 0.02);
 battery_charge_showing = Approach(battery_charge_showing, battery_charge, 1);
@@ -35,6 +37,7 @@ if ( (place_meeting(x,y, obj_enemy) and !obj_recorder.opArray2d[2][2] ) //not in
 	enemy_collision_timer--;
 	if !enemy_collision_timer {state = 86;}
 } else {enemy_collision_timer = max_enemy_collision_timer;} //reset if not touching
+
 
 //before collision
 timer= Approach(timer, 0, 1); 
@@ -295,9 +298,9 @@ if state == 88 { //disappear
 	didyoujustdroponanenemy = false; //for stylish animations
 		play_sound(snd_zap, 1)
 	repeat(20)
-		{part_particles_create(partsys, random_range(bbox_left, bbox_right), 
+		{part_particles_create(global.partsys, random_range(bbox_left, bbox_right), 
 			random_range(bbox_top, bbox_bottom),
-			part_sparks, 1)
+			global.part_sparks, 1)
 		}
 	state++;
 }
@@ -319,9 +322,9 @@ if state == 89 { //wait a bit before reappearing
 			}
 			play_sound(snd_respawn,1)
 				repeat(20)
-					{part_particles_create(partsys, random_range(bbox_left, bbox_right), 
+					{part_particles_create(global.partsys, random_range(bbox_left, bbox_right), 
 						random_range(bbox_top, bbox_bottom),
-						part_sparks, 1)
+						global.part_sparks, 1)
 					}
 			}
 	}

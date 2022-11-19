@@ -16,9 +16,6 @@ if instance_exists(obj_MadSquare)
 				obj_MadSquare.battery_bulge = 0.3;
 				}
 	}
-	else if speed != 0 {
-		x = lerp(x, obj_MadSquare.x, 0.6)
-		y = lerp(y, obj_MadSquare.y, 0.6)
-	}
+	else if speed > 0 speed = 0;
 }
 image_angle += spud

@@ -3,6 +3,8 @@
 event_inherited();
 if instance_exists(obj_MadSquare)
 {	
+	if distance_to_object(obj_MadSquare) > range*6 exit; //IDK, THEY MOVE SOMETIMES
+	
 		if active and obj_MadSquare.state == 0 {
 		if !glitchy main_rot = point_direction(x,y, obj_MadSquare.x, obj_MadSquare.y) + 270;
 	
@@ -28,7 +30,7 @@ if glitchy_alarm < 0 and active and obj_MadSquare.state == 0 {
 			main_rot = point_direction(x,y, obj_MadSquare.x, obj_MadSquare.y) + 270
 				+ random(30)-30
 			image_alpha = random(1)+0.5
-			var ran = random(205) + 30
+			var ran = random(100) + 30
 				x += lengthdir_x(ran, main_rot-270)
 				y += lengthdir_y(ran, main_rot-270)
 	}

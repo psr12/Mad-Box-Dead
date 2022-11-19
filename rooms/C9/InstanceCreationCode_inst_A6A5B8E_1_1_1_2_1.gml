@@ -16,7 +16,7 @@ ds_list_add(que,
 [scr_textbox, 1000, doy-400, "So let's go!", snd_zap, global.heartname],
 [scr_csplaysound, snd_warioland4,1],
 [scr_wait, 100],
-[cs_camerazoom, 0, -0.002],
+[cs_camerazoom, 0.1, 0.032],
 [scr_wait, 200],
 [scr_endcutscene, L9],
 )

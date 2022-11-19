@@ -9,8 +9,8 @@ sur_h = 300
 dark = surface_create(sur_w,sur_h)
 
 
-full_size = 1.5;
-org_size = 0.7;
+full_size = 1.5; 
+org_size = 0.7; //original size
 
 curscale = org_size;
 approscale = curscale;

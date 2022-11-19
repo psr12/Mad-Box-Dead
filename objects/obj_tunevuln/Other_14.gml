@@ -16,7 +16,7 @@ with progenitor { //set off parent's event4
 	part_particles_create(global.partsys, x, y, global.gear_part, 10);
 	part_particles_create(global.partsys, x, y, global.yelspark, 10);
 	
-	scr_shakecamera(50)
+	scr_shakecamera(30)
 	
 	instance_create(x-30,y-150, obj_pickup);
 	instance_create(x,y-150, obj_pickup);

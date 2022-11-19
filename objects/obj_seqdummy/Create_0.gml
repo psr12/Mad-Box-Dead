@@ -23,3 +23,5 @@ floattimeadd = 0.05;
 
 //pumping = false;
 shake = false;
+
+blue = false;

@@ -7,6 +7,9 @@ if place_meeting(x,y, par_sewerhit)
 	event_user(4)
 }
 
+if instance_exists(obj_glitchy) and distance_to_object(obj_MadSquare) < 30 event_user(4)
+//for memory area, they always die when close
+
 #region collision
 
 vsp+=grav;

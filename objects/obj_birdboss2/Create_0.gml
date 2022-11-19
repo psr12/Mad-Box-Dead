@@ -30,7 +30,7 @@ image_scale(scale)
 gust = 0; //direction
 gust_power=4; //speed
 
-alarm[0] = 1;
+alarm[0] = 2;
 
 justusedtalon = false;
 

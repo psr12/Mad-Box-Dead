@@ -6,7 +6,7 @@ event_inherited();
 state++;
 
 if state == max_wait - warning_time { //is there a good way to check if you're using "Cool Bird"?
-	 if !first_time and !audio_is_playing(snd_eagle)
+	 if !first_time and !audio_is_playing(snd_eagle) and !instance_exists(obj_glitchy)
 		{play_sound(snd_eagle, 1) }
 	}
 if state >= max_wait - active_time { //inside active time

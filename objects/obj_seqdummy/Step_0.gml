@@ -1,6 +1,9 @@
 /// @description Insert description here
 // You can write your code in this editor
 
+if blue {blue = false; layer_shader(layer, shader_blue) }
+
+
 addscale = lerp(addscale, 1, 0.02)
 
 
@@ -11,7 +14,7 @@ else scr_changeseq(showing,(scale*addscale))
 	
 	
 var shaking = 0
-if shake {shaking = random(20) }
+if shake {shaking = random(10) }
 	
 if float floattime+= floattimeadd;
 layer_sequence_x(seq, x)

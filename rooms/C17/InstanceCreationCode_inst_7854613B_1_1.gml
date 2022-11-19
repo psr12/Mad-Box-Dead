@@ -69,14 +69,35 @@ killing me just a bit ago.", snd_madtalk, global.ratname],
 [scr_changedummyseq, 2, asq_mr_tired],
 [scr_wait, 100],
 
+//goto window
+[cs_fadeblack, 1, 100],
+[scr_moveobj, obj_cameraman, 0,  ph_9.x-300, room_height/2 + room_height, 999],
+[scr_wait, 100],
+[cs_fadeblack, 0, 100],
+[scr_makedummy, ph_9.x, ph_9.y-300, asq_mr_drop, asq_mr_drop, -1, 1],
+[scr_moveobj, obj_seqdummy, 3,  ph_9.x, ph_9.y, 1],
+[scr_wait, 30],
+[scr_moveobj, obj_seqdummy, 3,  ph_9.x, ph_9.y, 3],
+[scr_wait, 30],
+[scr_moveobj, obj_seqdummy, 3,  ph_9.x, ph_9.y, 6],
+[scr_wait, 30],
+[scr_moveobj, obj_seqdummy, 3,  ph_9.x, ph_9.y, 10],
+[scr_wait, 10],
+[scr_changedummyseq, 3, asq_mr_idle],
+[scr_wait, 200],
+[scr_changedummyseq, 3, asq_mr_walk],
+[scr_moveobj, obj_seqdummy, 3,  ph_9.x-900, ph_9.y, 1],
+[cs_fadeblack, 1, 100],
+[scr_deleteobj, obj_seqdummy, 3],
+
 //goto lab
-[cs_fadeblack, 1, 200],
 [scr_wait, 100],
 [scr_makedummy, ph_7.x, ph_7.y, asq_mr_walk, asq_mr_walk, -1, 1],
 [scr_moveobj, obj_cameraman, 0, ph_6.x, ph_6.y, 999],
-[scr_moveobj, obj_seqdummy, 3, ph_7.x-600, ph_7.y, 1],
 [scr_wait, 100],
 [cs_fadeblack, 0, 200],
+
+[scr_moveobj, obj_seqdummy, 3, ph_7.x-600, ph_7.y, 2],
 
 //lab, mr is walking left
 [scr_wait, 300],

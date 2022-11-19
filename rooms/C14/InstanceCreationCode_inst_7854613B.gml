@@ -78,7 +78,7 @@ you for much longer!", snd_zap, global.heartname],
 [scr_moveobj, obj_cameraman, 0, 300,550, 5],
 [scr_moveobj, obj_flair, 0, 300,550, 5],
 [scr_wait, 100],
-[cs_camerazoom, 0, -0.0002],
+[cs_camerazoom, 0.1, 0.016],
 [scr_wait, 100],
 
 [scr_endcutscene, L14],

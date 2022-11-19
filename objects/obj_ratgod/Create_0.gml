@@ -19,7 +19,7 @@ ds_list_add(attacklist, 0,1,2,3)
 
 timer = 0;
 
-eachattacktakes = 120*  7; //how long each attack lasts
+eachattacktakes = 120*  8; //how long each attack lasts
 
 
 

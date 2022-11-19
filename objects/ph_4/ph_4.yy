@@ -1,7 +1,11 @@
 {
+  "resourceType": "GMObject",
+  "resourceVersion": "1.0",
+  "name": "ph_4",
   "spriteId": null,
   "solid": false,
   "visible": true,
+  "managed": true,
   "spriteMaskId": null,
   "persistent": false,
   "parentObjectId": null,
@@ -24,8 +28,4 @@
     "name": "placeholders",
     "path": "folders/Objects/placeholders.yy",
   },
-  "resourceVersion": "1.0",
-  "name": "ph_4",
-  "tags": [],
-  "resourceType": "GMObject",
 }

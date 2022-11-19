@@ -7,6 +7,7 @@
 #macro cam_y camera_get_view_y( view_camera[0] )
 #macro cam_w camera_get_view_width( view_camera[0])
 #macro cam_h camera_get_view_height( view_camera[0] )
+
 //#macro cam_w camera_get_view_width( view_camera[0] )
 //#macro cam_h camera_get_view_height( view_camera[0] )
     view_visible[0] = true;

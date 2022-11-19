@@ -5,7 +5,7 @@ update_input() //always
 if keyboard_check_pressed(vk_control) seefps = !seefps
 //var dt = delta_time / 8333.33;
 
-	
+
 switch state
 {
 	case -2: //main menu
@@ -457,8 +457,9 @@ switch state
 		if keyboard_check_pressed(vk_end)  //jump to end
 			{showingfrom = songends;}
 
-		
-		if (mouse_check_button_pressed(mb_right) || mouse_check_button_pressed(mb_left))
+		var skipbut = ord("F")
+		if (mouse_check_button_pressed(mb_right) || mouse_check_button_pressed(mb_left) 
+			|| keyboard_check(skipbut)  )
 		&& mouse_y == clamp(mouse_y, bbox_top_fix, bbox_bottom_fix) //only if clicking within the note bar
 		&& mouse_x != clamp(mouse_x, bbox_left_fix, bbox_right_fix) //don't place notes inside the heart
 		{
@@ -468,7 +469,7 @@ switch state
 			for (var c = max(0, hoverover-range);
 			c < min(ds_list_size(notelist), hoverover+range); c++)
 			{
-				if notelist[| c] //if there is a note
+				if notelist[| c] || notelist[| c] == -6 //if there is a note
 				{target = c; break;}//target that slot
 				//if no notes in range, target is exactly where you click
 			}
@@ -485,6 +486,12 @@ switch state
 				if notelist[| target] == 2 {ds_list_replace(notelist, target, 0)} //remove note
 				else if snap_to_nearest == 0 ds_list_replace(notelist, target, 2)
 				else ds_list_replace(notelist, round(target/FPB)*FPB, 2)	//replace blank or white with red
+			}
+			if keyboard_check_pressed(skipbut )
+			{
+				if notelist[| target] == -6 {ds_list_replace(notelist, target, 0)} //remove note
+				else if snap_to_nearest == 0 ds_list_replace(notelist, target, -6)
+				else ds_list_replace(notelist, round(target/FPB)*FPB, -6)	//replace with skipnote
 			}
 		}
 		
@@ -665,6 +672,7 @@ switch state
 		//ds_list_delete(notelist, 0)
 		if showtext <=0 
 		{
+			instance_create_layer(x, y, layer, obj_songbanner) //show the songname
 			state=11; 
 			songinst = audio_play_sound(music,1,0) //loop now
 			audio_sound_gain(songinst, songvolume, 0);
@@ -690,6 +698,7 @@ switch state
 		//if rewind_timer >= rewind_frequency {
 		//	//scr_rewind_save()
 		//}
+		#region note stuff
 		if ds_list_size(notelist) <= songends-introends { //add backup list to end of notelist once finished
 			//var busize = ds_list_size(backup)
 			for (var uh = introends; uh < (songends); uh++)
@@ -724,7 +733,7 @@ switch state
 				obj_onbeat.time = tome;
 			}//set off onbeats' events
 			lastred = false; //for drawing, last note was white, turn off lastred
-			
+			if !instance_exists(obj_catchase) recalpha = max(0.5, recalpha); //in dark levels, show notes slightly on note
 			#region corner heart sequence
 				if (state == 11) and opArray2d[2][0]{
 				var seqnum = min(combo div 50, array_length(seqlist)-1 ) //don't overshoot list
@@ -740,7 +749,13 @@ switch state
 				//corner_heart_overwrite = 0; //if doing this, bombard?
 			#endregion
 		}
-					
+		
+		if gote == -6 { //if hitting a skip note, delete 30 slots
+			repeat(global.skipammount) {ds_list_delete(notelist, 0) }
+
+			skipwait = global.skipammount; //wait for XXX frames
+		}
+		
 		asdf += tome; //handles ONBEAT events going off
 		while asdf > 1 and state == 11
 			{ 
@@ -786,7 +801,7 @@ switch state
 			if cnote == 1 || cnote == 4 //big notes
 			{
 				recalpha = 1; //for disappearing note effect
-				//if redcount == redhit 
+				//if redcount == redhit //reds sometimes wont hit, disabled
 				{
 				 if instance_exists(obj_MadSquare)	{
 					 with obj_MadSquare {event_user(0);}	
@@ -831,7 +846,10 @@ switch state
 		
 		alarm[0]++; //don't set off alarm 0 unless deltatime says so
 		fuckmeDeltaTime += delta_time; //lag protection
-		while (fuckmeDeltaTime > 8333.33) {ds_list_delete(notelist, 0); 
+		
+		while (fuckmeDeltaTime > 8333.33) { 
+					if !skipwait ds_list_delete(notelist, 0); 
+					else skipwait--;
 			fuckmeDeltaTime -= 8333.33; alarm[0]--; }
 			
 			
@@ -847,7 +865,7 @@ switch state
 		 
 		bulge -= 1;
 			bulge = clamp(bulge, 0, 100); //unpump heart
-		
+	#endregion //
 		if keyboard_check_pressed( ord("R") ) //rewind
 		{
 			scr_reset_level()

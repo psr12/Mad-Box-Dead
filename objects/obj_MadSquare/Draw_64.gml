@@ -16,6 +16,10 @@ if state != 99 and obj_recorder.opArray2d[2][3] { //not in editor, timer is on
 	)
 	var coloring = make_color_rgb(0, 174, 240)
 	if battery_charge_showing < battery_max_charge/4 {coloring = c_red}
+	
+	if indefatigable {
+		coloring = make_color_hsv((current_time/2) mod 255,255,255);	}
+	
 	draw_sprite_part_ext(spr_batteryfull, 0, 0, 0, 
 	(battery_charge_showing / battery_max_charge) * bw,
 	bh, bx+10, by+6,
@@ -29,7 +33,7 @@ if state != 99 and obj_recorder.opArray2d[2][3] { //not in editor, timer is on
 	}
 	
 	
-	{ //battery charge
+	if !indefatigable { //battery charge
 	draw_text_transformed(bx + bw/4 , by + bh/4, 
 	battery_charge_showing, 
 	battery_size + battery_bulge, 

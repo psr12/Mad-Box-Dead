@@ -20,7 +20,7 @@ squarew = 64;
 var minimum = clamp(selection-menusize, selection-4, size-menusize);
 var maximum = clamp(minimum+menusize, menusize, size);
 
-if onlist == 0 || onlist == 1 { 
+if onlist == 0 || onlist == 1 || onlist == 4 { 
 	var object_list = ds_list_create()
 	var object_names = ds_list_create()
 	var object_icons = ds_list_create()
@@ -31,6 +31,10 @@ if onlist == 0 || onlist == 1 {
 	if onlist == 1 {draw_text(0,0, "Enemies (TAB)"); ds_list_copy(object_list, enemy_list)
 		ds_list_copy(object_names, enemy_names)
 		ds_list_copy(object_icons, enemy_icons)
+		}
+	if onlist == 4 {draw_text(0,0, "Cyber (TAB)"); ds_list_copy(object_list, enemy_list)
+		ds_list_copy(object_names, glitchy_names)
+		ds_list_copy(object_icons, glitchy_icons)
 		}
 	//var size = ds_list_size(object_list)
 

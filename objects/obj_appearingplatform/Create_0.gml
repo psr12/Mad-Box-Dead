@@ -14,7 +14,7 @@ howlong = 4;
 counter = 4;
 
 woah = 0
-woahthere = 15;
+woahthere = 20; //time platform is intangible
 
 var kid = instance_create_depth(x,y,depth, obj_tunein)
 kid.progenitor = id;

@@ -9,4 +9,4 @@ if abs(text) > (obj_recorder.grace/2)*0.9 { //just
 
 }
 else {} //great
-part_particles_create(sys, x,y, great, 1 )
+part_particles_create(global.under_partsys, x,y, great, 1 )

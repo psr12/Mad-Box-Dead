@@ -21,6 +21,7 @@ position_of_last_hit = [x,y];
 
 if input_check(global.keyJump)  //jump
 { //so you can jump from poles, and slides keep momentum
+	var heydontwalljump = false;
 	if place_meeting(x,y, obj_swingpole) getoffslide = gost; 
 	if place_meeting(x,y+1, obj_slideplatform) getoffslide = 2; 
 	//jumping  sets gravity to full, incase of jumping after a dash while no gravity
@@ -41,7 +42,7 @@ if input_check(global.keyJump)  //jump
 					var so = audio_play_sound(snd_lockon,1,0);
 					audio_sound_pitch(so, 1+(time)*0.01 )
 					scr_changeseq(sspin, scale)
-					//exit; //so walljump doesn't go off
+					heydontwalljump = true //so walljump doesn't go off
 				}
 		}
 	else if jumps == 1 { //doublejump
@@ -53,7 +54,7 @@ if input_check(global.keyJump)  //jump
 	}
 		
 	if jumps != 2{ //walljumps, can't walljump on first jump
-		if place_meeting(x+1, y, obj_cheese) && facing !=0 //wall on right, holding 
+		if place_meeting(x+1, y, obj_cheese) && facing !=0 and !heydontwalljump//wall on right, holding 
 		{
 			jumps++; dashing = -dashpower-5;
 			vsp = -jumppower*0.9-charge; grav = initgrav; 
@@ -65,7 +66,7 @@ if input_check(global.keyJump)  //jump
 			hsliding = 0; vsliding = 0;
 
 		}
-		if place_meeting(x-1, y, obj_cheese) && facing !=0 //wall on left, holding 
+		if place_meeting(x-1, y, obj_cheese) && facing !=0 and !heydontwalljump //wall on left, holding 
 		{
 			jumps++; dashing = dashpower+5;
 			vsp = -jumppower*0.9-charge; grav = initgrav; 

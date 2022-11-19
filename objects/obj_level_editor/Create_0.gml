@@ -104,7 +104,6 @@ obj_camerazoom_trigger,
 obj_swingpole,
 obj_deathplane,
 obj_screw,
-obj_appearcheese,
 obj_jumpywater,
 )
 platform_names = ds_list_create()
@@ -123,7 +122,6 @@ ds_list_add(platform_names,
 "Swing Pole",
 "Death Plane",
 "Screw",
-"Proximity Platform",
 "Water",
 )
 
@@ -143,7 +141,6 @@ spr_zoomtrigger,
 spr_swingpole,
 spr_skullicon,
 spr_screw,
-spr_appearicon,
 spr_bg_lightblue,
 )
 
@@ -190,6 +187,50 @@ rg_ratgod1,
 )
 
 enemy_list_size = ds_list_size(enemy_list)
+
+#endregion
+
+
+#region glitchy lists
+glitchy_list = ds_list_create()
+ds_list_add(glitchy_list,
+-10,
+obj_bspawnersingleBLUE,
+obj_bspawnersinglePINK,
+obj_warp,
+obj_appearcheese,
+obj_sewerratidle,
+obj_sewerrat,
+obj_sewerratjump,
+obj_sewerratsword,
+)
+glitchy_names = ds_list_create()
+ds_list_add(glitchy_names,
+"Move Tool",
+"Fleeing Balloon",
+"Slingshot Balloon",
+"Warp Up",
+"Appearing Platform",
+"Mob Idle",
+"Mob Dash",
+"Mob Jump",
+"Mob Sword",
+)
+
+glitchy_icons = ds_list_create()
+ds_list_add(glitchy_icons,
+spr_mouseicon,
+spr_balloonblue,
+spr_slingshot,
+spr_bg_glassy,
+spr_appearicon,
+spr_mobdead,
+spr_mobdead,
+spr_mobdead,
+spr_mobdead,
+)
+
+glitchy_list_size = ds_list_size(glitchy_list)
 #endregion
 
 

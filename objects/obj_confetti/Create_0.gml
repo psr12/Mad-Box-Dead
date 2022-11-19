@@ -8,7 +8,7 @@ alarm[0] = 1;
 
 //if instance_exists(obj_MadSquare) {x = obj_MadSquare.x; y = obj_MadSquare.y}
 sec = game_get_speed(gamespeed_fps) //1 second
-sys = part_system_create()
+
 confetti = part_type_create()
 part_type_sprite(confetti, spr_confetti, false, false, false)
 part_type_alpha2(confetti, 0.7,0)
@@ -20,7 +20,7 @@ part_type_speed(confetti, 5,10, -0.1, 0)
 repeat(40)
 {
 	part_type_color1(confetti, choose(c_orange, c_lime, c_yellow, c_aqua, c_red, c_green) )
-	part_particles_create(sys, x, y, confetti, 1)
+	part_particles_create(global.under_partsys, x, y, confetti, 1)
 }
 
 
@@ -32,7 +32,7 @@ part_type_size(greencircle, 2,2, 0.05, 0)
 part_type_life(greencircle, sec/4, sec/4)
 //grow, since cant do xscale change over time
 
-	part_particles_create(sys, x, y, greencircle, 1)
+	part_particles_create(global.under_partsys, x, y, greencircle, 1)
 
 	
 //poppers
@@ -44,7 +44,7 @@ part_type_size(popper, 1,2, 0, 0)
 part_type_life(popper, sec/4, sec/3)
 
 repeat( irandom(1)+1 ) {
-	part_particles_create(sys, x+random_range(-100, 50), y+random_range(-100, 50), popper, 1)
+	part_particles_create(global.under_partsys, x+random_range(-100, 50), y+random_range(-100, 50), popper, 1)
 }
 
 //great text
