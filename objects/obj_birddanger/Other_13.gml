@@ -2,8 +2,6 @@
 event_inherited();
 
 
-
-
 if state < max_wait - active_time  image_alpha = Approach(image_alpha, 0, 0.05)
 
 if state >= max_wait - active_time { //inside active time
@@ -16,3 +14,4 @@ if state >= max_wait - active_time { //inside active time
 		}
 	}
 }
+

@@ -1,6 +1,6 @@
 /// @description 
 
-
+event_inherited()
 spd = 20;
 
 

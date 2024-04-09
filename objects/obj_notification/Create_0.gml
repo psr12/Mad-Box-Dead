@@ -2,6 +2,8 @@
 // You can write your code in this editor
 
 
+heartface = h_face1
+ratface = mr_face1
 
 image_alpha = 0;
 

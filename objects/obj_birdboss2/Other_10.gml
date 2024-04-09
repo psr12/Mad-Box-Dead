@@ -19,7 +19,7 @@ case 0: //pick attack
 	state = 1;
 	attacknum++;
 	
-	if hp <= 6 {image_speed = 2; gust = choose(-1, 1, 0) }
+	if hp <= 5 {image_speed = 2; gust = choose(-1, 1, 0) }
 	image_speed = 1 + abs(gust)
 	
 break;

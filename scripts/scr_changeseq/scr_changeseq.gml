@@ -6,4 +6,5 @@ function scr_changeseq(sequence, scale){
 	seq = layer_sequence_create(layer, x, y, sequence)
 	layer_sequence_xscale(seq, scale)
 	layer_sequence_yscale(seq, scale)
+	if object_index == obj_MadSquare 	layer_sequence_xscale(seq, scale*facing)
 }

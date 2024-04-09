@@ -3,7 +3,7 @@
 event_inherited();
 
 if state == 0 {
-	if place_meeting(x,y, obj_MadSquare) {
+	if place_meeting(x,y, obj_MadSquare) and obj_MadSquare.state == 0 {
 		state = 1;
 	}
 }

@@ -1,12 +1,13 @@
 {
-  "isDnD": false,
-  "isCompatibility": false,
-  "parent": {
-    "name": "MISC",
-    "path": "folders/Scripts/MISC.yy",
+  "$GMScript":"",
+  "%Name":"unlerp",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"unlerp",
+  "parent":{
+    "name":"MISC",
+    "path":"folders/Scripts/MISC.yy",
   },
-  "resourceVersion": "1.0",
-  "name": "unlerp",
-  "tags": [],
-  "resourceType": "GMScript",
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
 }

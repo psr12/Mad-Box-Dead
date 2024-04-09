@@ -1,0 +1,13 @@
+{
+  "$GMScript":"",
+  "%Name":"scr_miss_remove",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"scr_miss_remove",
+  "parent":{
+    "name":"Scripts",
+    "path":"folders/Scripts.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}

@@ -7,7 +7,7 @@ if !instance_exists(baby)
 	if !countdown
 	{
 		countdown = cdinit;
-		baby = instance_create_depth(x, y, depth, obj_balloon)
+		baby = instance_create(x, y, obj_balloon)
 		baby.initxscale = image_xscale
 		baby.inityscale = image_yscale
 		baby.image_angle = image_angle

@@ -8,4 +8,6 @@ function scr_reset_score(){
 
 			combo = 0;
 			maxcombo = 0;
+			
+			spitch = 1;
 }

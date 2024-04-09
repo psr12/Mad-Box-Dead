@@ -1,10 +1,11 @@
 {
-  "parent": {
-    "name": "Notes",
-    "path": "folders/Notes.yy",
+  "$GMNotes":"",
+  "%Name":"note_bpmfps",
+  "name":"note_bpmfps",
+  "parent":{
+    "name":"Notes",
+    "path":"folders/Notes.yy",
   },
-  "resourceVersion": "1.1",
-  "name": "note_bpmfps",
-  "tags": [],
-  "resourceType": "GMNotes",
+  "resourceType":"GMNotes",
+  "resourceVersion":"2.0",
 }

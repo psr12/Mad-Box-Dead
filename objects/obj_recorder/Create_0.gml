@@ -1,12 +1,18 @@
 /// @description Insert description here
 /// @description Insert description here
 // You can write your code in this editor
-ley = layer_create(-1000, "recorder_layer")
+
+//room_goto(TheTestRoom)
+small_note_pitch = 0.8
+controller_in = 0;
+ley = layer_create(-500, "recorder_layer")
+partlay = layer_create(100, "underparticles")
 layer = ley
 fuckmeDeltaTime = 0;
 global.zoom = 1;
 asdf = 0; // for onbeat's 'step' event
 //alarm[3] = 3; //visual culling, breaks for oneways because they
+/*
 #region custom backgrounds
 
 	//create custom background
@@ -31,12 +37,14 @@ ds_list_add(customfg, sp4,)
 
 
 #endregion
+*/
 #region custome bg asset tile sprites
 
 	bg_tiles = ds_list_create() //holds the sprites
 	ds_list_add(bg_tiles, spr_mouseicon)
+	
 	var directory = working_directory + "bg tiles/"
-	var fname = file_find_first(directory + "*.png", 0) //get filepath
+	var fname = file_find_first(directory + "*.png", 0) //get filepath <-- first, instead of next
 	if fname != "" {
 	var get = directory + fname
 	var tempsprite = sprite_add(get, 1, false, true, 0, 0) //get sprite
@@ -45,9 +53,9 @@ ds_list_add(customfg, sp4,)
 	sprite_replace(tempsprite, get, 1, false, false, xorg, yorg)
 	ds_list_add(bg_tiles, tempsprite);  //add to list
 	}
-	repeat (45) {
+	repeat (999) {
 		var directory = working_directory + "bg tiles/"
-		var fname = file_find_next() //get filepath
+		var fname = file_find_next() //get filepath <-- next, instead of first
 		if fname == "" break;
 		var get = directory + fname
 		var tempsprite = sprite_add(get, 1, false, true, 0, 0) //get sprite
@@ -73,7 +81,7 @@ snap_to_nearest = 0;
 		[1/1 = full beat, 1/4 = quarter note]...
 */
 
-bpmsquare_size = 64;
+bpmsquare_size = 64; 
 bpmsquare_top = 360;
 bpmsquare_left = 450;
 
@@ -90,7 +98,7 @@ volsquare_left = 350;
 
 #endregion
 
-// load keybindings + volume + animation options
+#region  load keybindings + volume + animation options
 ini_open("keybindings.ini")
 
 	//keyboard inputs
@@ -129,6 +137,9 @@ ini_open("keybindings.ini")
 	opArray2d[2][3] =  ini_read_real("settings", "timeron", true)
 	opArray2d[2][4] =  ini_read_real("settings", "microgames", true)
 	opArray2d[2][5] =  ini_read_real("settings", "confetti", true)
+	opArray2d[2][6] =  ini_read_real("settings", "red notes", true)
+	opArray2d[2][7] =  ini_read_real("settings", "miss remove", true)
+	opArray2d[2][8] =  ini_read_real("settings", "black notes", true)
 	
 	global.quizarray[0] = ini_read_string("quiz", "name", "Rad Matt")
 	global.quizarray[1] = ini_read_string("quiz", "food", "Smaller Rats")
@@ -138,6 +149,8 @@ ini_close()
 
 
 update_scheme();     //pass in new keys from keybindings.ini, without this they're all default
+
+#endregion
 
 updown = 0; 
 leftright = 0; 
@@ -170,6 +183,7 @@ corner_heart_overwrite = 0; //if there's a seq in here, do that instead of seqli
 #region enemies
 enemyspritelist = ds_list_create()
 ds_list_add(enemyspritelist, 
+ "spr_cactus",
  "spr_chaser1",
  "spr_chaser2",
  "spr_balloon",
@@ -192,6 +206,8 @@ ds_list_add(enemyspritelist,
  "rg_scythe",
  "rg_pillar",
  "rg_starstorm",
+ "spr_splat",
+ "spr_talon",
 )
 
 var size = ds_list_size(enemyspritelist)
@@ -235,6 +251,7 @@ ds_list_add(madratpartslist,
 "mr_face15",
 "mr_head1",
 "mr_head2",
+"mr_leg1",
 "mr_head_back",
 "mr_lhand1",
 "mr_lhand2",
@@ -273,6 +290,7 @@ ds_list_add(madratpartslist,
 "spr_p_spin",
 "spr_p_charge",
 "spr_p_line",
+"mr_stomponthis",
 )
 
 var size = ds_list_size(madratpartslist)
@@ -320,10 +338,9 @@ heartpartlist = ds_list_create()
 ds_list_add(heartpartlist, 
 "h_arm1",
 "h_arm2",
-"h_arm3",
+"h_armscrossed",
 "h_body1",
 "h_body2",
-"h_body3",
 "h_eyelid1",
 "h_eyelid2",
 "h_eyelid3",
@@ -338,6 +355,9 @@ ds_list_add(heartpartlist,
 "h_face9",
 "h_face10",
 "h_face11",
+//12 and 13 are animated
+"h_face14",
+"h_face15",
 "h_hand1",
 "h_hand2",
 "h_hand3",
@@ -354,11 +374,6 @@ ds_list_add(heartpartlist,
 "h_hand14",
 "h_hand15",
 "h_magbody",
-"h_pupil1",
-"h_pupil2",
-"h_pupil3",
-"h_pupil4",
-"h_pupil5",
 "h_tambourine",
 "h_tambourine_hand1",
 "h_tambourine_hand2",
@@ -380,8 +395,12 @@ ds_list_add(uilist,
 "redbar1",
 "redbar2",
 "whitebar",
+"bluebar1",
+"bluebar2",
+"blackbar",
 "spr_okay",
 "spr_great",
+"spr_miss",
 "spr_greencircle",
 "spr_pickup",
 "spr_confetti",
@@ -411,19 +430,19 @@ ds_list_destroy(uilist)
 
 storylevellist = [
 
-Cfunni,
+Cfunni, //0
 
-C1,
+C1, //1
 C2,
 C3,
 C3e1,
-C4,
+C4, //5
 C5,
 C6,
 C6e1,
 C7,
-C8,
-//C8e1,
+C8, //10
+//C8e1, 
 C9,
 C10,
 C11,
@@ -433,8 +452,18 @@ C14,
 C15,
 C16,
 C17,
-C18,
 
+CE1, //previously, the credits, better look around
+CE2, //a pod?
+CE3, //it's malfunctioning!
+CE4, //a meteorite?
+CE5, //shut up!
+CE6, //memory crawl
+CE7, //....frequency
+CE8, //mad dash
+CE8e1, //accidental ai
+CE9, // final battle
+CE10, // credits
 
 ]
 storysonglist = [
@@ -462,7 +491,33 @@ storysonglist = [
 "selfsimilarity_shorter.ogg", //16
 "You Are Mine.ogg", //17
 
-"Drawing Theme.ogg", //18, credits
+
+"Old House.ogg", //18				ce1
+"Macuilxochitl.ogg", //19			ce2
+"Scorching Back.ogg", //20			ce3
+"Here We Are.ogg", //21			ce4
+"Undying.ogg", //22			ce5 
+"Crazy.ogg", //23			ce6
+"Soul to Burn.ogg", //24			ce7
+"GO BACK 2 YOUR RAVE.ogg", //25			ce8
+"Proof of the Existence.ogg", //26			ce8e1
+"Indefatigable.ogg", //27			ce9
+
+"Drawing Theme.ogg", //28			ce10
+
+
+
+//".ogg", //
+//".ogg", //
+//".ogg", //
+//".ogg", //
+//".ogg", //
+//".ogg", //
+//".ogg", //
+
+
+
+//"Drawing Theme.ogg", //
 
 ]
 
@@ -474,6 +529,10 @@ seqscale = 1;
 
 global.ratname = "Lab Rat"
 global.heartname = "Arty"
+global.virusname = "Virus"
+
+global.skipammount = 30; //for skip notes, how large the skip is
+skipwait= 0;
 
 hold_to_scroll_timer_max = 60;
 hold_to_scroll_timer_cooldown = 12;
@@ -529,19 +588,89 @@ rewind_leftright_select = 0;
 alarm[8] = 3; //set bbox references for drawGUI, incase of custom sprites
 
 #region particles
-global.partsys = part_system_create()
+global.partsys = part_system_create_layer(layer, true)
+global.under_partsys = part_system_create_layer(partlay, true)
 
 // Setup:
-global.part_cloud = part_type_create()
+global.part_cloud = part_type_create() //smoke
 part_type_shape(global.part_cloud, pt_shape_cloud)
-part_type_life(global.part_cloud, 60, 70)
-part_type_size(global.part_cloud, 3,4, 0.05, 0.05)
-part_type_direction(global.part_cloud, 90,90, 0, 0.5)
-part_type_speed(global.part_cloud, 4, 4, 0, 0.1)
-part_type_alpha2(global.part_cloud, 1, 0)
+part_type_life(global.part_cloud, 330, 470)
+part_type_color1(global.part_cloud, c_ltgray)
+part_type_size(global.part_cloud, 2,3, 0.1, 0.05)
+part_type_direction(global.part_cloud, 88,92, 0, 0)
+part_type_speed(global.part_cloud, 4, 3, 0, 0.1)
+part_type_alpha2(global.part_cloud, 0.2, 0)
 part_type_orientation(global.part_cloud, 0, 360, 0, 1, 0)
+part_type_gravity(global.part_cloud, 0.01, 90)
 
-global.part_rain = part_type_create()
+global.part_raincloud = part_type_create() //raincloud
+part_type_shape(global.part_raincloud, pt_shape_cloud)
+part_type_life(global.part_raincloud, 111, 222)
+part_type_color1(global.part_raincloud, c_dkgray)
+part_type_size(global.part_raincloud, 2,3, 0, 0)
+part_type_alpha2(global.part_raincloud, 1, 0)
+part_type_orientation(global.part_raincloud, 0, 360, 0, 1, 0)
+
+global.part_patarain = part_type_create() //patapon rain
+part_type_shape(global.part_patarain, pt_shape_line)
+part_type_life(global.part_patarain, 33, 44)
+part_type_color1(global.part_patarain, c_white)
+part_type_size(global.part_patarain, .5, .5, 0, 0)
+part_type_alpha2(global.part_patarain, 0.5, 0)
+part_type_speed(global.part_patarain, 22, 22, 1, 0)
+part_type_direction(global.part_patarain, 270,270, 0, 0)
+part_type_orientation(global.part_patarain, 90, 90, 0, 0, 0)
+
+global.part_hole = part_type_create() //final boss, black spots
+part_type_shape(global.part_hole, pt_shape_disk)
+part_type_life(global.part_hole, 44, 44)
+part_type_color1(global.part_hole, c_black)
+part_type_size(global.part_hole, 0.2, 0.8, 0, 0)
+
+global.part_triangles = part_type_create() //shadow, pickup distribution
+part_type_sprite(global.part_triangles, spr_pickup, false, false, false)
+part_type_alpha2(global.part_triangles, 1, 0)
+part_type_size(global.part_triangles, 2, 4, -0.05, 0.2)
+part_type_life(global.part_triangles, 120, 140)
+part_type_gravity(global.part_triangles, 0, 270)
+part_type_speed(global.part_triangles, 25, 35, -0.8, 0)
+part_type_direction(global.part_triangles, 0, 359, 0, 0)
+part_type_orientation(global.part_triangles, 0, 359, 1, 0, false)
+
+
+global.part_trail = part_type_create() //missile trail
+part_type_shape(global.part_trail, pt_shape_cloud)
+part_type_life(global.part_trail, 30, 30)
+part_type_color1(global.part_trail, c_ltgray)
+part_type_size(global.part_trail, 1, 1, 0, 0.05)
+part_type_direction(global.part_trail, 88,92, 0, 0)
+part_type_speed(global.part_trail, 4, 3, 0, 0.1)
+part_type_alpha2(global.part_trail, 0.2, 0)
+part_type_orientation(global.part_trail, 0, 360, 0, 1, 0)
+part_type_gravity(global.part_trail, 0.01, 90)
+	
+	
+	global.part_sparks = part_type_create() //blue sparks, respawn, boss tele
+	part_type_shape(global.part_sparks, pt_shape_spark)
+	part_type_color1(global.part_sparks, c_aqua);
+	part_type_alpha2(global.part_sparks, 0.7,0)
+	part_type_orientation(global.part_sparks, 0, 359, 0, 10, true)
+	part_type_size(global.part_sparks, 3,4, -0.05, 0.1)
+	part_type_life(global.part_sparks, 30, 50)
+	part_type_direction(global.part_sparks, 0, 359, 0, 10)
+	part_type_speed(global.part_sparks, 5,10, -0.1, 0)
+	
+	global.part_laserline = part_type_create() //sewer laser trail
+	part_type_shape(global.part_laserline, pt_shape_square)
+	part_type_color1(global.part_laserline, c_white);
+	part_type_alpha2(global.part_laserline, 1,0)
+	//part_type_orientation(global.part_laserline, 0, 359, 0, 10, true)
+	part_type_size(global.part_laserline, 0.7, 0.7, 0, 0)
+	part_type_life(global.part_laserline, 30, 30)
+	//part_type_direction(global.part_laserline, 0, 359, 0, 10)
+	//part_type_speed(global.part_laserline, 1, 2, 0, 0)
+	
+global.part_rain = part_type_create() //???????
 part_type_shape(global.part_rain, pt_shape_line)
 part_type_color1(global.part_rain, c_white)
 part_type_life(global.part_rain, 360, 370)
@@ -552,7 +681,7 @@ part_type_alpha2(global.part_rain, 0.2, 0.2)
 part_type_orientation(global.part_rain, 90, 90, 0, 1, 0)
 
 
-global.beeline_part = part_type_create()
+global.beeline_part = part_type_create() //yellow triangles for beeline
 part_type_sprite(global.beeline_part, spr_beeline2, false, false, false)
 part_type_alpha2(global.beeline_part, 0.7,0)
 part_type_size(global.beeline_part, 1,2, -0.05, 0.1)
@@ -560,7 +689,7 @@ part_type_life(global.beeline_part, 10,20)
 part_type_direction(global.beeline_part, 0, 359, 0, 10)
 part_type_speed(global.beeline_part, 0.5,1, -0.1, 0)
 
-global.beeline_part_glitchy = part_type_create()
+global.beeline_part_glitchy = part_type_create() //1 and 0 particles for beelines in L15+
 part_type_sprite(global.beeline_part_glitchy, spr_beeline3, false, false, true)
 part_type_alpha2(global.beeline_part_glitchy, 0.7,0)
 part_type_size(global.beeline_part_glitchy, 1,2, -0.05, 0.1)
@@ -568,7 +697,7 @@ part_type_life(global.beeline_part_glitchy, 10,20)
 part_type_direction(global.beeline_part_glitchy, 0, 359, 0, 10)
 part_type_speed(global.beeline_part_glitchy, 0.5,1, -0.1, 0)
 
-global.woodchip_part = part_type_create()
+global.woodchip_part = part_type_create() //sword rat particles
 part_type_sprite(global.woodchip_part, spr_woodchips, false, false, true)
 part_type_alpha2(global.woodchip_part, 1,0.5)
 part_type_size(global.woodchip_part, 2,3, -0.05, 0.1)
@@ -579,7 +708,7 @@ part_type_gravity(global.woodchip_part, 0.3, 270)
 part_type_orientation(global.woodchip_part, 0, 359, 0, 0, false)
 
 
-global.gear_part = part_type_create()
+global.gear_part = part_type_create() //destroyed mob rat, arty in final boss
 part_type_sprite(global.gear_part, spr_gears, false, false, true)
 part_type_alpha2(global.gear_part, 1,0.5)
 part_type_size(global.gear_part, 2,3, 0, 0.1)
@@ -589,7 +718,7 @@ part_type_speed(global.gear_part, 10, 20, 0, 0)
 part_type_gravity(global.gear_part, 0.5, 270)
 part_type_orientation(global.gear_part, 0, 359, 0, 0, false)
 
-global.water_part = part_type_create()
+global.water_part = part_type_create() //sewer, when water comes in
 part_type_shape(global.water_part,pt_shape_explosion)
 part_type_alpha2(global.water_part, 1, 0)
 part_type_size(global.water_part, 2,3, 0, 0.1)
@@ -597,7 +726,18 @@ part_type_life(global.water_part, 99, 99)
 part_type_gravity(global.water_part, 0.5, 270)
 part_type_orientation(global.water_part, 0, 359, 0, 0, false)
 
-global.yelspark = part_type_create()
+global.tear_part = part_type_create() //arty's crying animation
+part_type_shape(global.tear_part,pt_shape_explosion)
+part_type_alpha2(global.tear_part, 1, 0)
+part_type_color1(global.tear_part, c_aqua)
+part_type_size(global.tear_part, 0.5, 0.7, 0, 0.1)
+part_type_life(global.tear_part, 33, 44)
+part_type_gravity(global.tear_part, 0.5, 270)
+part_type_speed(global.tear_part, 7, 9, -0.1, 0)
+part_type_orientation(global.tear_part, 0, 359, 0, 0.2, false)
+part_type_direction(global.tear_part, 120, 130, 0, 0.1)
+
+global.yelspark = part_type_create() //yellow sparks, for meteor, memory scenes
 part_type_shape(global.yelspark,pt_shape_spark)
 part_type_color1(global.yelspark,c_yellow)
 part_type_alpha2(global.yelspark, 1, 0)
@@ -608,7 +748,22 @@ part_type_speed(global.yelspark, 9,9, 0, 0)
 part_type_direction(global.yelspark, 45, 90, 0, 0)
 part_type_orientation(global.yelspark, 0, 359, 0, 0, false)
 
-	global.part_leaf = part_type_create()
+
+global.holdspark = part_type_create() //yellow sparks, for meteor, memory scenes
+part_type_shape(global.holdspark,pt_shape_spark)
+part_type_color1(global.holdspark,c_yellow)
+part_type_alpha2(global.holdspark, 1, 0)
+part_type_size(global.holdspark, 1, 1, -0.1, 0.1)
+part_type_life(global.holdspark, 20, 30)
+part_type_speed(global.holdspark, 9,9, 0, 0)
+part_type_direction(global.holdspark, 0, 359, 0, 0)
+part_type_orientation(global.holdspark, 0, 359, 0, 0, false)
+
+holdspark_sys = part_system_create()
+part_system_automatic_draw(holdspark_sys, false) //so it can be drawn to gui
+
+
+	global.part_leaf = part_type_create() //wind particle
 	part_type_alpha1(global.part_leaf, 0.5)
 	part_type_life(global.part_leaf, 30, 50)
 	part_type_size(global.part_leaf, 2,2, -0.02, 0.05)
@@ -617,7 +772,7 @@ part_type_orientation(global.yelspark, 0, 359, 0, 0, false)
 	part_type_direction(global.part_leaf, 0, 0, 0, 0)
 	part_type_orientation(global.part_leaf, 0, 0, 0, 0.5, true)
 	
-	global.part_sprinkler = part_type_create()
+	global.part_sprinkler = part_type_create() //sprinkler water
 	part_type_alpha1(global.part_sprinkler, 0.5)
 	part_type_color1(global.part_sprinkler, c_aqua)
 	part_type_shape(global.part_sprinkler, pt_shape_flare)
@@ -627,6 +782,22 @@ part_type_orientation(global.yelspark, 0, 359, 0, 0, false)
 	part_type_direction(global.part_sprinkler, 0, 0, 0, 0)
 	part_type_orientation(global.part_sprinkler, 0, 0, 0, 0, true)
 	part_type_gravity(global.part_sprinkler, 1, 270);
+	
+	global.part_bubble = part_type_create() //cryochamber bubbles
+	part_type_alpha2(global.part_bubble, 0.7, 0)
+	part_type_color1(global.part_bubble, c_white)
+	part_type_shape(global.part_bubble, pt_shape_circle)
+	part_type_life(global.part_bubble, 130, 150)
+	part_type_size(global.part_bubble, 0.3, 0.4,  0, 0)
+	part_type_speed(global.part_bubble, 5, 6, -0.01, 0)
+	part_type_direction(global.part_bubble, 90, 90, 0, 0)
+	
+	global.shine = part_type_create() //shadow
+	part_type_alpha3(global.shine, 0, 1, 0)
+	part_type_shape(global.shine, pt_shape_spark)
+	part_type_color1(global.shine, c_white)
+	part_type_life(global.shine, 30, 30)
+	part_type_size(global.shine, 2, 3, 0, 0)
 	
 #endregion
 
@@ -671,9 +842,25 @@ music = noone; //used to hold the streamed file
 grace = 24; //how many frames you have to input
 active = 0; //distance to next note, 0 if more than grace/2
 
+//4=big red, 2=small red
 redcount=0; //how many reds ahead
 redhit = 0; //how many red have been hit
 lastred = false; //true if last note hit was red, for drawing
+lastblue = false; //true if last note hit was blue, for drawing
+
+editor_note_type = 1;
+/* NOTE TYPES
+1= WHITE
+2 = RED
+3 = BLUE
+4 = ???? a big note?
+
+-1 = ALREADY HIT, small red note, not used in calculating time
+-2 = ALREADY HIT, big note, used 
+-3 = ALREADY HIT, small blue note, functionally identical, just in case
+-4 = INTROENDS
+-6 = SKIP NOTE, invisible, skips next 30 frames
+*/
 
 dist = 2; //distance between notes, higher for faster incoming bars
 onesec = ( (room_width/2 - sprite_width/2) / dist) / showtext  ; //how many frames
@@ -694,6 +881,8 @@ songfile = "song.ogg"
 songpath = "songs/song.ogg"
 beatmapfile = "song.txt"
 beatmappath = "beatmaps/song.txt"
+
+
 
 notespeed_height = 450 //where the notespeed dragbar is drawn, the top of it
 tome = 0; //for passing into madsquare, as TIME, the timescale mad rat should run at until the next note

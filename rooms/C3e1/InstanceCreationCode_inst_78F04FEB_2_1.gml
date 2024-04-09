@@ -1,7 +1,7 @@
 ds_list_add(que,
 
 
-[scr_makedummy, 300,550, asq_mr_idle, asq_mr_idle, 1, 2],
+[scr_makedummy, 300,550, asq_mr_crossed, asq_mr_crossed, 1, 2],
 [scr_makedummy, 900,500, csh_idle, csh_idle, -1, 2],
 [scr_changevar, obj_seqdummy, 1, "float" , true],
 [scr_changeheartface, h_face11],
@@ -14,9 +14,8 @@ ds_list_add(que,
 
 [scr_changedummyseq, 1, csh_armscrossed, csh_armscrossed],
 [scr_changeheartface, h_face10],
-[scr_textbox,801, 301,@"Well, I just woke up one day.", snd_zap, global.heartname], 
-[scr_textbox,801, 301,@"The doctor put me together, and 
-we're working together to help sick people.", snd_zap, global.heartname], 
+[scr_textbox,801, 301,@"Oh, the doctor put me together.", snd_zap, global.heartname], 
+[scr_textbox,801, 301,@"We're working together to help people.", snd_zap, global.heartname], 
 [scr_changedummyseq, 1, csh_idle, csh_idle],
 [scr_changeheartface, h_face1],
 [scr_textbox,801, 301,@"Before that, I was just some wires
@@ -45,7 +44,7 @@ that came from.", snd_zap, global.heartname],
 [scr_textbox,801, 301,@"I want to get along with you, 
 I really do.", snd_zap, global.heartname],
 [scr_changedummyseq, 0, asq_mr_crossed, asq_mr_crossed],
-[scr_textbox, 402, 251, @"Um...||||| It's fine...", snd_madtalk, global.ratname], 
+[scr_textbox, 402, 251, @"Uh...||||| It's fine...", snd_madtalk, global.ratname], 
 [scr_textbox, 402, 251, @"My story isn't anything exciting,|| either.", snd_madtalk, global.ratname], 
 [scr_textbox, 402, 251, @"It's nothing to be ashamed of.", snd_madtalk, global.ratname], 
 

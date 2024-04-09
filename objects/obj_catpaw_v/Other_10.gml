@@ -15,5 +15,5 @@ if countdown == 1 //1 before
 	
 	var li = time*30;
 	part_type_life(shine,li,li)
-	part_particles_create(global.shiny, xx, yy, shine, 1)
+	part_particles_create(global.partsys, xx, yy, shine, 1)
 }

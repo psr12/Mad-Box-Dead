@@ -6,8 +6,25 @@ if giveit/val2 >= 0.99 return val2 //if within 1% of target, just return target 
 else return giveit
 }
 
-function zlerp(val, ammount){ //above doesn't work with 0, this ONLY works with 0
-	var give = lerp(val, 0, ammount)
-	if give < val*0.01 {return 0}
-	else return give;
-} 
+
+function zlerp(val, ammount) { //above doesn't work with 0, this ONLY works with 0
+
+	if val > 0 {
+
+		var give = lerp(val, 0, ammount)
+		if give < val * 0.01 {
+			return 0
+		}
+
+		else return give;
+	}
+	if val <= 0 {
+		val = -val
+		var give = lerp(val, 0, ammount)
+		if give < val * 0.01 {
+			return 0
+		}
+
+		else return -give;
+	}
+}

@@ -1,6 +1,5 @@
 
 ds_list_add(que,
-[scr_playmusic, song_ticktock],
 [scr_makedummy, -400,600, asq_mr_dashdash, asq_mr_dashdash, 1, 2],
 [scr_moveobj, obj_seqdummy, 0, 500, 600, 5],
 [scr_wait, 200],

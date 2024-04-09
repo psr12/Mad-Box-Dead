@@ -1,12 +1,13 @@
 {
-  "isDnD": false,
-  "isCompatibility": false,
-  "parent": {
-    "name": "MISC",
-    "path": "folders/Scripts/MISC.yy",
+  "$GMScript":"",
+  "%Name":"image_scale",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"image_scale",
+  "parent":{
+    "name":"MISC",
+    "path":"folders/Scripts/MISC.yy",
   },
-  "resourceVersion": "1.0",
-  "name": "image_scale",
-  "tags": [],
-  "resourceType": "GMScript",
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
 }

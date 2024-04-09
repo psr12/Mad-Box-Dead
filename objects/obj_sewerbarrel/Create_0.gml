@@ -2,6 +2,8 @@
 // You can write your code in this editor
 
 
+event_inherited()
+
 image_scale(4);
 
 instance_create(-999, -999, obj_tunein)

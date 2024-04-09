@@ -2,15 +2,16 @@
 // You can write your code in this editor
 
 #macro cam view_camera[0]
-//#macro cam1 view_camera[1]
 #macro cam_x camera_get_view_x( view_camera[0] )
 #macro cam_y camera_get_view_y( view_camera[0] )
 #macro cam_w camera_get_view_width( view_camera[0])
 #macro cam_h camera_get_view_height( view_camera[0] )
+
 //#macro cam_w camera_get_view_width( view_camera[0] )
 //#macro cam_h camera_get_view_height( view_camera[0] )
     view_visible[0] = true;
     view_enabled = true;
+	
 target_camera_angle = 0; //go to this angle via lerp
 camera_angle = 0; //this is the current angle
 orwidth = 1366

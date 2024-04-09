@@ -1,12 +1,13 @@
 {
-  "isDnD": false,
-  "isCompatibility": false,
-  "parent": {
-    "name": "MISC",
-    "path": "folders/Scripts/MISC.yy",
+  "$GMScript":"",
+  "%Name":"draw_rect",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"draw_rect",
+  "parent":{
+    "name":"MISC",
+    "path":"folders/Scripts/MISC.yy",
   },
-  "resourceVersion": "1.0",
-  "name": "draw_rect",
-  "tags": [],
-  "resourceType": "GMScript",
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
 }

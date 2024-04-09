@@ -1,0 +1,25 @@
+{
+  "$GMSound":"",
+  "%Name":"Atk_GuillotineBeam",
+  "audioGroupId":{
+    "name":"audiogroup_default",
+    "path":"audiogroups/audiogroup_default",
+  },
+  "bitDepth":1,
+  "bitRate":128,
+  "compression":0,
+  "conversionMode":0,
+  "duration":2.752937,
+  "name":"Atk_GuillotineBeam",
+  "parent":{
+    "name":"melty blood",
+    "path":"folders/Sounds/melty blood.yy",
+  },
+  "preload":false,
+  "resourceType":"GMSound",
+  "resourceVersion":"2.0",
+  "sampleRate":44100,
+  "soundFile":"Atk_GuillotineBeam.wav",
+  "type":0,
+  "volume":0.59,
+}

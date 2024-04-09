@@ -2,7 +2,7 @@
 // Inherit the parent event
 event_inherited();
 
-musicstarted = true;
+musicstarted = true; //for room editor
 
 xscale = lerp(xscale, 1, 0.2)
 yscale = lerp(yscale, 1, 0.2)

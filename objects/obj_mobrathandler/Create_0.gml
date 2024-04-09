@@ -10,7 +10,7 @@ timer=0;
 state = 0;
 
 showratnum = 0;
-ratsleft = 23;
+ratsleft = 27;
 
 alpha = 0;
 

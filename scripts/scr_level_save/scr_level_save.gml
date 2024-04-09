@@ -8,11 +8,13 @@ function scr_level_save(filepath){
 				with obj_cheese { //all platforms add self to the list
 					var name = object_get_name(object_index)
 					if name = "obj_slideplatform" ds_list_add(other.save_file, [x, y, layer, name, image_blend, image_xscale, image_yscale, image_angle, spd] )
-					else ds_list_add(other.save_file, [x, y, layer, name, image_blend, image_xscale, image_yscale, image_angle] )
+					else if name = "obj_movingplatform" ds_list_add(other.save_file, [x, y, layer, name, image_blend, image_xscale, image_yscale, image_angle, target] )
+					else ds_list_add(other.save_file, [x, y, layer, name, image_blend, image_xscale, image_yscale, image_angle, newsprite] )
 				}
 				with obj_onbeat { //all enemies/stuff add self to the list
 					var name = object_get_name(object_index)
 					if name == "obj_wind" ds_list_add(other.save_file, [x, y, layer, name, image_blend, image_xscale, image_yscale, image_angle, spd] )
+					else if name == "obj_splatspawner" ds_list_add(other.save_file, [x, y, layer, name, image_blend, image_xscale, image_yscale, image_angle, cooldown] )
 					else ds_list_add(other.save_file, [x, y, layer, name, image_blend, image_xscale, image_yscale, image_angle] )
 				}
 				with obj_MadSquare { //mad rat, for starting position
@@ -30,20 +32,29 @@ function scr_level_save(filepath){
 					var name = object_get_name(object_index)
 					ds_list_add(other.save_file, [x, y, layer, name, image_blend, image_xscale, image_yscale, image_angle, sprite_index, zoom, zoomount] )
 				}
+				with obj_speed_trigger{
+					var name = object_get_name(object_index)
+					ds_list_add(other.save_file, [x, y, layer, name, image_blend, image_xscale, image_yscale, image_angle, sprite_index, spd] )
+				}
 				
 				//special list entry to save all the scroll/scale/aplha values per stage
-				ds_list_add(save_file, ["f2values", 
-				global.nearscale,
+				ds_list_add(save_file, ["f2values", //0
+				global.nearscale, //1
 				global.nearscroll,
 				global.middlescale,
 				global.middlescroll,
-				global.farscale,
+				global.farscale, //5
 				global.farscroll,
 				global.ontopscale,
 				global.ontopscroll,
-				global.platformalpha,
+				global.platformalpha, //9
 				global.onewayalpha,
-				global.slidealpha]
+				global.slidealpha,
+				global.farsprite, //12
+				global.middlesprite, //13 
+				global.nearsprite, //14
+				global.ontopsprite, //15
+					]
 				)
 				
 			var gibber = ds_list_write(save_file) //convert list to string

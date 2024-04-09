@@ -14,7 +14,7 @@ y = room_height/2 + 125
 
 
 needlex = x
-needley = 100;
+needley = 200;
 
 music = play_sound(snd_talltower1, pitch)
 music2 = play_sound(snd_talltower2, pitch)

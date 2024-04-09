@@ -1,9 +1,17 @@
 /// @description Insert description here
 // You can write your code in this editor
 
+if notyet {
+	top = bbox_top; //has to save, bbox_top becomes y when no sprite
+
+	inityscale = image_yscale;
+	yscale = image_yscale;
+}
+
+
 woah--;
 
-if instance_exists(obj_MadSquare)
+if instance_exists(obj_MadSquare) and obj_MadSquare.state == 0 and !notyet
 {
 	var topbuffer = 8
 	if obj_MadSquare.bbox_bottom > top+topbuffer //if mad rat is below the top of this platform

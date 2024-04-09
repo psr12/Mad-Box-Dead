@@ -29,9 +29,12 @@ selected += keyboard_check_pressed(vk_down) - keyboard_check_pressed(vk_up)
 selected = Wrap(selected, 0, 3)
 if instance_exists(obj_bossmgtransition) selected = 4;
 
-if selected == 0 && keyboard_check_pressed(vk_left) ||keyboard_check_pressed(vk_right)
+if selected == 0 && 
+( keyboard_check_pressed(vk_left) || keyboard_check_pressed(vk_right) ) ||
+( keyboard_check_pressed(vk_end) || keyboard_check_pressed(vk_home) )
 {
 	var mult = 1; if keyboard_check(vk_shift) mult = 5;
 	story_level_selected += (keyboard_check_pressed(vk_right) - keyboard_check_pressed(vk_left)) * mult ;
+	story_level_selected += (keyboard_check_pressed(vk_end) - keyboard_check_pressed(vk_home)) * 99 ;
 	story_level_selected = clamp(story_level_selected, 1, array_length( obj_recorder.storylevellist )-1 )
 }

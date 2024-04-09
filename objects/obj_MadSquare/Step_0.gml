@@ -35,6 +35,10 @@ exit;
 }
 //else { image_alpha = 1;}
 
+if state == 0 and keyboard_check_pressed(vk_backspace) {
+	state = 86; //suicide button
+}
+
 battery_charge = clamp(battery_charge, 0, battery_max_charge)
 
 //if instance_exists(obj_finalstage){ //special timer

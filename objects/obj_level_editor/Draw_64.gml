@@ -20,17 +20,21 @@ squarew = 64;
 var minimum = clamp(selection-menusize, selection-4, size-menusize);
 var maximum = clamp(minimum+menusize, menusize, size);
 
-if onlist == 0 || onlist == 1 { 
+if onlist == 0 || onlist == 1 || onlist == 4 { 
 	var object_list = ds_list_create()
 	var object_names = ds_list_create()
 	var object_icons = ds_list_create()
-	if onlist == 0 {draw_text(0,0, "Platforms (TAB)");  ds_list_copy(object_list, platform_list)
+	if onlist == 0 {draw_text(0,0, "Platforms (1) (TAB)");  ds_list_copy(object_list, platform_list)
 		ds_list_copy(object_names, platform_names)
 		ds_list_copy(object_icons, platform_icons)
 		}
-	if onlist == 1 {draw_text(0,0, "Enemies (TAB)"); ds_list_copy(object_list, enemy_list)
+	if onlist == 1 {draw_text(0,0, "Enemies (2) (TAB)"); ds_list_copy(object_list, enemy_list)
 		ds_list_copy(object_names, enemy_names)
 		ds_list_copy(object_icons, enemy_icons)
+		}
+	if onlist == 4 {draw_text(0,0, "Cyber (F) (TAB)"); ds_list_copy(object_list, enemy_list)
+		ds_list_copy(object_names, glitchy_names)
+		ds_list_copy(object_icons, glitchy_icons)
 		}
 	//var size = ds_list_size(object_list)
 
@@ -50,7 +54,7 @@ if onlist == 0 || onlist == 1 {
 
 	}
 }
-if onlist == 2 { draw_text(0,0, "Sprites (TAB)")
+if onlist == 2 { draw_text(0,0, "Sprites (3) (TAB)")
 	for (var i = minimum; i < maximum; i++) //sprite assets
 	{
 		if i == selection draw_set_alpha(1) //highlight selected icon
@@ -78,6 +82,10 @@ if onlist == 2 { draw_text(0,0, "Sprites (TAB)")
 		if current_asset_layer == asset_layer_under {draw_set_alpha(1)}
 		else {draw_set_alpha(0.5)}
 		draw_text(overunder_x+string_width("On top(f3)  /"), overunder_y, "  Under(f4)")
+		
+		var paintx = 100
+		var painty = 50
+		draw_text(paintx, painty, "Hold ctrl and left click to paint default platforms w/ sprite")
 }
 
 
@@ -105,6 +113,8 @@ Right Click: Delete object, drag to target area
 
 Shift: Uniform scaling while making objects
 Move faster while moving
+
+Tab, Shift + Numkeys: Swap item tabs
 ")
 	draw_text( 800, 20, @"
 Middle Click Drag: Pan Camera
@@ -151,8 +161,10 @@ R: Return to level editor
 }
 else {draw_text(1100, 0, "F1: Show help") 
 	draw_text(1100, 30, "F2: Settings")}
+draw_set_alpha(snaptogrid + 0.2) draw_text(500, 30, "F5: Snap to grid")
+draw_set_defaults();
 
-if state == 33
+if state == 33 //settings menu
 {
 	draw_set_color(c_black) draw_set_alpha(0.4);
 	draw_rectangle(0, 0, 5000, 5000, false)
@@ -169,7 +181,7 @@ if value is over 1, it scrolls backwards
 		var iconsize = 100;
 		var hbuffer = 300;
 		var vbuffer = 50;
-		
+
 		for (var i = 0; i < 3; i++) //mouseover icon things, each i is a new collumn...
 		//options are sorted by collumn
 		{
@@ -179,40 +191,50 @@ if value is over 1, it scrolls backwards
 					
 			switch i{ //each r loop is a  new row
 				case 0: //bg scale
-					draw_text(xmin, ymin-50, "Background Scale")
-				for(var r = 0; r < 4; r++) 
-				{
-					var dy = ymin + iconsize*r + vbuffer*r //draw y
+				
+				//	draw_text(xmin, ymin-50, "Background Scale")
+				//for(var r = 0; r < 4; r++) 
+				//{
+				//	var dy = ymin + iconsize*r + vbuffer*r //draw y
 
-					if r < 3 draw_sprite_stretched(custombg[| r], 0, xmin, dy, iconsize, iconsize)
-					if r == 3 draw_sprite_stretched(customfg[| 0], 0, xmin, dy, iconsize, iconsize)
-					//draw_rectangle(xmin, ymin, xmin+iconsize, ymin+iconsize, true)
-					switch r
-					{
-						case 0: draw_text_color(xmin, dy, global.farscale, c_white, c_gray, c_red, c_green, 1) break;
-						case 1: draw_text_color(xmin, dy, global.middlescale, c_white, c_gray, c_red, c_green, 1) break;
-						case 2: draw_text_color(xmin, dy, global.nearscale, c_white, c_gray, c_red, c_green, 1) break;
-						case 3: draw_text_color(xmin, dy, global.ontopscale, c_white, c_gray, c_red, c_green, 1) break;
-					}
+				//	if r < 3 draw_sprite_stretched(custombg[| r], 0, xmin, dy, iconsize, iconsize)
+				//	if r == 3 draw_sprite_stretched(customfg[| 0], 0, xmin, dy, iconsize, iconsize)
+				//	//draw_rectangle(xmin, ymin, xmin+iconsize, ymin+iconsize, true)
+				//	switch r
+				//	{
+				//		case 0: draw_text_color(xmin, dy, global.farscale, c_white, c_gray, c_red, c_green, 1) 
+				//			draw_text(xmin + iconsize , dy, "far")
+				//		draw_sprite_ext(spr_mouseclickicon, 0, xmin + iconsize, dy+50, 1, 1,0, c_white, 1 )
+				//		break;
+				//		case 1: draw_text_color(xmin, dy, global.middlescale, c_white, c_gray, c_red, c_green, 1) 
+				//										draw_text(xmin + iconsize , dy, "middle")
+				//			break;
+				//		case 2: draw_text_color(xmin, dy, global.nearscale, c_white, c_gray, c_red, c_green, 1)
+				//		draw_text(xmin + iconsize , dy, "near") break;
+				//		case 3: draw_text_color(xmin, dy, global.ontopscale, c_white, c_gray, c_red, c_green, 1)
+				//		draw_text(xmin + iconsize , dy, "foreground") break;
+				//	}
 
-				} break;
+				//} 
+				break;
 				case 1: //bg scrolling
-					draw_text(xmin, ymin-50, "Background Scroll Speed")
-				for(var r = 0; r < 4; r++)
-				{
-					var dy = ymin + iconsize*r + vbuffer*r //draw y
+				//	draw_text(xmin, ymin-50, "Background Scroll Speed")
+				//for(var r = 0; r < 4; r++)
+				//{
+				//	var dy = ymin + iconsize*r + vbuffer*r //draw y
 
-					if r < 3 draw_sprite_stretched(custombg[| r], 0, xmin, dy, iconsize, iconsize)
-					if r == 3 draw_sprite_stretched(customfg[| 0], 0, xmin, dy, iconsize, iconsize)
-					switch r
-					{
-						case 0: draw_text_color(xmin, dy, global.farscroll, c_white, c_gray, c_red, c_green, 1) break;
-						case 1: draw_text_color(xmin, dy, global.middlescroll, c_white, c_gray, c_red, c_green, 1) break;
-						case 2: draw_text_color(xmin, dy, global.nearscroll, c_white, c_gray, c_red, c_green, 1) break;
-						case 3: draw_text_color(xmin, dy, global.ontopscroll, c_white, c_gray, c_red, c_green, 1) break;
-					}
+				//	if r < 3 draw_sprite_stretched(custombg[| r], 0, xmin, dy, iconsize, iconsize)
+				//	if r == 3 draw_sprite_stretched(customfg[| 0], 0, xmin, dy, iconsize, iconsize)
+				//	switch r
+				//	{
+				//		case 0: draw_text_color(xmin, dy, global.farscroll, c_white, c_gray, c_red, c_green, 1) break;
+				//		case 1: draw_text_color(xmin, dy, global.middlescroll, c_white, c_gray, c_red, c_green, 1) break;
+				//		case 2: draw_text_color(xmin, dy, global.nearscroll, c_white, c_gray, c_red, c_green, 1) break;
+				//		case 3: draw_text_color(xmin, dy, global.ontopscroll, c_white, c_gray, c_red, c_green, 1) break;
+				//	}
 
-				} break;
+				//} 
+				break;
 				case 2: //misc
 						draw_text(xmin, ymin-50, "Platforrm Opacity")
 				for(var r = 0; r < 4; r++)

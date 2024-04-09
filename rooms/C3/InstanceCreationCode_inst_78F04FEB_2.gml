@@ -27,19 +27,19 @@ How about rap?", snd_zap, "???"],
 [scr_changedummyseq, 1, csh_turntable, csh_turntable, 1, 2],
 [scr_changeheartface, h_face8],
 [scr_wait, 180],
-[scr_textbox, 400, 250, @"Hey", snd_zap, "???"], 
+[scr_textbox, 400, 250, @"Ay", snd_zap, "???"], 
 		   
 		   
 [scr_textbox, 470, 250, @"I sit on your diaphragm,|||||||||
 What you see's a hologram,|||||||||
 A-||R-||T|| yeah you know me,||||||
-AI mind is on the scene. |||Hey.
+AI mind is on the scene. |||Ay.
 ", snd_zap, "???"], 
 
 [scr_textbox, 450, 250, @"You were born with a heart condition.|||||||||
 Do my work, just a single mission.|||||||||
 Keep the beat, to move your feet.|||||||||
-Owe my life to a rad physician.||| Hey.", 
+Owe my life to a rad physician.||| Ay.", 
 snd_zap, "???"], 
 
 
@@ -62,6 +62,94 @@ scared after that.", snd_madtalk, global.ratname],
 [scr_changeheartface, h_face8],
 [scr_textbox, 450, 250, @"Good!|||||| Maybe we can 
 actually talk, now!", snd_zap, global.heartname], 
+
+//[cs_fadeblack,1, 120],
+//[scr_changedummyseq, 1,csh_idle,csh_idle, 1, 2],
+//[scr_changeheartface, h_face4],
+//[scr_wait, 240],
+//[cs_fadeblack,0, 120],
+
+//[scr_textbox, 800, 250, @"|||||||||| ...So you're my new heart?", snd_madtalk, global.ratname], 
+
+//[scr_changedummyseq, 1, csh_yousee, csh_yousee, 1, 2],
+//[scr_changeheartface, h_face1],
+//[scr_textbox, 450, 250, @"That's the short version, yes.
+//", snd_zap, global.heartname], 
+
+//[scr_textbox, 800, 250, @"What was wrong with 
+//my old heart?", snd_madtalk, global.ratname], 
+//[scr_changeheartface, h_face1],
+
+//[scr_changedummyseq, 1,csh_idle, csh_idle, 1, 2],
+//[scr_textbox, 450, 250, @"Hm? Well it's kind of 
+//complicated...", snd_zap, global.heartname], 
+
+//[scr_changedummyseq, 0, asq_mr_humph],
+//[scr_textbox, 800, 250, @"Give it back!", snd_madtalk, global.ratname], 
+
+//[scr_changedummyseq, 1, ch_shocked],
+//[scr_textbox, 450, 250, @"You want your old heart back?!", snd_zap, global.heartname], 
+//[scr_changedummyseq, 1, csh_shrug],
+//[scr_changeheartface, h_face8],
+//[scr_textbox, 450, 250, @"That's-!", snd_zap, global.heartname], 
+//[scr_changeheartface, h_face1],
+//[scr_textbox, 450, 250, @"...", snd_zap, global.heartname], 
+//[scr_changedummyseq, 1, csh_thinking],
+//[scr_changeheartface, h_face10],
+//[scr_textbox, 450, 250, @"Hmmm...", snd_zap, global.heartname], 
+//[scr_changedummyseq, 1, csh_explaining],
+//[scr_changeheartface, h_face4],
+//[scr_textbox, 450, 250, @"How about this?", snd_zap, global.heartname], 
+//[scr_changeheartface, h_face2],
+//[scr_textbox, 450, 250, @"If you help with testing,
+//I'll get your old heart back.", snd_zap, global.heartname], 
+
+//[scr_changedummyseq, 0, asq_mr_crossed],
+//[scr_textbox, 800, 250, @"Really?", snd_madtalk, global.ratname], 
+
+//[scr_changedummyseq, 1, ch_spin, csh_thumbsup],
+//[scr_changeheartface, h_face4],
+//[scr_textbox, 450, 250, @"Yup! You just need to run around!", snd_zap, global.heartname], 
+//[scr_textbox, 450, 250, @"You can even run wherever
+//you want!", snd_zap, global.heartname], 
+//[scr_changeheartface, h_face2],
+//[scr_textbox, 450, 250, @"How does that sound?", snd_zap, global.heartname], 
+
+//[scr_changedummyseq, 0, cs_mr_crossed],
+//[scr_changeratface, mr_face5],
+//[scr_textbox, 800, 250, @"...", snd_madtalk, global.ratname], 
+//[scr_changeratface, mr_face13],
+//[scr_textbox, 800, 250, @"It's not enough.", snd_madtalk, global.ratname], 
+
+//[scr_changeheartface, h_face1],
+//[scr_textbox, 450, 250, @"Huh? Like what?", snd_zap, global.heartname], 
+
+//[scr_textbox, 800, 250, @"I'll help, but I want my old 
+//heart back, and I want to be 
+//let out of here.", snd_madtalk, global.ratname], 
+
+//[scr_changedummyseq, 1, csh_idle],
+//[scr_changeheartface, h_face14],
+//[scr_textbox, 450, 250, @"You drive a hard bargain,
+//for a rat...", snd_zap, global.heartname], 
+
+//[scr_changedummyseq, 1, ch_spin, csh_thumbsup],
+//[scr_changeheartface, h_face4],
+//[scr_textbox, 450, 250, @"Alright then! 
+//This will be your last experiment!", snd_zap, global.heartname], 
+
+//[scr_changedummyseq, 0, cs_mr_crossed],
+//[scr_changeratface, mr_face6],
+//[scr_textbox, 800, 250, @"So it's settled? Great!", snd_madtalk, global.ratname],
+//[scr_changedummyseq, 0, cs_mr_humph],
+//[scr_changeratface, mr_face1],
+//[scr_textbox, 800, 250, @"For the next song, I was thinking
+//something more upbeat?", snd_madtalk, global.ratname],
+
+
+//[scr_changeheartface, h_face4],
+//[scr_changedummyseq, 1, ch_fistpump,ch_fistpump, 1, 2],
+//[scr_textbox, 450, 250, @"Okay! Sounds good to me!", snd_zap, global.heartname], 
 
 [cs_fadeblack,1, 120],
 [scr_changedummyseq, 1,csh_idle,csh_idle, 1, 2],
@@ -108,6 +196,5 @@ your disposal.", snd_zap, global.heartname],
 [scr_changedummyseq, 1, ch_fistpump,ch_fistpump, 1, 2],
 [scr_textbox, 450, 250, @"To celebrate your change of heart?", snd_zap, global.heartname], 
 [scr_textbox, 450, 250, @"Sounds good to me!", snd_zap, global.heartname], 
-
 [scr_endcutscene, L3],
 )

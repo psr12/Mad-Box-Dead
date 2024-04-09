@@ -141,7 +141,7 @@ switch state {
 					}
 	break;
 	case 16: //three, one of each
-
+//ratsleft = 23;
 				switch beat {
 	
 					case 0:
@@ -159,6 +159,27 @@ switch state {
 						baby.facing = -1; play_sound(snd_falling,1)
 						state=74;
 					break;
+					}
+	break;
+	case 17: //
+//ratsleft = 23+4;
+				switch beat {
+	
+					case 0:
+						var baby = instance_create(x-400,y, obj_mobrat1);
+						var baby = instance_create(x-200,y, obj_mobrat1);
+						play_sound(snd_falling,1)
+					break;
+						
+					case 2: 
+						var baby = instance_create(x,y, obj_mobratjump);
+							baby.facing = -1;
+						var baby = instance_create(x+200,y, obj_mobratjump);
+							baby.facing = -1; 
+						play_sound(snd_falling,1)
+						state=74;
+					break;
+						
 					}
 	break;
 	

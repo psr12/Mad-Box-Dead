@@ -10,7 +10,7 @@ if instance_exists(obj_MadSquare) //spd controls
 		var spize = sprite_get_width(spr_mousewheelicon) * scale
 		var whel = -mouse_wheel_down() + mouse_wheel_up(); //down is negative, up is positive
 		//whel *= 0.1;
-		if keyboard_check(vk_shift) {whel *= 2}
+		if keyboard_check(vk_shift) || keyboard_check(vk_control){whel *= 2}
 		
 	if mouse_x == clamp(mouse_x, x-xoff, x-xoff+spize) //top wheel
 	and mouse_y == clamp(mouse_y, y-yoff, y-yoff+spize)

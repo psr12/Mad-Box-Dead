@@ -1,0 +1,13 @@
+{
+  "$GMScript":"",
+  "%Name":"simple_collision",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"simple_collision",
+  "parent":{
+    "name":"RATAPON",
+    "path":"folders/Objects/RATAPON.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}

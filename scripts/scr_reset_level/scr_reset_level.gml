@@ -30,6 +30,7 @@ function scr_return_to_editor(){
 			scr_reset_score()
 			scr_roomtrans(roomgo, statego);
 			if music != noone {audio_stop_sound(songinst)}
+			scr_setupbeatmap(-999)
 
 }
 function scr_storyproceed(){

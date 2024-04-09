@@ -1,12 +1,13 @@
 {
-  "isDnD": false,
-  "isCompatibility": false,
-  "parent": {
-    "name": "CONTROL STUFF",
-    "path": "folders/Scripts/CONTROL STUFF.yy",
+  "$GMScript":"",
+  "%Name":"update_input",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"update_input",
+  "parent":{
+    "name":"CONTROL STUFF",
+    "path":"folders/Scripts/CONTROL STUFF.yy",
   },
-  "resourceVersion": "1.0",
-  "name": "update_input",
-  "tags": [],
-  "resourceType": "GMScript",
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
 }

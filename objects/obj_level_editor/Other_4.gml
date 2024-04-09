@@ -14,3 +14,4 @@ with obj_cheese {image_alpha = 1;}
 state = 0;
 
 scr_level_load(global.level) //spawn in objects, from the custom level's text file
+

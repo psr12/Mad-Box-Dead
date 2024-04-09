@@ -465,7 +465,7 @@ if (drawHologram) {
 #endregion
 }	
 else {
-draw_self();
+	if sprite_index  draw_self();
 
 }
 

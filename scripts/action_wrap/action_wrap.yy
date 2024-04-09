@@ -1,12 +1,13 @@
 {
-  "isDnD": false,
-  "isCompatibility": true,
-  "parent": {
-    "name": "action",
-    "path": "folders/Scripts/compatibility/action.yy",
+  "$GMScript":"",
+  "%Name":"action_wrap",
+  "isCompatibility":true,
+  "isDnD":false,
+  "name":"action_wrap",
+  "parent":{
+    "name":"action",
+    "path":"folders/Scripts/compatibility/action.yy",
   },
-  "resourceVersion": "1.0",
-  "name": "action_wrap",
-  "tags": [],
-  "resourceType": "GMScript",
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
 }

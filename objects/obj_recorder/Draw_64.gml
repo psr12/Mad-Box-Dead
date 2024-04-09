@@ -37,14 +37,14 @@ draw_set_font(Font1)
 var pulsesize = 0.3
 var bull = 1+ pulsesize * (bulge/100); //pump the heart up
 draw_sprite_ext(middleheart, 0, x,y, bull, bull, 0, image_blend, recalpha)
-draw_sprite_ext(middleheart, 0, x,y, bull, bull, 0, c_yellow, bulge/200) //yellow tint on heart
+draw_sprite_ext(middleheart, 0, x,y, bull, bull, 0, c_yellow, min(bulge/200, recalpha) ) //yellow tint on heart
 bull = 1; //reset scale for bars
 draw_sprite_ext(middlebars, 0, x,y, bull, bull, 0, image_blend, recalpha) //the two bars side of the heart
 }
 #endregion
 
 if showtext > 0 && (state == 1 )
-//|| state == 10)  //countdown numbers
+|| state == 10  //countdown numbers
 && !instance_exists(obj_mobrathandler)
 {draw_text_transformed(x-string_width(showtext)*5, ty, showtext, 10, 10, 0)}
 
@@ -111,13 +111,13 @@ draw_text(900,100, @"
 Use Arrow Keys and Space to select a bind
 Then press a button to set the new bind
 Backspace to unbind, ESC to cancel a bind
-Press F12 to rest all binds to default
+Press F12 to reset all binds to default
 
 Analog sticks can't be set as binds,
 but will work when platforming.
 
 All bindings are just for platforming,
-menu and edit controls can't be changed.
+menu and editor controls can't be changed.
 "
 )
 
@@ -256,14 +256,38 @@ draw_ctext(1000, 100, "Exit")
 		"Timer On",
 		"Microgames",
 		"Confetti",
+		"Red Notes",
+		"Miss Remove",
+		"Black Notes",
 		]
 
 		var sheit = string_height("A");
 		for (var fi = 0; fi < array_length(opArray2d[2]); fi++)
 		{
-			scr_trashier(2, fi)
-			draw_ctext(dx, drey + sheit*fi, list[fi] + " " + string(opArray2d[2][fi])) 
+			scr_trashier(2, fi) //set draw color, highlight selected row
+			if fi != 6 draw_ctext(dx, drey + sheit*fi, list[fi] + ": " + string(opArray2d[2][fi])) 
+			else  {
+				var redop = opArray2d[2][fi];// 
+				var rednote_option_desc = ""
+			switch redop {
+				case 1: rednote_option_desc = "Normal" break;
+				case 2: rednote_option_desc = "Reds off" break;
+				case 3: rednote_option_desc = "Blues off" break;
+				case 4: rednote_option_desc = "Both off" break;
+				case 5: rednote_option_desc = "Convert to white" break;
+			}
+			draw_ctext(dx, drey + sheit*fi, list[fi] + ": " + rednote_option_desc) 
+						/*
+							1 = normal
+							2 = reds off
+							3 = blues off
+							4 = both off
+							5 = convert to white
+						*/
+			}
 		}
+		
+		draw_set_defaults()
 #endregion
 } //end of keybindings
 if state == 0 //song select
@@ -372,14 +396,16 @@ draw_text(bpmsquare_left+100, bpmsquare_top, "BPM: " + string(BPM))
 draw_rectangle(snapsquare_left, snapsquare_top, snapsquare_left+snapsquare_size, snapsquare_top+snapsquare_size, false)
 draw_sprite_stretched(spr_mousewheelicon, 0, snapsquare_left, snapsquare_top, snapsquare_size, snapsquare_size)
 if snap_to_nearest>0 {draw_text(snapsquare_left-310, snapsquare_top, "Snap to nearest: 1/" + string(snap_to_nearest))
-draw_text(snapsquare_left-510, snapsquare_top+50, "F9 to autofill song from playhead")}
+draw_text(snapsquare_left-400, snapsquare_top+50, @"F9 to autofill (from playhead)
+F10 to snap existing notes
+(buggy, save first)")}
 else draw_text(snapsquare_left-310, snapsquare_top, "Snap to nearest: off")
 //vol
 draw_rectangle(volsquare_left, volsquare_top, volsquare_left+volsquare_size, volsquare_top+volsquare_size, false)
 draw_sprite_stretched(spr_mousewheelicon, 0, volsquare_left, volsquare_top, volsquare_size,volsquare_size)
 
 var str_hei = string_height("A")
-	draw_text(texx+800, notespeed_height, "Note speed is: " + string(dist) )
+	draw_text(texx+100, notespeed_height, "Note speed is: " + string(dist) )
 	draw_sprite(spr_scrub,0, x, y-100); //instructions
 	draw_sprite(spr_scrub,0, x, notespeed_height+33); //instructions
 		draw_set_alpha(0.2)
@@ -389,14 +415,25 @@ var str_hei = string_height("A")
 		draw_set_alpha(1)
 		draw_set_color(c_white);
 		
+		//note type 
+			var note_type_text = "1: White"
+			if editor_note_type == 2 { note_type_text = "2: Red"}
+			if editor_note_type == 3 { note_type_text = "3: Blue"}
+			if editor_note_type == 4 { note_type_text = "4: Black"}
+			draw_text( 100, bbox_top_fix-100, note_type_text  )
+		
 	var distfromcenter = (sprite_width_fix/2); //where bars disappear
-	var redactive = false; 
-	var templastred = lastred;
+	var redactive = false; //becomes true during the loop if a red appears, turns off on white note
+	var blueactive = false; 
+	var templastred = lastred; //lastred true if last note was red, instancevar because must be saved between steps
+			//templastred is var because it needs turned off during the loop, once a white appears
+	var templastblue = lastblue;
 	//first onesec*5 notes, or until end if shorter
 	var lessthan = min(onesec*10, ds_list_size(notelist) ) + showingfrom
 	var startingfrom = max(0, showingfrom);
 	var fpbsprite = whitebar; //for showing FPB
-	for ( var i = startingfrom; i < lessthan; i++) 
+	
+	for ( var i = startingfrom; i < lessthan; i++) //actual note bar drawing
 		{
 			//FPB = FPS / (BPM / 60)
 			var FPB = gamespeed / (BPM/60)
@@ -423,24 +460,33 @@ var str_hei = string_height("A")
 				}
 
 			var input = notelist[| i]
-			if input //if there is a note
+			if input || input == -6//if there is a note
 			{
 					var sprite = whitebar; 
+					var barcolor = c_white;
+					if input == -6 barcolor = c_green;
 					if redactive || templastred //there are or were red notes
 					{
 						if input == 1 {sprite = redbar2; redactive = false; templastred=false;}  //big red bar
 						if input == 2 {sprite = redbar1;} 
 					}
+					else if blueactive || templastblue //there are or were blue notes
+					{
+						if input == 1 {sprite = bluebar2; blueactive = false; templastblue=false;}  //big blue bar
+						if input == 3 {sprite = bluebar1;} // 3! Not 2!
+					}
 					else //no red notes at all
 					{
 						if input == 1 {sprite = whitebar;}
 						if input == 2 {sprite = redbar1; redactive = true;} //small red bar
+						if input == 3 {sprite = bluebar1; blueactive = true;} //small blue bar
+						if input == 4 {sprite = blackbar; }
 					}
 
 				
-				draw_sprite_ext(sprite, 0, x+distfromcenter + i*dist - showingfrom*dist, y, 1, 1, 0, c_white, 1)
+				draw_sprite_ext(sprite, 0, x+distfromcenter + i*dist - showingfrom*dist, y, 1, 1, 0, barcolor, 1)
 				//right side
-				draw_sprite_ext(sprite, 0, x-distfromcenter - i*dist + showingfrom*dist, y, -1, 1, 0, c_white, 1)
+				draw_sprite_ext(sprite, 0, x-distfromcenter - i*dist + showingfrom*dist, y, -1, 1, 0, barcolor, 1)
 				//left side
 			}
 			if (redactive || templastred) && state > 5//draw red background for red notes, lastred only for playback
@@ -526,16 +572,41 @@ if state == 9 { //inputting a name
 
 if (state == 6 || state >= 10) && state < 60{ //playback, notes
 	
-	if state == 6 	draw_text(50, 50, "Song volume: " + string(songvolume) )
+	if state == 6 	draw_text(50, 50, "Song volume: " + string(songvolume) ) //can change vol in editor playback
+	
+	if seefps { //show dash input
+		var poop1 = 700
+		var poop2 = 600
+		if input_check(global.keyDash) ||
+		input_check(global.keyCharge) ||
+		input_check(global.keyJump) ||
+		input_check(global.keyDrop) 
+		{draw_sprite(spr_keydown, 1, poop1, poop2)}
+		else draw_sprite(spr_keydown, 0, poop1, poop2)
+	}
 	
 	var distfromcenter = (-grace/2) + (sprite_width_fix/2)   -  ((grace/2)); //where bars disappear
-	var redactive = false; 
-	var templastred = lastred;
-	
+	var redactive = false; //becomes true during the loop if a red appears, turns off on white note
+	var blueactive = false; 
+	var templastred = lastred; //lastred true if last note was red, instancevar because must be saved between steps
+			//templastred is var because it needs turned off during the loop, once a white appears
+	var templastblue = lastblue;
+
 	var nlsize = ds_list_size(notelist)
 	var busize = ds_list_size(backup)
 	var lesthan = min(onesec*6, ds_list_size(notelist) )
 		var fpbsprite = whitebar; //for showing FPB
+		
+		
+				
+	var distfromcenter = (sprite_width_fix/2); //where bars disappear
+	var redactive = false; //becomes true during the loop if a red appears, turns off on white note
+	var blueactive = false; 
+	var templastred = lastred; //lastred true if last note was red, instancevar because must be saved between steps
+			//templastred is var because it needs turned off during the loop, once a white appears
+	var templastblue = lastblue;
+
+	var fpbsprite = whitebar; //for showing FPB
 		
 	draw_set_alpha(recalpha); 
 	
@@ -561,27 +632,40 @@ if (state == 6 || state >= 10) && state < 60{ //playback, notes
 			if input //if there is a note
 			{
 					var sprite = whitebar; 
+					//if input == 5 continue;
+					barcolor = c_white
+					
 					if redactive || templastred //there are or were red notes
 					{
 						if input == 1 {sprite = redbar2; redactive = false; templastred=false;}  //big red bar
 						if input == 2 {sprite = redbar1;} 
 					}
+					else if blueactive || templastblue //there are or were blue notes
+					{
+						if input == 1 {sprite = bluebar2; blueactive = false; templastblue=false;}  //big blue bar
+						if input == 3 {sprite = bluebar1;} // 3! Not 2!
+					}
 					else //no red notes at all
 					{
 						if input == 1 {sprite = whitebar;}
 						if input == 2 {sprite = redbar1; redactive = true;} //small red bar
+						if input == 3 {sprite = bluebar1; blueactive = true;} //small blue bar
+						if input == 4 {sprite = blackbar; }
 					}
 
 				draw_set_alpha(recalpha); 
-				draw_sprite(sprite, 0, x+distfromcenter + i*dist, y) 
+				draw_sprite_ext(sprite, 0, x+distfromcenter + i*dist, y, 1, 1, 0, barcolor, recalpha) 
 				//right side
-				draw_sprite_ext(sprite, 0, x-distfromcenter - i*dist, y, -1, 1, 0, c_white, recalpha)
+				draw_sprite_ext(sprite, 0, x-distfromcenter - i*dist, y, -1, 1, 0, barcolor, recalpha)
 				//left side
 			}
-			if (redactive || templastred) && state > 5//draw red background for red notes, lastred only for playback
+			if (redactive || templastred)//draw red background for red notes, lastred only for playback
+			|| (blueactive || templastblue)
+			and state > 5 //no red bar during editing
 			{
 				draw_set_alpha( min(0.2, recalpha) )	
 				draw_set_color(c_red)
+				if (blueactive || templastblue) {draw_set_color(c_aqua) }
 				var fromcenter = i*dist + distfromcenter
 				draw_rectangle( x+fromcenter, bbox_top_fix, x+fromcenter+dist, bbox_bottom_fix, false )
 				//right side
@@ -589,7 +673,6 @@ if (state == 6 || state >= 10) && state < 60{ //playback, notes
 				//left side
 				draw_set_alpha(recalpha); 
 				draw_set_color(c_white)
-				
 			}
 		}
 
@@ -600,7 +683,8 @@ if (state == 6 || state >= 10) && state < 60{ //playback, notes
 		draw_set_defaults()
 	}
 	
-	
+	part_system_drawit(holdspark_sys); //draw hold sparks over everything else
+
 }
 
 	//shader_reset();
@@ -619,7 +703,8 @@ if state == 69 //scoring
 	draw_text(scorex,250, "Great: " + string(numgreat) )
 	draw_text(scorex,300, "Late: " + string(numlate) )
 	draw_text(scorex,350, "Early: " + string(numearly) )
-	draw_text(scorex,400, "Max Combo: " + string(maxcombo) )
+	draw_text(scorex,400, "Miss: " + string(nummiss) )
+	draw_text(scorex,500, "Max Combo: " + string(maxcombo) )
 }
 
 if state == 404 //pause menu
@@ -644,6 +729,8 @@ if state == 404 //pause menu
 	draw_set_defaults();
 		draw_text(50, 50, "Song volume: " + string(songvolume) )
 	draw_sprite_ext(spr_mousewheelicon, 0, 350, 50, 2, 2, 0, c_white, 1);
+	
+	draw_text(0, 700, @"*When playing, hit [R] to restart, or hit [Backspace] to die." )
 }
 
 if black_transition_state > 0 {
@@ -655,6 +742,15 @@ if black_transition_state > 0 {
 	//draw_rectangle(pos-wid, 0, pos, hei, false)
 	draw_sprite_stretched(spr_transitionblock, 0, pos, 0, wid*2, hei)
 	draw_set_defaults()
+}
+
+
+if controller_in > 2 {
+	draw_set_color(c_red)
+	draw_set_font(Font1)
+	draw_text_transformed(50, 100, @"Hey, do you have a controller plugged in?
+That disables keyboard controls.", 1,1, 0)
+draw_set_defaults()
 }
 
 /*

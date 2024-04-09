@@ -6,8 +6,9 @@ if place_meeting(x,y,obj_MadSquare)
 {
 	
 	if obj_MadSquare.state == 0 {
-	global.zoom = Approach(global.zoom, zoom, zoomount) ;
-	if global.zoom == zoom 	instance_destroy()
+	obj_cameraman.targetzoom = zoom;
+	obj_cameraman.zoomspeed = zoomount;
+	instance_destroy()
 	}
 }
 

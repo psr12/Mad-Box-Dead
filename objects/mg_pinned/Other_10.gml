@@ -7,7 +7,7 @@ event_inherited();
 if state == 0 {
 timer += 0.03
 needlex = x + sin(timer)*500
-if keyboard_check_pressed(vk_space){
+if keyboard_check_pressed(vk_anykey){
 	state++;
 	}
 }

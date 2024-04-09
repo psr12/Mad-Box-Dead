@@ -24,6 +24,7 @@ if show < totallength && !wait //advance text, text isn't finished and not waiti
 		wait+=10;
 		show-= spd;
 	}
+
 	showtext = string_copy(text, 0, show )
 	
 	if !audio_is_playing(playingsound) and !wait playingsound = play_sound(sound,1+random(0.1) );

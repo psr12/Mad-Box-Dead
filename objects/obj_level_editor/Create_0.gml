@@ -1,20 +1,30 @@
 /// @description Insert description here
 // You can write your code in this editor
 
+alarm[5] = 120;
+
+snaptogrid = false;
+snapdis = 64;
 asset_transparency = 0.3;
 alarm[1] = 2; //after loading
 #region f2 menu
-global.farscale = 1
+
+global.farsprite = 1 //which sprite in the bg folder to use
+global.middlesprite = 1
+global.nearsprite = 1
+global.ontopsprite = 1
+
+global.farscale = 1 //the scale of the bg sprites
 global.middlescale = 1
 global.nearscale = 1
 global.ontopscale = 1
 
-global.farscroll = 1
+global.farscroll = 1 //the speed the bg sprites scroll at
 global.middlescroll = 0.5
 global.nearscroll = 0
 global.ontopscroll = -0.1
 
-global.platformalpha = 1
+global.platformalpha = 1 //the alpha values of platforms during gameplay
 global.onewayalpha = 1
 global.slidealpha = 1
 	#region color picker
@@ -54,10 +64,6 @@ down = 0;
 selected_list = ds_list_create(); //for box select
 copy_list = ds_list_create(); //for ctrl+c
 
-custombg = ds_list_create()
-customfg = ds_list_create()
-ds_list_copy(custombg, obj_recorder.custombg)
-ds_list_copy(customfg, obj_recorder.customfg)
 
 onlist = 0; // 0 = objects; 1 = enemies; 2 = assets
 
@@ -67,6 +73,13 @@ bg_tiles_list_size = ds_list_size(bg_tiles)
 asset_layer_over = layer_get_id("bgassets_over")
 asset_layer_under = layer_get_id("bgassets_under")
 current_asset_layer = asset_layer_over;
+
+//global.farsprite = bg_tiles[| 1] //which sprite in the bg folder to use
+//global.middlesprite = bg_tiles[| 1]
+//global.nearsprite = bg_tiles[| 1]
+//global.ontopsprite = bg_tiles[| 1]
+
+
 sx = 0; //x and y of spawned things
 sy = 0;
 
@@ -104,8 +117,12 @@ obj_camerazoom_trigger,
 obj_swingpole,
 obj_deathplane,
 obj_screw,
-obj_appearcheese,
+obj_screwplat,
 obj_jumpywater,
+obj_bouncepad,
+obj_crusher,
+obj_movingplatform,
+obj_appearingplatform,
 )
 platform_names = ds_list_create()
 ds_list_add(platform_names,
@@ -123,8 +140,12 @@ ds_list_add(platform_names,
 "Swing Pole",
 "Death Plane",
 "Screw",
-"Proximity Platform",
+"Screw Platform",
 "Water",
+"Jump Pad",
+"Crusher",
+"Moving Platform",
+"Flipping Platform",
 )
 
 platform_icons = ds_list_create()
@@ -143,8 +164,12 @@ spr_zoomtrigger,
 spr_swingpole,
 spr_skullicon,
 spr_screw,
-spr_appearicon,
+spr_bg_grey,
 spr_bg_lightblue,
+spr_bg_lightblue,
+spr_crusher,
+spr_movingplatformicon,
+spr_flippyicon,
 )
 
 platform_list_size = ds_list_size(platform_list)
@@ -162,6 +187,11 @@ obj_chaser,
 obj_beeline,
 obj_pendulum,
 obj_ratgod,
+obj_birddanger,
+obj_warningbox,
+obj_drainpaw,
+obj_splatspawner,
+obj_cactus,
 )
 enemy_names = ds_list_create()
 ds_list_add(enemy_names,
@@ -174,6 +204,11 @@ ds_list_add(enemy_names,
 "Hittable Chaser",
 "Pendulum Enemy",
 "Rat God",
+"Bird Danger Zone",
+"Bird Strike(use with trigger)",
+"Cat Paw(use with trigger)",
+"Splat Spawner",
+"Cactus",
 )
 
 enemy_icons = ds_list_create()
@@ -187,9 +222,61 @@ spr_chasericon,
 spr_beelineicon,
 spr_pendulumicon,
 rg_ratgod1,
+spr_birddanger,
+spr_birdboss2,
+spr_catpaw,
+spr_splat,
+spr_cactus,
 )
 
 enemy_list_size = ds_list_size(enemy_list)
+
+#endregion
+
+
+#region glitchy lists
+glitchy_list = ds_list_create()
+ds_list_add(glitchy_list,
+-10,
+obj_bspawnersingleBLUE,
+obj_bspawnersinglePINK,
+obj_warp,
+obj_appearcheese,
+obj_sewerratidle,
+obj_sewerrat,
+obj_sewerratjump,
+obj_sewerratsword,
+obj_speed_trigger,
+)
+glitchy_names = ds_list_create()
+ds_list_add(glitchy_names,
+"Move Tool",
+"Fleeing Balloon",
+"Slingshot Balloon",
+"Warp Up",
+"Appearing Platform",
+"Mob Idle",
+"Mob Dash",
+"Mob Jump",
+"Mob Sword",
+"Speed Trigger",
+)
+
+glitchy_icons = ds_list_create()
+ds_list_add(glitchy_icons,
+spr_mouseicon,
+spr_balloonblue,
+spr_slingshot,
+spr_bg_glassy,
+spr_appearicon,
+spr_mobdead,
+spr_mobdead,
+spr_mobdead,
+spr_mobdead,
+spr_speedtrigger,
+)
+
+glitchy_list_size = ds_list_size(glitchy_list)
 #endregion
 
 
@@ -197,11 +284,19 @@ size = platform_list_size ; //initial size of the sidebar
 
 //cam_h = camera_get_view_height(view_camera[0])
 
+custombg = ds_list_create()
+customfg = ds_list_create()
+//ds_list_copy(custombg, obj_recorder.custombg)
+//ds_list_copy(customfg, obj_recorder.customfg)
+ds_list_add(custombg, global.farsprite, global.middlesprite, global.nearsprite);
+ds_list_add(customfg, global.ontopsprite)
+
+
 #region background
 
-var backie = instance_create_depth(0,0, 0, obj_background)
-var fourie = instance_create_depth(0,0, 0, obj_foreground)
+ backie = instance_create_depth(0,0, 0, obj_background)
+ fourie = instance_create_depth(0,0, 0, obj_foreground)
 
-with backie {ds_list_copy(lay_order, obj_recorder.custombg)}
-with fourie {ds_list_copy(lay_order, obj_recorder.customfg)}
+//with backie {ds_list_copy(lay_order, obj_recorder.custombg)}
+//with fourie {ds_list_copy(lay_order, obj_recorder.customfg)}
 #endregion

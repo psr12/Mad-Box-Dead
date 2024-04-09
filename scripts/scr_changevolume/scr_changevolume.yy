@@ -1,12 +1,13 @@
 {
-  "isDnD": false,
-  "isCompatibility": false,
-  "parent": {
-    "name": "CONTROL STUFF",
-    "path": "folders/Scripts/CONTROL STUFF.yy",
+  "$GMScript":"",
+  "%Name":"scr_changevolume",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"scr_changevolume",
+  "parent":{
+    "name":"CONTROL STUFF",
+    "path":"folders/Scripts/CONTROL STUFF.yy",
   },
-  "resourceVersion": "1.0",
-  "name": "scr_changevolume",
-  "tags": [],
-  "resourceType": "GMScript",
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
 }

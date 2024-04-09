@@ -5,8 +5,8 @@
 if state == timetill-1 {shake = 10;}
 if state == timetill {
 	shake = 0; 
-	var gettox = xstart + lengthdir_x(dist, image_angle)
-	var gettoy = ystart + lengthdir_y(dist, image_angle)
+	var gettox = round( xstart + lengthdir_x(dist, image_angle) )
+	var gettoy = round( ystart + lengthdir_y(dist, image_angle) )
 	x = Approach(x, gettox, spd)
 	y = Approach(y, gettoy, spd)
 	

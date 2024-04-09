@@ -1,8 +1,14 @@
 {
-  "kind": 0,
-  "closed": false,
-  "precision": 4,
-  "points": [
+  "$GMPath":"",
+  "%Name":"path_slambackrl",
+  "closed":false,
+  "kind":0,
+  "name":"path_slambackrl",
+  "parent":{
+    "name":"Paths",
+    "path":"folders/Paths.yy",
+  },
+  "points":[
     {"speed":100.0,"x":1952.0,"y":544.0,},
     {"speed":50.0,"x":1560.6514,"y":460.3256,},
     {"speed":300.0,"x":1536.0,"y":384.0,},
@@ -18,12 +24,7 @@
     {"speed":100.0,"x":192.0,"y":832.0,},
     {"speed":100.0,"x":96.0,"y":544.0,},
   ],
-  "parent": {
-    "name": "Paths",
-    "path": "folders/Paths.yy",
-  },
-  "resourceVersion": "1.0",
-  "name": "path_slambackrl",
-  "tags": [],
-  "resourceType": "GMPath",
+  "precision":4,
+  "resourceType":"GMPath",
+  "resourceVersion":"2.0",
 }

@@ -1,7 +1,11 @@
 /// @description Insert description here
 // You can write your code in this editor
 
-
+if instance_exists(obj_ratface) {obj_ratface.sprite_index = ratface;}
+if instance_exists(obj_heartface) {obj_heartface.sprite_index = heartface; 
+		//obj_heartbody.sprite_index = heartbody;
+	}
+	
 
 if state == 0 {
 	if place_meeting(x,y,obj_MadSquare)
@@ -9,7 +13,8 @@ if state == 0 {
 		if !contact_wait {
 			play_sound(snd_notification,1);
 			state = 1;
-			obj_recorder.corner_heart_overwrite = csh_notification;
+			if !instance_exists(obj_dontshowheart) obj_recorder.corner_heart_overwrite = csh_notification;
+			else obj_recorder.corner_heart_overwrite = seq_exclamationpoint;
 		}
 	}
 }
@@ -28,7 +33,9 @@ if state == 1
 	
 	if !place_meeting(x,y,obj_MadSquare) //out of range
 	{
-		obj_recorder.corner_heart_overwrite = 0;
+		if instance_exists(obj_dontshowheart) obj_recorder.corner_heart_overwrite = seq_blank;
+		else obj_recorder.corner_heart_overwrite = 0;
+
 		state = 0;
 	}
 }

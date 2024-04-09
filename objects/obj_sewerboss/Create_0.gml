@@ -17,4 +17,5 @@ layer_sequence_yscale(seq, 2)
 
 with obj_cheese {
 	sprite_index = spr_bg_dkgray;
+	newsprite = spr_bg_dkgray;
 }

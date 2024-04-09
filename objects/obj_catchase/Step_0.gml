@@ -16,7 +16,7 @@ if obj_MadSquare.y < bbox_top+50 and abs(obj_MadSquare.x - x) < 300
 var canskip = true;
 
 if instance_exists(obj_notification){
-	if credits_offset > -2800 {obj_notification.contact_wait++}
+	if credits_offset > -3800 {obj_notification.contact_wait++}
 	else {obj_notification.contact_wait=0;
 		canskip = false;}
 }

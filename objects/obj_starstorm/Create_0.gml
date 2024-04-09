@@ -7,7 +7,7 @@ event_inherited();
 image_xscale = 4;
 image_yscale = 4;
 
-life = 30; 
+life = 25; 
 
 targx = x;
 targy = y;

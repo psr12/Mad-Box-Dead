@@ -2,6 +2,8 @@
 // You can write your code in this editor
 
 
+//THIS IS FOR THE ARTY FIGHT
+
 //#macro gam view_camera[1]
 
 	surf = surface_create(700,700)

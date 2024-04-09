@@ -66,3 +66,8 @@ if instance_exists(obj_heartface) {obj_heartface.sprite_index = heartface;
 		}
 		
 	}
+		
+		
+		
+if music_wobble	 { audio_sound_pitch(songinst, 1 + dsin(current_time) * 0.05)    }
+else audio_sound_pitch(songinst, 1 ) 

@@ -65,7 +65,7 @@ lastbeat = lastbeatnum;
 nextbeat = lastbeat+1;
 
 
-if keyboard_check_pressed(vk_space)
+if keyboard_check_pressed(vk_anykey)
 {
 	
 	var lbp = lastbeat * onebeat //grab microsec positions of the last and next beat

@@ -10,21 +10,28 @@ for (var p = 0; p < los; p++)
 	var layerid = layerlist[| p]
 	var bgid = bglayerlist[| p]
 
+	var sprite = snd_blank;
 	var scale = 1;
 	var scroll = 1;
 	switch p
 	{
-		case 0: if object_index == obj_foreground {scale = global.ontopscale scroll = global.ontopscroll; } 
-			if object_index == obj_background {scale = global.farscale; scroll = global.farscroll; }
+		case 0: if object_index == obj_foreground {scale = global.ontopscale scroll = global.ontopscroll; 
+			sprite = obj_recorder.bg_tiles[| global.ontopsprite] ; } 
+			if object_index == obj_background {scale = global.farscale; scroll = global.farscroll; 
+			sprite = obj_recorder.bg_tiles[| global.farsprite]	}
 			break;
-		case 1: scale = global.middlescale; scroll = global.middlescroll; break;
-		case 2: scale = global.nearscale; scroll = global.nearscroll; break;
+		case 1: scale = global.middlescale; scroll = global.middlescroll; sprite = obj_recorder.bg_tiles[| global.middlesprite]	break;
+		case 2: scale = global.nearscale; scroll = global.nearscroll; sprite = obj_recorder.bg_tiles[| global.nearsprite]	break;
 	}
+	
+	layer_background_sprite(bgid, sprite)
+
 	var sh = sprite_get_height( layer_background_get_sprite(bgid) )
 	var tooshort = 1;
 	if orheight*2 > sh {tooshort = (orheight*2)/sh;} //if bg is smaller than cam, increase by default
 	layer_background_xscale(bgid, tooshort*scale);
 	layer_background_yscale(bgid, tooshort*scale);
+	
 	
 	var xpos = cam_x
 	var ypos = cam_y

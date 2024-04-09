@@ -1,5 +1,5 @@
 ds_list_add(que,
-[scr_playmusic, obj_recorder.music],
+//[scr_playmusic, obj_recorder.music],
 
 [scr_makedummy, 000,600, asq_mr_dashdash, asq_mr_dashdash, 1, 1.5],
 [scr_moveobj, obj_seqdummy, 0, 500, 600, 5],

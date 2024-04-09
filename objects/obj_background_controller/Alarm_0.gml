@@ -7,16 +7,23 @@
 //var cam_w = camera_get_view_width(cam)
 
 
-var los = ds_list_size(lay_order)
+if object_index = obj_foreground {
+	ds_list_add(lay_order, global.ontopsprite)
+}
+if object_index = obj_background {
+	ds_list_add(lay_order, global.farsprite, global.middlesprite, global.nearsprite)
+}
 
-layerlist = ds_list_create()
-bglayerlist = ds_list_create()
+var los = ds_list_size(lay_order) //lay order = sprites
+
+
 
 for (var p = 0; p < los; p++)
 {
-	var sprite = lay_order[| p]
+		var bgtilenum = lay_order[| p] // lay_order[ 1, 2, 3  ]
+	var sprite = obj_recorder.bg_tiles[| bgtilenum ] //[ 1testo, 2example, 3.... ]
 	if object_index == obj_foreground {	var layerid = layer_create(950) }
-	else {var layerid = layer_create(999-p)}
+	else {var layerid = layer_create(999-p) }
 	var bgid = layer_background_create(layerid, sprite )
 	ds_list_add(bglayerlist, bgid); //add layer to a list
 	ds_list_add(layerlist, layerid); //add background layer to a list

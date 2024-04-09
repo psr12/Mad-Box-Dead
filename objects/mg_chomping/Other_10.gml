@@ -6,7 +6,7 @@ event_inherited();
 
 pillrotation++;
 
-if keyboard_check_pressed(vk_space)
+if keyboard_check_pressed(vk_anykey)
 {
 	layer_sequence_headpos(seq, 0)
 	layer_sequence_play(seq)

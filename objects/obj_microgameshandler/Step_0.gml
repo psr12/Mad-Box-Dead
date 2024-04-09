@@ -53,13 +53,16 @@ break;
 	
 case 0: //finished game
 	pitch+=0.01
-	micros_per_sec = 60000000/pitch;
-	state++; start_time = get_timer();
+	micros_per_sec = 60000090/pitch;
+	start_time = get_timer();
+	state++; 
 	if win cursound = play_sound(snd_microdone,pitch)
 	if !win {cursound = play_sound(snd_microfail,pitch); hearts--}
 	slideamp = 1; slidetime = 0;
 	waitforbeats = 4;
 	if ds_queue_size(microlist) == 0 || hearts == 1 {bossyet = true}
+		
+
 	break;
 	
 case 1: //slide in
@@ -67,7 +70,8 @@ case 1: //slide in
 	gamestate = 0 + sin(slidetime) * slideamp
 	slideamp = Approach(slideamp, 0, 0.025*pitch)
 	pageturn = Approach(pageturn, 0, 0.05*pitch)
-	if slideamp == 0 {state++; sineamp = 0.2; sinetime = 0; gamestate = 0
+	if slideamp == 0 
+	 {state++; sineamp = 0.2; sinetime = 0; gamestate = 0
 		pageturn = 0;
 		}
 	break; 
@@ -78,7 +82,8 @@ case 2: //move to the beat, playing microdone
 	sinetime+= 0.1*pitch;
 	sineamp = Approach(sineamp, 0, sinemove*pitch)
 	if win {winsin+=0.05*pitch; }
-	if !waitforbeats {
+	if !waitforbeats and !audio_is_playing(snd_microdone)
+	 and !audio_is_playing(snd_microfail)  {
 			state++; winsin = 0; win = 0;
 			waitforbeats = 8;
 			if bossyet {state = 2.5; //bwow bwow bum bum bum bum bum

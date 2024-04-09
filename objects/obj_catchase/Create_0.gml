@@ -19,6 +19,16 @@ credits = [
 "Digital Area - Kirby Planet Robobot - Jun Ishikawa",
 "Selfsimilarity - Camellia",
 "You Are Mine - Pinosuke",
+"Old House - NASH",
+"Macuilxochitl - TOMOSUKE",
+"Scorching Back - Cave Story - Pixel",
+"Here We Are - Undertale - Toby Fox",
+"Undying - Melody Muncher - DDRKirby",
+"Crazy - Madworld - Douja Raze",
+"Soul to Burn - Tokyo Xanadu - Takahiro Unisuga",
+"GO BACK 2 YOUR RAVE - nora2r",
+"Proof of the Existence - NekomataMaster",
+"Indefatigable - MOMODEMO",
 ]
 
 credits_offset = 1200;

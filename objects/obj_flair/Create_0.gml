@@ -4,6 +4,8 @@
 // Inherit the parent event
 event_inherited();
 
+blue = false;
+
 float = false;
 floatsin = 500;
 floatdist = 10;

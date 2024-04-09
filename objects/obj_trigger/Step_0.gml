@@ -49,11 +49,11 @@ if state == 10{
 		{
 			if paired != noone {
 				
-				var wowie = instance_create_depth(paired[0], paired[1], paired[2], asset_get_index(paired[3]) )	
+				var wowie = instance_create_layer(paired[0], paired[1], paired[2], asset_get_index(paired[3]) )	
 				wowie.image_xscale = paired[5]
 				wowie.image_yscale = paired[6]
 				wowie.image_angle = paired[7]
-				
+				wowie.image_blend = paired[4]
 				state = 11;
 			}
 		}

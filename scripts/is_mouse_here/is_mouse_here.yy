@@ -1,12 +1,13 @@
 {
-  "isDnD": false,
-  "isCompatibility": false,
-  "parent": {
-    "name": "CONTROL STUFF",
-    "path": "folders/Scripts/CONTROL STUFF.yy",
+  "$GMScript":"",
+  "%Name":"is_mouse_here",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"is_mouse_here",
+  "parent":{
+    "name":"CONTROL STUFF",
+    "path":"folders/Scripts/CONTROL STUFF.yy",
   },
-  "resourceVersion": "1.0",
-  "name": "is_mouse_here",
-  "tags": [],
-  "resourceType": "GMScript",
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
 }

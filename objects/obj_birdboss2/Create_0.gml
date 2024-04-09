@@ -10,7 +10,7 @@ image_alpha = 0.2;
 //time = 0;
 //timeid = shader_get_uniform(shader_scanlines, "time")
 
-hp = 14;
+hp = 10;
 
 state = 0;
 
@@ -30,7 +30,7 @@ image_scale(scale)
 gust = 0; //direction
 gust_power=4; //speed
 
-alarm[0] = 1;
+alarm[0] = 2;
 
 justusedtalon = false;
 

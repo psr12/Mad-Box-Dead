@@ -3,4 +3,5 @@
 
 
 	part_particles_create(global.partsys, x, y+sprite_height/2, global.part_cloud, 25)
-	layer = layer_get_id("bgassets_over")
+	
+	layer = layer_get_id("recorder_layer")

@@ -4,8 +4,10 @@
 // Inherit the parent event
 event_inherited();
 
-hitpoints = 4; //how many times you need to hit heart
+
+hitpoints = 8; //how many times you need to hit heart
 keepit = 0; //tracks paw location for horizontal swipes, so 2nd swipes is the opposite
+
 global.shiny = part_system_create_layer("Instances_2", false)
 
 seq = layer_sequence_create(layer, x, y, sq_br_ready)
@@ -16,6 +18,7 @@ layer_sequence_yscale(seq, scale)
 brightness = 0;
 
 layer_shader(layer,slimshady)
+
 
 image_alpha = 0;
 state = 0;

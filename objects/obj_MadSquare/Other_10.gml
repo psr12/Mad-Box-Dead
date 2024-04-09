@@ -19,8 +19,9 @@ if state != 0 and state != 90 {exit} //if not in correct state
 		
 position_of_last_hit = [x,y];
 
-if input_check(global.keyJump)  //jump
+if input_check(global.keyJump) || input_check_released(global.keyJump)  //jump
 { //so you can jump from poles, and slides keep momentum
+	var heydontwalljump = false;
 	if place_meeting(x,y, obj_swingpole) getoffslide = gost; 
 	if place_meeting(x,y+1, obj_slideplatform) getoffslide = 2; 
 	//jumping  sets gravity to full, incase of jumping after a dash while no gravity
@@ -41,7 +42,7 @@ if input_check(global.keyJump)  //jump
 					var so = audio_play_sound(snd_lockon,1,0);
 					audio_sound_pitch(so, 1+(time)*0.01 )
 					scr_changeseq(sspin, scale)
-					//exit; //so walljump doesn't go off
+					heydontwalljump = true //so walljump doesn't go off
 				}
 		}
 	else if jumps == 1 { //doublejump
@@ -53,7 +54,7 @@ if input_check(global.keyJump)  //jump
 	}
 		
 	if jumps != 2{ //walljumps, can't walljump on first jump
-		if place_meeting(x+1, y, obj_cheese) && facing !=0 //wall on right, holding 
+		if place_meeting(x+1, y, obj_cheese) && facing !=0 and !heydontwalljump//wall on right, holding 
 		{
 			jumps++; dashing = -dashpower-5;
 			vsp = -jumppower*0.9-charge; grav = initgrav; 
@@ -65,7 +66,7 @@ if input_check(global.keyJump)  //jump
 			hsliding = 0; vsliding = 0;
 
 		}
-		if place_meeting(x-1, y, obj_cheese) && facing !=0 //wall on left, holding 
+		if place_meeting(x-1, y, obj_cheese) && facing !=0 and !heydontwalljump //wall on left, holding 
 		{
 			jumps++; dashing = dashpower+5;
 			vsp = -jumppower*0.9-charge; grav = initgrav; 
@@ -83,7 +84,7 @@ if input_check(global.keyJump)  //jump
 	{ vsp = -jumppower*1.4; }
 }
 
-if input_check(global.keyDrop) //drop
+if input_check(global.keyDrop) || input_check_released(global.keyDrop) //drop
 {
 	vsp = jumppower*4; //always
 	dashing = 0; //stop horizontal momentum
@@ -102,11 +103,11 @@ if input_check(global.keyDrop) //drop
 	//part_particles_create(partsys, x, y, part_lines, 1)
 	//part_particles_create(partsys, x-30, y, part_lines, 1)
 	if place_meeting(x,y, obj_swingpole)
-	{ getoffslide = gost; vsp = jumppower*4; }
+	{ getoffslide = gost; vsp = jumppower*3; }
 }
 
 
-if input_check(global.keyCharge)//charge
+if input_check(global.keyCharge) || input_check_released(global.keyCharge)//charge
 {	
 	{
 	so=audio_play_sound(snd_charge,1,0)
@@ -128,7 +129,7 @@ if input_check(global.keyCharge)//charge
 
 }
 
-if input_check(global.keyDash) && dashes > 0 //dash
+if (input_check(global.keyDash) || input_check_released(global.keyDash) ) && dashes > 0 //dash
 {	getoffslide = gost; //tempoirarily ignore slides
 	sliding = 0; //stop slide momentum (mostly for after ramping)
 	dashes--;

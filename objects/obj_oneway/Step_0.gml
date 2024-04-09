@@ -26,3 +26,18 @@ if instance_exists(obj_MadSquare)
 	}
 	
 }
+
+//if instance_exists(obj_MadSquare) 
+//{
+//	var buffer = 10; //so can more easily go from one to another via dashing, instead of falling through
+//	if obj_MadSquare.state == 99 exit
+//	if obj_MadSquare.bbox_bottom > top + buffer //if mad rat is below the top of this platform
+//	{
+//		imsolid = false;
+//	}
+//	if obj_MadSquare.bbox_bottom < top //if mad rat is above platform
+//	{
+//		imsolid = true;
+//	}
+	
+//}

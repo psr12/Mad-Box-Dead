@@ -29,7 +29,7 @@ if beat > 325{ //break ceiling
 		vsp += grav;
 		y += vsp;
 		cancel = true;
-	with obj_cameraman {shake = 5}
+	with obj_cameraman {shake = 15}
 
 	}
 }

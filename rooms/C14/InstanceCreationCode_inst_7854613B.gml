@@ -63,7 +63,6 @@ back to the lab!", snd_madtalk, global.ratname],
 [scr_textbox, 1000, 300, @"Um...", snd_zap, global.heartname],
 [scr_textbox, 1000, 300, @"That means part of their 
 brain is removed.", snd_zap, global.heartname],
-[scr_textbox, 1000, 300, @"They can't understand you.", snd_zap, global.heartname],
 
 [scr_changedummyseq, 0, asq_mr_headclutch],
 [scr_textbox, 300, 300, @"You-!", snd_madtalk, global.ratname],
@@ -78,8 +77,8 @@ you for much longer!", snd_zap, global.heartname],
 [scr_moveobj, obj_cameraman, 0, 300,550, 5],
 [scr_moveobj, obj_flair, 0, 300,550, 5],
 [scr_wait, 100],
-[cs_camerazoom, 0, -0.0002],
-[scr_wait, 100],
+[cs_camerazoom, 0.1, 0.016],
+[scr_wait, 60],
 
 [scr_endcutscene, L14],
 )

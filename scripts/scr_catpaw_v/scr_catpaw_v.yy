@@ -1,0 +1,13 @@
+{
+  "$GMScript":"",
+  "%Name":"scr_catpaw_v",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"scr_catpaw_v",
+  "parent":{
+    "name":"Scripts",
+    "path":"folders/Scripts.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}

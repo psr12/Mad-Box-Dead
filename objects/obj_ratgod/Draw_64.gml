@@ -1,9 +1,19 @@
 /// @description Insert description here
 // You can write your code in this editor
 
+//event_inherited()
 
-if musicstarted draw_sprite_ext(sprite_index, 0, sprite_width/2, sprite_height/2 + sin(current_time/250)*10,
-xscale, yscale, 0, c_white, 1)
+
+if instance_exists(obj_glitchy) shader_set(shader_blue)
+
+
+if musicstarted {draw_sprite_ext(sprite_index, 0, sprite_width/2, sprite_height/2 + sin(current_time/250)*10,
+xscale, yscale, 0, c_white, 1) }
+
+
+
+if instance_exists(obj_glitchy) shader_reset()
+
 
 
 /*

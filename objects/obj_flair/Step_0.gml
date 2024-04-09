@@ -23,3 +23,5 @@ if abs(y - targety) <= spd y = targety
 
 
 image_angle += rotate;
+
+if blue {blue = false; layer_shader(layer, shader_blue)}

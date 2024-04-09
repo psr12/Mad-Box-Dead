@@ -16,7 +16,7 @@ if state == 0 {
 
 if state == 1 {
 	
-	if keyboard_check_pressed(vk_space)
+	if keyboard_check_pressed(vk_anykey)
 	{
 		reactionspeed = get_timer()-starttime;
 		play_sound(snd_hot2,1 )

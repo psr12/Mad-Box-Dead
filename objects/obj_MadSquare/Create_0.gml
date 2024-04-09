@@ -1,14 +1,16 @@
 /// @description Insert description here
 // You can write your code in this editor
-instance_create_depth(x, y, depth, obj_cameraman) //make the camera follow mad rat
+var bub = instance_create_layer(x, y, layer, obj_cameraman) //make the camera follow mad rat
+bub.targetzoom = 1.5
 angel = 0 //for sliding platforms
+
 #region timer, battery, ...
 
 	battery_max_charge = 500; // max charge
 	battery_charge = battery_max_charge; //current charge
 	battery_charge_showing = battery_charge; //current charge
 	pickup_strength = 25; //how much is restored on getting a pickup
-	death_cost = 25; //how much charge is taken for dying
+	death_cost = 10; //how much charge is taken for dying
 	battery_size = 1; //battery size, for bumping to the beat
 	battery_bulge = 0; // added to battery size
 	
@@ -111,18 +113,11 @@ if global.animationmodes = 1
 	part_type_life(part_lines, 30, 50)
 	part_type_size(part_lines, 2,2, -0.02, 0.05)
 	part_type_sprite(part_lines, spr_p_line, false, false, false)
-	
-	part_sparks = part_type_create()
-	part_type_shape(part_sparks, pt_shape_spark)
-	part_type_color1(part_sparks, c_aqua);
-	part_type_alpha2(part_sparks, 0.7,0)
-	part_type_orientation(part_sparks, 0, 359, 0, 10, true)
-	part_type_size(part_sparks, 3,4, -0.05, 0.1)
-	part_type_life(part_sparks, 30, 50)
-	part_type_direction(part_sparks, 0, 359, 0, 10)
-	part_type_speed(part_sparks, 5,10, -0.1, 0)
+
 #endregion
 image_alpha = 0;
+
+indefatigable = false; //true for infinity battery
 
 scaleall = 0.5; //scale dash power and stuff, for shrinking in the room editor
 //depth--; //so madrat draws on top of other stuff

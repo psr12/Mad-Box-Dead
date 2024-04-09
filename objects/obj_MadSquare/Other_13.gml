@@ -1,5 +1,7 @@
 ///@desc step sets this off
 
+if indefatigable {battery_charge = Approach(battery_charge, battery_max_charge, 1) }
+
 //battery animation
 battery_bulge = Approach(battery_bulge, 0, 0.02);
 battery_charge_showing = Approach(battery_charge_showing, battery_charge, 1);
@@ -35,6 +37,7 @@ if ( (place_meeting(x,y, obj_enemy) and !obj_recorder.opArray2d[2][2] ) //not in
 	enemy_collision_timer--;
 	if !enemy_collision_timer {state = 86;}
 } else {enemy_collision_timer = max_enemy_collision_timer;} //reset if not touching
+
 
 //before collision
 timer= Approach(timer, 0, 1); 
@@ -182,35 +185,6 @@ if place_meeting(x,y+final_vsp, obj_cheese) //vertical collision
 	instance_place_list(x,y+final_vsp, obj_cheese, platformlist, true)
 	while ds_list_size(platformlist) > 0 {
 		plat = platformlist[| 0];
-		//if !getoffslide && plat.object_index == obj_slideplatform
-		//{	
-		//	var slide = plat;
-		//	var check = slide.image_angle
-		//	var snapmax = 100; // max distance to jump down
-		//	var snapdown = snapmax; //how far to jump down, increments by 1 per loop
-		//	if slide{
-		//		var side = slide.top;
-		//		if place_meeting(x, y+snapmax, slide) 
-		//		{
-		//			var slidespeed = 20; //horizontal speed of sliding
-		//			if side == "yellow" slidespeed = -slidespeed;
-		//			while (place_meeting(x+slidespeed, y+snapdown, obj_slideplatform) && snapdown > -snapmax) {snapdown--;}
-				
-		//			sliding = slidespeed;
-		//			//final_vsp = snapdown*0.5; //<-- idk why, works pretty well
-		//			//vsp = snapdown*0.5; //<-- idk why, works pretty well
-		//			ds_list_delete(platformlist, 0)
-		//			//sliding = 60;//less friction? for going off a ramp
-				
-		//				angel = check mod 180
-		//				if angel > 90 angel -=180
-		//				layer_sequence_angle(seq, angel)
-					
-		//			continue;
-		//		}
-		//	}
-		//}
-		
 		//check for oneways around here
 	 if final_vsp != 0 //if colliding with a drop or cheese platform
 		{
@@ -295,10 +269,11 @@ if state == 88 { //disappear
 	didyoujustdroponanenemy = false; //for stylish animations
 		play_sound(snd_zap, 1)
 	repeat(20)
-		{part_particles_create(partsys, random_range(bbox_left, bbox_right), 
+		{part_particles_create(global.partsys, random_range(bbox_left, bbox_right), 
 			random_range(bbox_top, bbox_bottom),
-			part_sparks, 1)
+			global.part_sparks, 1)
 		}
+			
 	state++;
 }
 if state == 89 { //wait a bit before reappearing
@@ -312,17 +287,20 @@ if state == 89 { //wait a bit before reappearing
 		else {
 			respawn_positioning_timer = max_respawn_positioning_timer;
 			state++; scr_changeseq(sslide, scale)
-			x = position_of_last_hit[0]
-			y = position_of_last_hit[1]
-			if instance_exists(obj_respawnhere) {
-				x = obj_respawnhere.x; y = obj_respawnhere.y;
-			}
+
 			play_sound(snd_respawn,1)
 				repeat(20)
-					{part_particles_create(partsys, random_range(bbox_left, bbox_right), 
+					{part_particles_create(global.partsys, random_range(bbox_left, bbox_right), 
 						random_range(bbox_top, bbox_bottom),
-						part_sparks, 1)
+						global.part_sparks, 1)
 					}
+			
+			x = position_of_last_hit[0] //move to where you were on your last hit beat
+			y = position_of_last_hit[1]
+			if instance_exists(obj_respawnhere) { // unless there is a respawnhere
+				x = obj_respawnhere.x; y = obj_respawnhere.y;
+			}
+					
 			}
 	}
 }

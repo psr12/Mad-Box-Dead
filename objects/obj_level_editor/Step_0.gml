@@ -20,7 +20,7 @@
 			if keyboard_check_pressed(ord("V") ) and keyboard_check(vk_control) { //paste
 				if ds_list_size( copy_list) == 0 {state = 0; exit} //nothing was even copied, idiot
 				
-				var buff = 35;
+				var buff = 35; //so the pasted objects don't overlap the originals
 				ds_list_clear(selected_list); //always
 					for (var i = 0; i < ds_list_size(copy_list); i++) {
 						var ar = copy_list[| i]; 
@@ -36,6 +36,13 @@
 					state = 2002; // "just selected many objects" state
 			}
 				
+	ds_list_clear(custombg)
+	ds_list_clear(customfg)
+	ds_list_add(custombg, bg_tiles[| global.farsprite] , bg_tiles[| global.middlesprite] , bg_tiles[| global.nearsprite])
+	ds_list_add(customfg, bg_tiles[| global.ontopsprite] )
+	
+
+	
 switch state
 {
 	case 0: //nothin
@@ -46,47 +53,80 @@ switch state
 		if keyboard_check_pressed(vk_f4) {current_asset_layer = asset_layer_under}
 		if keyboard_check_pressed(vk_f3) or keyboard_check_pressed(vk_f4) {play_sound(snd_menutick,1)}
 		
+		//if keyboard_check_pressed(ord("F") ) {if instance_exists(obj_glitchy) instance_destroy(obj_glitchy) 
+		//	else instance_create(mouse_x, mouse_y, obj_glitchy) }
+		
 		//scroll menu
 		var abba = scr_detect_number_input()
 		if abba
 		{	abba--; //1 goes to 0
 				selection = abba; 
+				selection = clamp(selection, 0, size)
 		}
 
-		if mouse_wheel_up() && !keyboard_check(vk_shift)
+		if mouse_wheel_up() && !keyboard_check(vk_shift) //scroll with mousewheel
 			{selection--; }
 		if mouse_wheel_down() && !keyboard_check(vk_shift)
 			{selection++; }
 			
+		if keyboard_check_pressed(vk_home) selection = 0; //home/end = first/last
+		if keyboard_check_pressed(vk_end) selection = size;
+			
+		if keyboard_check_pressed(vk_pageup) selection-= 3; //scroll up/down with page up/down
+		if keyboard_check_pressed(vk_pagedown) selection+= 3;
+			
 			var number_of_tabs = 2; // 0 = platforms, 1 = enemies, 2 = assets
 		selection = clamp(selection,0,size-1)
-		if keyboard_check_pressed(vk_tab) //swap menus
+		
+		if keyboard_check_pressed(vk_tab) || //swap menus, tab or shift+numkeys
+		(
+			keyboard_check(vk_shift) and		
+			(	keyboard_check_pressed(ord("1") ) ||
+				keyboard_check_pressed(ord("2") ) ||
+				keyboard_check_pressed(ord("3") )     )
+		)
 			{
 				selection = 0;	
-				onlist++;
-				onlist = Wrap(onlist, 0, number_of_tabs);
+				keyboard_check_pressed(vk_tab) onlist++;
+					onlist = Wrap(onlist, 0, number_of_tabs);
+
+				if keyboard_check_pressed(ord("1") ) onlist = 0;
+				if keyboard_check_pressed(ord("2") ) onlist = 1;
+				if keyboard_check_pressed(ord("3") ) onlist = 2;
 				
 				if onlist == 0 size = platform_list_size //platforms
-				if onlist == 1 size = enemy_list_size //assets
+				if onlist == 1 size = enemy_list_size //enemies
 				if onlist == 2 size = bg_tiles_list_size //assets
 				
 				if onlist < 2 { with obj_assetlayer {image_alpha = other.asset_transparency  }}
 				else{ with obj_assetlayer {image_alpha = 1 } } 
 				showmenu = 0;
 			}
-			
+		if keyboard_check_pressed(ord("F")) { //open glitchy list
+			onlist = 4; //
+			size = glitchy_list_size //
+
+		}
 
 		
 		if mouse_check_button_pressed(mb_left)
 		{
+			
+			if collision_point(mouse_x, mouse_y, obj_trigger, true, false) {exit;}
+			//do not select triggers
+			
 			var object_list = ds_list_create()
-			if onlist == 0 || onlist == 1 { //objects
+			if onlist == 0 || onlist == 1 || onlist == 4 { //objects
 				if onlist == 0 ds_list_copy(object_list, platform_list)
 				if onlist == 1 ds_list_copy(object_list, enemy_list)
+				if onlist == 4 ds_list_copy(object_list, glitchy_list)
 				if selection != 0 // not on move tool, create object
 				{
 						var objtype = object_list[| selection]
 						baby = instance_create_layer(mouse_x, mouse_y, layer, objtype )
+						if objtype == obj_pickup {
+							exit	
+						}
 						state = 10;
 						sy = mouse_y //starting y
 						sx = mouse_x
@@ -95,16 +135,25 @@ switch state
 
 						//the three normal platforms change to white sprites
 					if objtype == obj_cheese || objtype == obj_dropplatform || objtype == obj_oneway
-					{baby.sprite_index = spr_squarewhite; baby.image_blend = myColor}
+					{baby.newsprite = spr_squarewhite; baby.image_blend = myColor}
 				}
 			}
 			if onlist == 2 && selection != 0 {  //assets
-				var sprote = bg_tiles[| selection]
-				baby = instance_create_layer(mouse_x, mouse_y, current_asset_layer, obj_assetlayer )
-				baby.sprite_index = sprote;
-				state = 10;
-				sy = mouse_y //starting y
-				sx = mouse_x
+				if keyboard_check(vk_control)
+				{
+					var sprote = bg_tiles[| selection]
+					var victim = collision_point(mouse_x, mouse_y, obj_cheese, true, false)
+					if victim {victim.newsprite = sprote; }
+				}
+				else 
+				{
+					var sprote = bg_tiles[| selection]
+					baby = instance_create_layer(mouse_x, mouse_y, current_asset_layer, obj_assetlayer )
+					baby.sprite_index = sprote;
+					state = 10;
+					sy = mouse_y //starting y
+					sx = mouse_x
+				}
 			}
 		if selection == 0
 			{	//check mouse pos for objects
@@ -119,12 +168,12 @@ switch state
 								var victim = templist[| i];
 						
 								//if clicked a object, BUT NOT mad rat or triggers
-								if victim.object_index == obj_trigger {exit;}
 					
 									//asset tab or obj tab?
-									if onlist <2 { //obj tabs, if selected obj is on a list...
+									if onlist <2 || onlist == 4{ //obj tabs, if selected obj is on a list...
 										if (ds_list_find_index(platform_list, victim.object_index) != -1
-											or ds_list_find_index(enemy_list, victim.object_index) != -1)
+											or ds_list_find_index(enemy_list, victim.object_index) != -1
+											or ds_list_find_index(glitchy_list, victim.object_index) != -1)
 											{valid_target = true;} //can proceed
 									}//if on assets, and got an asset
 									if onlist == 2 and victim.object_index == obj_assetlayer {valid_target = true;}
@@ -165,9 +214,11 @@ switch state
 				if object_index == obj_slideplatform image_alpha = global.slidealpha;
 				} //make platforms... invisible?
 			with obj_assetlayer { image_alpha = 1; }
-			//scr_level_save(global.level);
-			alarm[3] = 1; //have to reactivate culled objects to save level
+			
+			
 			instance_activate_all()
+			scr_level_save(global.level);
+			//alarm[3] = 1; //have to reactivate culled objects to save level
 			
 			with obj_MadSquare{state = 0;} //start up mad rat and recorder objs
 			with obj_recorder{state = 10; }
@@ -199,12 +250,29 @@ switch state
 		
 		baby.image_xscale = xscl //apply scales
 		baby.image_yscale = yscl 
-		
+				
 		if keyboard_check(vk_shift){ //uniform scaling
 			var biggest = max( abs(xscl), abs(yscl))
 			baby.image_xscale = biggest * sign(xscl)
 			baby.image_yscale = biggest * sign(yscl)
 		}
+				
+				if snaptogrid { //snap scaling to grid
+				var bsprite = baby.sprite_index
+				var b_or_wid = sprite_get_width(bsprite)
+				var b_or_height = sprite_get_height(bsprite)
+		
+				//get closest 64, horizontal
+				var closest_wid = round(baby.sprite_width / snapdis) * snapdis
+				var new_xscale = closest_wid / b_or_wid
+				baby.image_xscale = new_xscale
+		
+				//get closest 64, vertical
+				var closest_hei = round(baby.sprite_height / snapdis) * snapdis
+				var new_xscale = closest_hei / b_or_height
+				baby.image_yscale = new_xscale
+				}
+		
 		baby.x = sx + baby.sprite_width/2
 		baby.y = sy + baby.sprite_height/2
 		if !mouse_check_button(mb_left) //if release
@@ -257,11 +325,23 @@ switch state
 	case 22: //clicked on an existing object... move it
 			baby.x = mouse_x + sx
 			baby.y = mouse_y + sy
-	
+			var snapdist = snapdis/2
+				if snaptogrid { //snap scaling to grid
+					var mxsnap = round(mouse_x / snapdist) * snapdist
+					var mysnap = round(mouse_y / snapdist) * snapdist
+					
+					var sxsnap = round(sx / snapdist) * snapdist
+					var sysnap = round(sy / snapdist) * snapdist
+					baby.x = mxsnap + sxsnap
+					baby.y = mysnap + sysnap
+				}
+				
 		if !mouse_check_button(mb_left) //if release
 		{
 			//set object down
 			state = 21;
+			//state = 0;	baby = noone;
+			//has to be state 21, deselecting makes rotation impossible
 		}
 	break;
 	
@@ -306,13 +386,14 @@ switch state
 			var mousey = device_mouse_y_to_gui(0)
 			//if in first collumn, bg scale
 			var amnt = 0.1; //how much to scroll by when scrolling scale and speed
-			if keyboard_check(vk_shift) {amnt = 0.5}
+			if keyboard_check(vk_shift) || keyboard_check(vk_control) {amnt = 0.5}
 			if mousex == clamp(mousex, xmin, xmin+iconsize) &&
 			mousey == clamp(mousey, ymin, ymin+iconsize) //first row
 			{
 				if i == 0 global.farscale += (mouse_wheel_up() - mouse_wheel_down())*amnt
 				if i == 1 global.farscroll += (mouse_wheel_up() - mouse_wheel_down())*amnt
 				if i == 2 global.platformalpha += (mouse_wheel_up() - mouse_wheel_down())*amnt
+				global.farsprite = scr_bg_sprite_scroll(global.farsprite)
 			}
 			ymin += vbuffer+iconsize; //shift down a row
 			if mousex == clamp(mousex, xmin, xmin+iconsize) &&
@@ -321,6 +402,7 @@ switch state
 				if i == 0 global.middlescale += (mouse_wheel_up() - mouse_wheel_down())*amnt
 				if i == 1 global.middlescroll += (mouse_wheel_up() - mouse_wheel_down())*amnt
 				if i == 2 global.onewayalpha += (mouse_wheel_up() - mouse_wheel_down())*amnt
+				global.middlesprite = scr_bg_sprite_scroll(global.middlesprite)
 			}
 			ymin += vbuffer+iconsize; //shift down a row
 			if mousex == clamp(mousex, xmin, xmin+iconsize) &&
@@ -329,6 +411,7 @@ switch state
 				if i == 0 global.nearscale += (mouse_wheel_up() - mouse_wheel_down())*amnt
 				if i == 1 global.nearscroll += (mouse_wheel_up() - mouse_wheel_down())*amnt
 				if i == 2 global.slidealpha += (mouse_wheel_up() - mouse_wheel_down())*amnt
+				global.nearsprite = scr_bg_sprite_scroll(global.nearsprite)
 			}
 			ymin += vbuffer+iconsize; //shift down a row
 			if mousex == clamp(mousex, xmin, xmin+iconsize) &&
@@ -336,6 +419,7 @@ switch state
 			{
 				if i == 0 global.ontopscale += (mouse_wheel_up() - mouse_wheel_down())*amnt
 				if i == 1 global.ontopscroll += (mouse_wheel_up() - mouse_wheel_down())*amnt
+				global.ontopsprite = scr_bg_sprite_scroll(global.ontopsprite)
 			}
 
 		}
@@ -431,7 +515,8 @@ switch state
 					
 						if onlist != 2 and //anything but assets
 							(ds_list_find_index(platform_list, victim.object_index) != -1
-							or ds_list_find_index(enemy_list, victim.object_index) != -1)
+							or ds_list_find_index(enemy_list, victim.object_index) != -1
+							or ds_list_find_index(glitchy_list, victim.object_index) != -1)
 									{instance_destroy(victim)} 
 
 						if onlist == 2 and victim.object_index == obj_assetlayer 
@@ -448,7 +533,9 @@ switch state
 					
 							if onlist != 2 and //anything but assets
 							(ds_list_find_index(platform_list, victim.object_index) != -1
-							or ds_list_find_index(enemy_list, victim.object_index) != -1)
+							or ds_list_find_index(enemy_list, victim.object_index) != -1
+							or ds_list_find_index(glitchy_list, victim.object_index) != -
+1)
 									{instance_destroy(victim)} 
 
 						
@@ -483,7 +570,8 @@ switch state
 					var victim = templist[| i];
 					if onlist < 2{ //if selecting objects
 							if (ds_list_find_index(platform_list, victim.object_index) != -1
-								or ds_list_find_index(enemy_list, victim.object_index) != -1)
+								or ds_list_find_index(enemy_list, victim.object_index) != -1
+								or ds_list_find_index(glitchy_list, victim.object_index) != -1)
 										{ds_list_add(selected_list, victim); } //if not placeable obj, remove from selection
 						}
 					if onlist == 2 {//if selecting assets

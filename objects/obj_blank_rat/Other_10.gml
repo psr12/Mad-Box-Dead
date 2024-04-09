@@ -35,13 +35,14 @@ switch state
 	var hdis = 100;
 		switch beattimer
 		{
-			case 1: scr_catpaw_v(px+hdis/2, py-pawdist, 270); break;	
-			case 3: scr_catpaw_v(px-hdis/2, py-pawdist, 270); beattimer+=7; break;	
-			case 5: scr_catpaw_v(px+hdis, py-pawdist, 270); break;	
-			case 7: scr_catpaw_v(px-hdis, py-pawdist, 270); break;	
-			case 9: scr_catpaw_v(px+hdis, py-pawdist, 270); break;	
-			case 11: scr_catpaw_v(px-hdis*2, py-pawdist, 320); 
-				scr_catpaw_v(px+hdis*2, py-pawdist, 220); break;	
+			case 1: keepit = choose(-1,1);
+				scr_catpaw_v(px+(hdis/2)*keepit, py-pawdist, 270); break;	
+			case 4: keepit = keepit == 1 ? -1 : 1
+				scr_catpaw_v(px+(hdis/2)*keepit, py-pawdist, 270); beattimer+=5; break;	
+
+			case 11:
+				scr_catpaw_v(px-hdis*2, py-pawdist*1.2, 320); 
+				scr_catpaw_v(px+hdis*2, py-pawdist*1.2, 220); break;	
 			
 			case 15: beattimer=0; phasetimer++; 
 				if phasetimer > phase {phasetimer = 0;

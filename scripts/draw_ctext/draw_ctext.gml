@@ -11,3 +11,13 @@ function draw_ctext(xx, yy, string) {
 
 
 }
+function draw_ctext_transformed(xx, yy, string, scale) {
+
+	var fstring = string_replace(string, "|", "")
+	//draws text centered on the X,Y rather than starting at the top left corner
+	var w = (string_width(fstring)*scale)/2
+	var h = (string_height("A")*scale)/2
+	draw_text_transformed(xx-w, yy-h, string, scale, scale, 0)
+
+
+}

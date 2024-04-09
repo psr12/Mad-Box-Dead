@@ -1,0 +1,25 @@
+{
+  "$GMSound":"",
+  "%Name":"Cmn_GrassBreak",
+  "audioGroupId":{
+    "name":"audiogroup_default",
+    "path":"audiogroups/audiogroup_default",
+  },
+  "bitDepth":1,
+  "bitRate":128,
+  "compression":0,
+  "conversionMode":0,
+  "duration":2.668792,
+  "name":"Cmn_GrassBreak",
+  "parent":{
+    "name":"melty blood",
+    "path":"folders/Sounds/melty blood.yy",
+  },
+  "preload":false,
+  "resourceType":"GMSound",
+  "resourceVersion":"2.0",
+  "sampleRate":44100,
+  "soundFile":"Cmn_GrassBreak.wav",
+  "type":0,
+  "volume":1.0,
+}

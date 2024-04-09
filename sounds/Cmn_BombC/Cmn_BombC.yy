@@ -1,0 +1,25 @@
+{
+  "$GMSound":"",
+  "%Name":"Cmn_BombC",
+  "audioGroupId":{
+    "name":"audiogroup_default",
+    "path":"audiogroups/audiogroup_default",
+  },
+  "bitDepth":1,
+  "bitRate":128,
+  "compression":0,
+  "conversionMode":0,
+  "duration":2.306333,
+  "name":"Cmn_BombC",
+  "parent":{
+    "name":"melty blood",
+    "path":"folders/Sounds/melty blood.yy",
+  },
+  "preload":false,
+  "resourceType":"GMSound",
+  "resourceVersion":"2.0",
+  "sampleRate":44100,
+  "soundFile":"Cmn_BombC.wav",
+  "type":0,
+  "volume":0.29,
+}

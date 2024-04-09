@@ -33,6 +33,10 @@ if file_exists(filepath)
 			global.platformalpha = ar[9]
 			global.onewayalpha = ar[10]
 			global.slidealpha = ar[11]
+			global.farsprite = ar[12] //which sprite in the bg folder to use
+			global.middlesprite = ar[13]
+			global.nearsprite = ar[14]
+			global.ontopsprite = ar[15]
 			continue;} //if bg, set bg
 			
 			//anything else is an object 
@@ -48,10 +52,14 @@ if file_exists(filepath)
 		if newb newb.image_xscale = ar[5]; // pass in xscale
 		if newb newb.image_yscale = ar[6]; // pass in yscale
 		if newb newb.image_angle = ar[7]; // pass in rotation
+		if ar[3] == "obj_cheese" and array_length(ar) > 8 {newb.newsprite = ar[8];	} //for painted cheese
 		if ar[3] == "obj_trigger" {newb.paired = ar[8];	} //just for triggers, pass in paired obj
 		if ar[3] == "obj_camerazoom_trigger" and array_length(ar) > 9 {newb.zoom = ar[9]; newb.zoomount = ar[10];	} //zoom trigger, pass in values
+		if ar[3] == "obj_speed_trigger" and array_length(ar) > 9 {newb.spd = ar[9];} //speed trigger, pass in speed
 		if ar[3] == "obj_wind" and array_length(ar) > 8 {newb.spd = ar[8];} //
 		if ar[3] == "obj_slideplatform" and array_length(ar) > 8 {newb.spd = ar[8];} //
+		if ar[3] == "obj_movingplatform" and array_length(ar) > 8 {newb.target = ar[8]; newb.state = 2;} //state2 = cannot change target
+		if ar[3] == "obj_splatspawner" and array_length(ar) > 8 {newb.cooldown = ar[8];} //how frequently to spawn splats
 	}
 	var cheese_layer = layer_get_id("cheese")
 	var enemy_layer = layer_get_id("enemies")

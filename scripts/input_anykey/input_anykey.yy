@@ -1,12 +1,13 @@
 {
-  "isDnD": false,
-  "isCompatibility": false,
-  "parent": {
-    "name": "CONTROL STUFF",
-    "path": "folders/Scripts/CONTROL STUFF.yy",
+  "$GMScript":"",
+  "%Name":"input_anykey",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"input_anykey",
+  "parent":{
+    "name":"CONTROL STUFF",
+    "path":"folders/Scripts/CONTROL STUFF.yy",
   },
-  "resourceVersion": "1.0",
-  "name": "input_anykey",
-  "tags": [],
-  "resourceType": "GMScript",
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
 }

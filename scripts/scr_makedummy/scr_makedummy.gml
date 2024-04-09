@@ -9,11 +9,12 @@ function scr_makedummy(xx,yy,showing, howsthat, facing, scale){
 	baby.wasfacing = facing // facing left (-1) or right (1)
 	baby.scale = scale //size of seq
 		if variable_instance_exists(id, "onscene") {onscene++;}
-
+	return baby
 }
 
 function scr_changeheartface(facesprite){
 		with obj_cutscenehandler heartface = facesprite;
+		with obj_notification heartface = facesprite;
 		if instance_exists(obj_heartface) {obj_heartface.sprite_index = facesprite}
 		if variable_instance_exists(id, "onscene") {onscene++;}
 }
@@ -24,6 +25,7 @@ function scr_changeheartface(facesprite){
 //}
 function scr_changeratface(facesprite){
 	with obj_cutscenehandler ratface = facesprite
+	with obj_notification ratface = facesprite
 	if instance_exists(obj_ratface) {obj_ratface.sprite_index = facesprite}
 	if variable_instance_exists(id, "onscene") {onscene++;}
 }
@@ -65,10 +67,12 @@ function scr_deleteobj(objtype, instnumber){
 
 }
 
-function scr_playmusic(music){
+function scr_playmusic(music, time){
 	audio_stop_sound(songinst);
 	songinst = audio_play_sound(music, 1, 1);
-	audio_sound_gain(songinst, obj_recorder.songvolume/2, 0)
+	audio_sound_gain(songinst, 0, 0)
+	if time != undefined audio_sound_gain(songinst, obj_recorder.songvolume/2, time*1000)
+	else audio_sound_gain(songinst, obj_recorder.songvolume/2, 0)
 		if variable_instance_exists(id, "onscene") {onscene++;}
 
 }
@@ -102,6 +106,7 @@ function scr_changevar(obj, instnumber, variable_string, new_value){
 
 }
 
+
 function scr_moveobj(obj, instnumber, targetx, targety, spd) {
 	var obj_id = instance_find(obj, instnumber)
 	obj_id.targetx = targetx
@@ -115,6 +120,20 @@ function scr_textbox(xx, yy, text, sound, name){
 	baby.text = text
 	baby.sound = sound;
 	baby.name = name;
+	wait = true;
+		if variable_instance_exists(id, "onscene") {onscene++;}
+
+}
+
+
+//function cs_particles(xx, yy, part_type, ammount)
+
+function scr_spookytext(xx, yy, text, holdtime){
+	var baby = instance_create(xx, yy, obj_spookytext)
+	baby.text = text
+	baby.xx = xx
+	baby.yy = yy
+	baby.holdtime = holdtime;
 	wait = true;
 		if variable_instance_exists(id, "onscene") {onscene++;}
 
@@ -166,13 +185,10 @@ function scr_tossitem(sprite, xx, yy, grav, dir, spd, rotate) {
 }
 
 function scr_endcutscene(roomid){ //when cutscene is over, go to the specified level
-	
-	audio_stop_all();
+	//audio_play_sound(music, 1, 0, 0)
 		if variable_instance_exists(id, "onscene") {onscene++;}
-		
-	with obj_recorder{
-		scr_roomtrans(roomid, 10)
-	}
+		alarm[9] = 10;
+		gotoroom = roomid;
 }
 
 
@@ -183,7 +199,8 @@ function scr_endnotification(){ //when cutscene is over, go to the specified lev
 		instance_destroy();
 		instance_destroy(obj_seqdummy);
 		//instance_destroy(obj_flair);
-		obj_recorder.corner_heart_overwrite = 0;
+		if instance_exists(obj_dontshowheart) obj_recorder.corner_heart_overwrite = seq_blank;
+		else obj_recorder.corner_heart_overwrite = 0;
 	}
 }
 
@@ -201,10 +218,10 @@ function scr_csplaysound(sound,pitch){ //just play a sound, next scnee instantly
 				onscene++;
 }
 
-function cs_camerazoom(zoomadd, zoomaddadd) { //camera zooms in or out, compounding each frame
+function cs_camerazoom(zoomtarget, zoomspeed) { //camera zooms in or out, compounding each frame
 	// - = zoom , + = zoom out
-	if zoomaddadd != undefined	obj_cameraman.zoomaddadd = zoomaddadd;
-	if zoomadd != undefined	obj_cameraman.zoomadd = zoomadd;
+	if zoomtarget != undefined	obj_cameraman.targetzoom = zoomtarget;
+	if zoomspeed != undefined	obj_cameraman.zoomspeed = zoomspeed;
 		if variable_instance_exists(id, "onscene") {onscene++;}
 
 }
@@ -215,8 +232,10 @@ function cs_change_global(global_name, val) { //changes global variable
 }
 
 function cs_fadeblack(alpha, frames) //over everything
-{
+{	//in notifications, it's in the normal draw event
+		//in cutscenes, it's in draw GUI
 	blalpha = alpha;
+	if frames == 0 frames = 0.00001
 	var amnt = alpha/frames
 	if amnt == 0 amnt = 1/frames
 	fadeblack = Approach(fadeblack, alpha, amnt)
@@ -224,9 +243,14 @@ function cs_fadeblack(alpha, frames) //over everything
 	}
 }
 
+function cs_setupsong(songfilename){ //makes song stream and getse beatmap
+	
+		if is_string(songfilename) {
+			music = audio_create_stream("songs/" + songfilename )
+		}
+			//	if variable_instance_exists(id, "onscene") {onscene++;}
 
-
-
+}
 
 //for notifications vvvvvvvvvv
 function scr_notedummy(xoff, yoff, showing, howsthat, facing, scale, float){
