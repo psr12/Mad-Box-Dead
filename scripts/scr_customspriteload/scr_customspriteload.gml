@@ -9,5 +9,6 @@ function scr_customspriteload(foldername, filename){
 		var yorg = sprite_get_height(tempsprite)/2
 	sprite_replace(asset_get_index(filename),fullpath, 1, false, false, xorg, yorg)}
 	//sprite_delete(tempsprite)
+
 }
 

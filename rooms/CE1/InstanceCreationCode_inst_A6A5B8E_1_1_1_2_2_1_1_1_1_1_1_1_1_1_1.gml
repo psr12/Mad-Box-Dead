@@ -69,7 +69,7 @@ Maybe everyone else, too.", snd_madtalk, global.ratname],
 [scr_changedummyseq, 1, asq_mr_paws],
 [scr_textbox, ph_6.x, ph_6.y-400, @"That's what I wanted, right?", snd_madtalk, global.ratname],
 [scr_wait, 300],
-[scr_changedummyseq, 1, asq_mr_crossed],
+[scr_changedummyseq, 1, asq_mr_tired],
 [scr_textbox, ph_6.x, ph_6.y-400, @"I should look around.
 Just in case.", snd_madtalk, global.ratname],
 

@@ -3,6 +3,8 @@
 
 if alarm[0] > -1 exit
 
+/*
+
 var los = ds_list_size(layerlist)
 
 for (var p = 0; p < los; p++)
@@ -10,18 +12,36 @@ for (var p = 0; p < los; p++)
 	var layerid = layerlist[| p]
 	var bgid = bglayerlist[| p]
 
-	var sprite = snd_blank;
+	var sprite = spr_blank;
 	var scale = 1;
 	var scroll = 1;
 	switch p
 	{
 		case 0: if object_index == obj_foreground {scale = global.ontopscale scroll = global.ontopscroll; 
-			sprite = obj_recorder.bg_tiles[| global.ontopsprite] ; } 
+			//bg_tiles ver
+			//sprite = obj_recorder.bg_tiles[| global.ontopsprite] ; 
+			
+			//bg_far version
+			sprite = lay_order[| p]
+			
+			} 
 			if object_index == obj_background {scale = global.farscale; scroll = global.farscroll; 
-			sprite = obj_recorder.bg_tiles[| global.farsprite]	}
+			//bg_tiles ver
+			//sprite = obj_recorder.bg_tiles[| global.farsprite]	
+			
+			sprite = lay_order[| p]
+			}
 			break;
-		case 1: scale = global.middlescale; scroll = global.middlescroll; sprite = obj_recorder.bg_tiles[| global.middlesprite]	break;
-		case 2: scale = global.nearscale; scroll = global.nearscroll; sprite = obj_recorder.bg_tiles[| global.nearsprite]	break;
+		case 1: scale = global.middlescale; scroll = global.middlescroll; 
+			//bg_tiles
+			//sprite = obj_recorder.bg_tiles[| global.middlesprite]	
+			sprite = lay_order[| p]
+		break;
+		case 2: scale = global.nearscale; scroll = global.nearscroll; 
+			//bg_tiles
+			//sprite = obj_recorder.bg_tiles[| global.nearsprite]	
+			sprite = lay_order[| p]
+		break;
 	}
 	
 	layer_background_sprite(bgid, sprite)

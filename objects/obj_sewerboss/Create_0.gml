@@ -14,8 +14,3 @@ seq = layer_sequence_create(layer, room_width/2, seqy, sq_sewermonster)
 
 layer_sequence_xscale(seq, 2)
 layer_sequence_yscale(seq, 2)
-
-with obj_cheese {
-	sprite_index = spr_bg_dkgray;
-	newsprite = spr_bg_dkgray;
-}

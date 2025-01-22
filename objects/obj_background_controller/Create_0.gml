@@ -11,7 +11,7 @@ lay_order = ds_list_create()
 layerlist = ds_list_create() //layer list = LAYER
 bglayerlist = ds_list_create() //bglayer list = BG LAYER, which must be placed into a LAYER
 
-alarm[0] = 3;  //wait for level editor to pass in
+//alarm[0] = 3;  //wait for level editor to pass in
 
 orwidth = 1366
 orheight = 768

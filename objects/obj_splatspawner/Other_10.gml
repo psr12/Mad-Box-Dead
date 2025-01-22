@@ -1,6 +1,4 @@
-/// @description Insert description here
-// You can write your code in this editor
-
+/// @description beat
 // Inherit the parent event
 event_inherited();
 

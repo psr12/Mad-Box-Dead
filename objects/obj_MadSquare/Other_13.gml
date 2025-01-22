@@ -8,8 +8,8 @@ battery_charge_showing = Approach(battery_charge_showing, battery_charge, 1);
 
 //check of left/right input
 if global.methodOfInput == "KEYBOARD" facing = -input_check(global.keyLeft) + input_check(global.keyRight) 
-else facing = -input_check(global.keyLeft_gp) + input_check(global.keyRight_gp) +
-round(gamepad_axis_value(global.activeController, gp_axislh)) + round(gamepad_axis_value(global.activeController, gp_axisrh))
+else facing = -input_check(global.keyLeft_gp) + input_check(global.keyRight_gp) + 
+sign(    round(gamepad_axis_value(global.activeController, gp_axislh)) + round(gamepad_axis_value(global.activeController, gp_axisrh))  )
 
 //facing = currently held direction
 walking = walkpower*facing; //walking = added to hsp
@@ -311,10 +311,35 @@ if state == 90 { //fly around on platform
 			state=0; respawn_positioning_timer = max_respawn_positioning_timer;
 			vsp=0; grav=0; hsp=0;
 		}
-		vsp = (-input_check(global.keyUp) + input_check(global.keyDown) ) * 15;
-		hsp = (-input_check(global.keyLeft) + input_check(global.keyRight) ) * 15;
 		
-
+		//if global.methodOfInput == "GAMEPAD" 
+		{
+			hsp += sign( round(gamepad_axis_value(global.activeController, gp_axislh)) 
+			+ round(gamepad_axis_value(global.activeController, gp_axisrh))  ) * 15
+			
+			vsp += sign( round(gamepad_axis_value(global.activeController, gp_axislv)) 
+			+ round(gamepad_axis_value(global.activeController, gp_axisrv))  ) * 15	
+		}
+		//else 
+		{
+		vsp += (-input_check(global.keyUp) + input_check(global.keyDown) ) * 15;
+		hsp += (-input_check(global.keyLeft) + input_check(global.keyRight) ) * 15;
+		}
+		hsp = clamp(hsp,-15,15)
+		vsp = clamp(vsp,-15,15)
+		//not an if/else because you might want to use the dpad on a controller
+		if !input_check(global.keyUp)
+		and !input_check(global.keyDown)
+		and round(gamepad_axis_value(global.activeController, gp_axislv)) == 0
+		and round(gamepad_axis_value(global.activeController, gp_axisrv)) == 0
+		{vsp = 0}
+		if !input_check(global.keyLeft)
+		and !input_check(global.keyRight)
+		and round(gamepad_axis_value(global.activeController, gp_axislh)) == 0
+		and round(gamepad_axis_value(global.activeController, gp_axisrh)) == 0
+		{hsp = 0}
+		
+		
 }
 
 if  state == 404 { //game over

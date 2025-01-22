@@ -14,7 +14,7 @@ angel = 0 //for sliding platforms
 	battery_size = 1; //battery size, for bumping to the beat
 	battery_bulge = 0; // added to battery size
 	
-	max_enemy_collision_timer = 5; //if you touch an enemy for X frames, die
+	max_enemy_collision_timer = 3; //if you touch an enemy for X frames, die
 	enemy_collision_timer = max_enemy_collision_timer; //for keeping track of ^^
 	
 	max_respawn_positioning_timer = 300;
@@ -94,9 +94,11 @@ if global.animationmodes = 1
 	sspin = sq_mr_spin
 	swalk = sq_mr_walk
 	swalljump = sq_mr_walljump
-					sslide = sq_mr_walljump; //need to make still
+			sslide = sq_mr_idle; //need to make still
 						
 	ds_list_add(dash_animation_list, sq_mr_dash) //only 1 solid dash animation... yet
+	
+	ds_list_add(drop_animation_list, sq_mr_drop); 
 	}
 	
 				dash_list_length = ds_list_size(dash_animation_list)
@@ -106,7 +108,7 @@ if global.animationmodes = 1
 #region particles
 	
 	part_layer = layer_create(-1000, "particle_layer")
-	partsys = part_system_create_layer(part_layer, false)
+	partsys = part_system_create_layer("particle_layer", false)
 	
 	part_lines = part_type_create()
 	part_type_alpha1(part_lines, 0.5)

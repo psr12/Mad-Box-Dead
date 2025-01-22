@@ -44,7 +44,7 @@ image_speed = 1;
 
 
 	part_layer = layer_create(-1000, "particle_layer")
-	partsys = part_system_create_layer(part_layer, false)
+	partsys = part_system_create_layer("particle_layer", false)
 
 scr_chseqlist2()
 

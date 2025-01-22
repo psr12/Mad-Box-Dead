@@ -2,13 +2,15 @@
 // You can write your code in this editor
 
 //draw_text(200, 200, environment_get_variable("USERNAME") )
+//draw_text(200, 200, gamepad_axis_value(global.activeController, gp_axislv) )
 
 
 var slampha = itskindascale - itskindascaleinit
-draw_sprite_ext(spr_logo, 0, 500, 250, itskindascale, itskindascale, 0, c_white, 1);
-draw_sprite_ext(spr_yellowslams, 1, 200, 250, itskindascale, itskindascale, 0, c_white, slampha);
-draw_sprite_ext(spr_yellowslams, 1, 800, 250, -itskindascale, itskindascale, 0, c_white, slampha);
-draw_sprite_ext(spr_keyboardicon, 0, 450, 460, itskindascale-1, itskindascale-1, 0, c_white, 1);
+var loff = 70
+draw_sprite_ext(spr_logo, 0, 500, 250+loff, itskindascale, itskindascale, 0, c_white, 1);
+draw_sprite_ext(spr_yellowslams, 1, 200, 250+loff, itskindascale, itskindascale, 0, c_white, slampha);
+draw_sprite_ext(spr_yellowslams, 1, 800, 250+loff, -itskindascale, itskindascale, 0, c_white, slampha);
+//draw_sprite_ext(spr_keyboardicon, 0, 450, 460+loff, itskindascale-1, itskindascale-1, 0, c_white, 1);
 
 draw_set_defaults();
 //draw_text_transformed(550, 100, div_4_trigger, sqrt(itskindascale),sqrt(itskindascale), -50);
@@ -17,13 +19,18 @@ draw_set_defaults();
 
 
 
-var bscale = 2;
+var bbscale = 1;
+bscale = lerp(bscale, bbscale, 0.1)
+
 var by = 200;
 var bx = 1100;
 var cols = [c_gray, c_gray, c_gray, c_gray];
 if selected >= 0 cols[selected] = c_white;
-draw_sprite_ext(spr_buttonstory, 0, bx, by, bscale, bscale, 0, cols[0], 1); 
-var tscale = 2
+draw_sprite_ext(spr_button, 0, bx, by, bscale, bscale, 0, cols[0], 1); 
+
+
+var btscale = 2 //base text scale
+tscale = lerp(tscale, btscale, 0.1)
 
 var rum = obj_recorder.storylevellist[story_level_selected]
 
@@ -43,9 +50,9 @@ draw_text_ext_transformed(bx-songnamewidth*tscale+150, by-160,
 
 draw_set_defaults()
 //level number (13)
-draw_text_ext_transformed(bx+110, by-40, 
+draw_text_ext_transformed(bx+80, by-50, 
 "[" + string(story_level_selected) + "]", 99, 999, tscale, tscale, -1)
 by+=150
-draw_sprite_ext(spr_buttonlevelselect, 0, bx, by, bscale, bscale, 0, cols[1], 1); by+=150
-draw_sprite_ext(spr_buttonoptions, 0, bx, by, bscale, bscale, 0, cols[2], 1); by+=150
-draw_sprite_ext(spr_buttonquit, 0, bx, by, bscale, bscale, 0, cols[3], 1); by+=150
+draw_sprite_ext(spr_button, 1, bx, by, bbscale, bbscale, 0, cols[1], 1); by+=150
+draw_sprite_ext(spr_button, 2, bx, by, bbscale, bbscale, 0, cols[2], 1); by+=150
+draw_sprite_ext(spr_button, 3, bx, by, bbscale, bbscale, 0, cols[3], 1); by+=150

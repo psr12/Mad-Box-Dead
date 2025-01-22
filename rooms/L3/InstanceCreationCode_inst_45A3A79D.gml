@@ -1,18 +1,15 @@
 text = @"
 Third level!
 Introduces a bunch of stage gimmicks.
-I wanted the slides specifically to show that you're gaining momentum now.
-As in, story-wise.
-The whole level is completely abstract, no lab would look like this!
+Bit of a stretch, but the slides represent that things are moving plot-wise.
+I gave up on making the levels lab-themed around this time.
 
-Song is Machine Remix, from Rhythm Heaven Megamix
-Was originally going to cut this because I only liked the intro of the song,
-but boy, I REALLY like the intro.
-The punky electric guitar that moves ahead in small bursts...
-Reminds you of Mad Rat, doesn't it?
-Plus, it was promised in my AU video.
+The song is Machine Remix, from Rhythm Heaven Megamix
+This song was in 'Mad Rat Dead Robot AU', but I was gonna cut it because I only like
+the intro. But I like the intro so much I kept it anyway.
+The punky electric guitar that moves ahead fits well with Mad Rat.
 
-The entire story mode is literally a Machine Remix, or, that was the intention...
-Mad Rat's still flesh and blood, as far as you know!
+The entire story mode is literally a Machine Remix, or, that was the intention.
+Mad Rat's still mostly flesh and blood.
 
 "

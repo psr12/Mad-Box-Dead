@@ -34,6 +34,7 @@ if state != 99 and obj_recorder.opArray2d[2][3] { //not in editor, timer is on
 	
 	
 	if !indefatigable { //battery charge
+	draw_set_color(c_white)
 	draw_text_transformed(bx + bw/4 , by + bh/4, 
 	battery_charge_showing, 
 	battery_size + battery_bulge, 

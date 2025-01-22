@@ -1,3 +1,6 @@
+if obj_recorder.state == 405 state = 405
+if keyboard_check_pressed(vk_f6) global.checkerboard = !global.checkerboard
+
 
 			if keyboard_check_pressed(ord("C") ) and keyboard_check(vk_control) {//copy	
 				ds_list_clear(copy_list); //always
@@ -22,24 +25,37 @@
 				
 				var buff = 35; //so the pasted objects don't overlap the originals
 				ds_list_clear(selected_list); //always
+				baby = noone; //always, fixes a crash when copy/pasting 1 object
 					for (var i = 0; i < ds_list_size(copy_list); i++) {
 						var ar = copy_list[| i]; 
-						var newb = instance_create_layer( ar[0]+buff, ar[1]+buff, ar[2], ar[3] )
+						var newb = noone
+						
+						//if scrolled far from original before pasting, put by camera instead
+						if point_distance(obj_cameraman.x, obj_cameraman.y, ar[0], ar[1]) > 800*global.zoom  newb = instance_create_layer( obj_cameraman.x, obj_cameraman.y, ar[2], ar[3] )
+						else newb = instance_create_layer( ar[0]+buff, ar[1]+buff, ar[2], ar[3] )
+						
 								if newb newb.image_blend = ar[4]; // pass in platform color
 								if newb newb.image_xscale = ar[5]; // pass in xscale
 								if newb newb.image_yscale = ar[6]; // pass in yscale
 								if newb newb.image_angle = ar[7]; // pass in rotation
 								if newb newb.sprite_index = ar[8]; // pass in sprite
+								if ar[3] == obj_cheese or 
+								ar[3] == obj_dropplatform or
+								ar[3] == obj_oneway
+								{ //plats + drop plats have to be set to "spr_squarewhite"
+															//this doesn't pass in custom paint jobs from dragging assets
+									newb.newsprite = spr_squarewhite	
+								}
 								
 						ds_list_add(selected_list, newb);//add new instances to selected list
 					}
 					state = 2002; // "just selected many objects" state
 			}
 				
-	ds_list_clear(custombg)
-	ds_list_clear(customfg)
-	ds_list_add(custombg, bg_tiles[| global.farsprite] , bg_tiles[| global.middlesprite] , bg_tiles[| global.nearsprite])
-	ds_list_add(customfg, bg_tiles[| global.ontopsprite] )
+	//ds_list_clear(custombg)
+	//ds_list_clear(customfg)
+	//ds_list_add(custombg, bg_tiles[| global.farsprite] , bg_tiles[| global.middlesprite] , bg_tiles[| global.nearsprite])
+	//ds_list_add(customfg, bg_tiles[| global.ontopsprite] )
 	
 
 	
@@ -123,13 +139,17 @@ switch state
 				if selection != 0 // not on move tool, create object
 				{
 						var objtype = object_list[| selection]
-						baby = instance_create_layer(mouse_x, mouse_y, layer, objtype )
-						if objtype == obj_pickup {
+						baby = instance_create_layer(mouse_x, mouse_y, layer_get_id("cheese"), objtype )
+						if objtype == obj_pickup or object_get_parent(objtype) == par_mobrat {
 							exit	
 						}
 						state = 10;
 						sy = mouse_y //starting y
 						sx = mouse_x
+						if global.snaptogrid { //so initial placement conforms to grid
+							sx = round(mouse_x / snapdis) * snapdis
+							sy = round(mouse_y / snapdis) * snapdis
+						}
 						//change baby's sprite to whatever the theme's sprite is
 							//if this were mario maker...
 
@@ -155,7 +175,7 @@ switch state
 					sx = mouse_x
 				}
 			}
-		if selection == 0
+		if selection == 0 //move tool
 			{	//check mouse pos for objects
 				var valid_target = false;
 				var templist = ds_list_create();
@@ -196,11 +216,12 @@ switch state
 							{ //go to box selection
 								state = 2000; 
 								sx = mouse_x; sy = mouse_y;
+								
 							}
 			} //if selection == 0
 		}//if mb_left
 		
-		if mouse_check_button_pressed(mb_right) //delete
+		if mouse_check_button_pressed(mb_right)  //delete
 		{
 			state = 1000;
 			deletex = mouse_x; deletey = mouse_y;
@@ -233,9 +254,11 @@ switch state
 		if keyboard_check_pressed(vk_escape) //go back to editing
 		{
 			
-			scr_level_save(global.level);
-
-			with obj_recorder scr_return_to_editor()
+			//scr_level_save(global.level);
+			//with obj_recorder scr_return_to_editor()
+			with obj_recorder {state = 405
+					keyboard_clear(vk_escape)
+				}
 		}
 		break;
 		
@@ -247,17 +270,18 @@ switch state
 		
 		if abs(xscl) < 0.1 xscl = 0.1*sign(xscl) //scale can't be under 0.1
 		if abs(yscl) < 0.1 yscl = 0.1*sign(yscl)
-		
-		baby.image_xscale = xscl //apply scales
-		baby.image_yscale = yscl 
-				
+
 		if keyboard_check(vk_shift){ //uniform scaling
 			var biggest = max( abs(xscl), abs(yscl))
 			baby.image_xscale = biggest * sign(xscl)
 			baby.image_yscale = biggest * sign(yscl)
 		}
+		else {
+			baby.image_xscale = xscl //apply scales
+			baby.image_yscale = yscl 
+		}	
 				
-				if snaptogrid { //snap scaling to grid
+				if global.snaptogrid { //snap scaling to grid
 				var bsprite = baby.sprite_index
 				var b_or_wid = sprite_get_width(bsprite)
 				var b_or_height = sprite_get_height(bsprite)
@@ -269,8 +293,14 @@ switch state
 		
 				//get closest 64, vertical
 				var closest_hei = round(baby.sprite_height / snapdis) * snapdis
-				var new_xscale = closest_hei / b_or_height
-				baby.image_yscale = new_xscale
+				var new_yscale = closest_hei / b_or_height
+				
+				if keyboard_check(vk_shift) {
+				new_yscale = new_xscale
+				}
+				baby.image_yscale = new_yscale
+				
+				
 				}
 		
 		baby.x = sx + baby.sprite_width/2
@@ -306,27 +336,45 @@ switch state
 			else 
 			{ //rotate, if mouse is outside object
 				state = 23;
+				lockjaw = true;
 				angle = point_direction(baby.x, baby.y, mouse_x, mouse_y)
+				sx = mouse_x //for recording initial mouse position
+				sy = mouse_y
 			}
 		}
+		if keyboard_check_pressed(vk_delete) or keyboard_check_pressed(vk_backspace) and baby
+		{	//destroy selected object
+					instance_destroy(baby) 
+					baby = noone;
+					state = 0;
+		}
+		
 		if mouse_check_button_pressed(mb_right) //delete
 		{
-			var victim = collision_point(mouse_x, mouse_y, all, true, false)
+			var victim = collision_point(mouse_x, mouse_y, baby, true, false)
 			if victim != noone { //if there is an object
 				if victim.object_index != obj_MadSquare
-				{instance_destroy(victim) 
+				{
+					instance_destroy(victim) 
 					baby = noone;
 					state = 0;
 				}
 			}
+			else { //right click on nothing, deselect
+				state = 0
+				baby = 0
+			}
+		}
+		if keyboard_check_pressed(vk_escape) { //deselect
+			state = 0
+			baby = 0;
 		}
 	break;
 	
 	case 22: //clicked on an existing object... move it
-			baby.x = mouse_x + sx
-			baby.y = mouse_y + sy
+
 			var snapdist = snapdis/2
-				if snaptogrid { //snap scaling to grid
+				if global.snaptogrid { //snap scaling to grid
 					var mxsnap = round(mouse_x / snapdist) * snapdist
 					var mysnap = round(mouse_y / snapdist) * snapdist
 					
@@ -334,6 +382,10 @@ switch state
 					var sysnap = round(sy / snapdist) * snapdist
 					baby.x = mxsnap + sxsnap
 					baby.y = mysnap + sysnap
+				}
+				else { //no snapping
+					baby.x = mouse_x + sx
+					baby.y = mouse_y + sy	
 				}
 				
 		if !mouse_check_button(mb_left) //if release
@@ -347,8 +399,11 @@ switch state
 	
 	case 23: //clicked outside of a highlighted object, rotate it
 		
-		var newangle = point_direction(baby.x , baby.y, mouse_x, mouse_y)
-		if angle != newangle
+		var newangle = point_direction(baby.x, baby.y, mouse_x, mouse_y)
+		
+		if point_distance(sx, sy, mouse_x, mouse_y) > 25*global.zoom lockjaw = false; //prevent angle change unless mouse has moved minimum distance
+		
+		if angle != newangle and !lockjaw
 		{
 			baby.image_angle -= angle_difference(angle, newangle)
 			if keyboard_check(vk_shift) baby.image_angle = round(point_direction(baby.x , baby.y, mouse_x, mouse_y)/45)*45
@@ -437,7 +492,7 @@ switch state
 				global.onewayalpha = clamp( global.onewayalpha, 0, 1) 
 				global.slidealpha = clamp( global.slidealpha, 0, 1) 
 			//save to ini 
-			/*
+			
 			ini_open("options.ini")
 			ini_write_real("far", "scale", global.farscale)
 			ini_write_real("far", "scroll", global.farscroll)
@@ -451,7 +506,7 @@ switch state
 			ini_write_real("platform", "alpha", global.platformalpha)
 			ini_write_real("oneway", "alpha", global.onewayalpha);
 			ini_write_real("slide", "alpha", global.slidealpha);
-			*/
+			
 		}
 
 	//color picker
@@ -494,6 +549,10 @@ switch state
 
 
 	}
+	break;
+	
+	case 405: //paused
+		if obj_recorder.state != 405 state = 0
 	break;
 	
 	case 1000: //deleting select
@@ -568,7 +627,7 @@ switch state
 				for (var i = 0; i < ds_list_size(templist); i++) 
 				{
 					var victim = templist[| i];
-					if onlist < 2{ //if selecting objects
+					if onlist < 2 or onlist == 4 { //if selecting objects; 4 is glitchy list
 							if (ds_list_find_index(platform_list, victim.object_index) != -1
 								or ds_list_find_index(enemy_list, victim.object_index) != -1
 								or ds_list_find_index(glitchy_list, victim.object_index) != -1)
@@ -607,6 +666,11 @@ switch state
 	
 	case 2002: //have objs selected now, await commands
 		if selection != 0 {state = 0; ds_list_clear(selected_list) } //moved off move tool, reset targets and state
+
+		if keyboard_check_pressed(vk_escape) { //deselect
+			ds_list_clear(selected_list);
+			state = 0;
+		}
 
 		//if click on one of the objects, can drag
 			var grablist = ds_list_create();
@@ -659,7 +723,16 @@ switch state
 							{
 								gotem = true;
 								state = 2003; //successful grab
-								sx = mouse_x; sy = mouse_y;
+								sx = mouse_x; 
+								sy = mouse_y;
+								lockjaw = true;
+								//if global.snaptogrid { //do not, because just selecting something will displace it
+									//have the snapping occur once you make a move
+								//	var snapdist = snapdis/4
+								//	sx = round(sx/snapdist)*snapdist
+								//	sy = round(sy/snapdist)*snapdist	
+								//}
+								
 								break;
 							}
 				
@@ -669,16 +742,14 @@ switch state
 
 					if gotem = false {		//if click off objects, rotate, then deselect
 						state = 2050;
-
+						lockjaw = true; //lock rotation until ninimum mouse movement
 						angle = point_direction(sx, sy, mouse_x, mouse_y)
-						
-						//state = 0; //it's fucked, just deselect
-						//ds_list_clear(selected_list )
 						
 					}
 			} //if mb_left
 
-			if mouse_check_button_pressed(mb_right) //delete all selected objects
+			if mouse_check_button_pressed(mb_right) or keyboard_check_pressed(vk_delete) or keyboard_check_pressed(vk_backspace)
+					//delete all selected objects
 				{	
 						collision_point_list(mouse_x, mouse_y, all, true, true, grablist, false);
 						do { //did you click on an object that was selected?
@@ -691,7 +762,9 @@ switch state
 							ds_list_delete(grablist, 0)
 						}
 						until ( ds_list_size(grablist) == 0 );
-
+					
+					if keyboard_check_pressed(vk_delete) or keyboard_check_pressed(vk_backspace) gotem = true;
+						//using delete or backspace always 'hits' whatever is selected
 					if gotem = true {	//delete selected objects
 						for (var i = 0; i < ds_list_size(selected_list); i++)
 						{
@@ -729,6 +802,25 @@ switch state
 		var xoff = mouse_x - sx; 
 		var yoff = mouse_y - sy;
 		
+		
+		if point_distance(sx, sy, mouse_x, mouse_y) > 25*global.zoom {
+			lockjaw = false	} //lockjaw for dragging groups is only for resetting the sx/sy initial click
+				//so clicking a group won't insta-move it if your mouse isn't grid-aligned
+			
+		if !lockjaw {
+			if global.snaptogrid { 
+				var snapdist = snapdis/2
+				sx = round(sx/snapdist)*snapdist
+				sy = round(sy/snapdist)*snapdist	
+			}	
+		}
+		
+		if global.snaptogrid {
+			var snapdist = snapdis/2
+			xoff = round(xoff/snapdist)*snapdist
+			yoff = round(yoff/snapdist)*snapdist
+		}
+		
 		var list_size = ds_list_size(selected_list)
 		for (var i = 0; i < list_size; i++)
 		{
@@ -749,17 +841,33 @@ switch state
 		var mangle = point_direction(sx, sy, mouse_x, mouse_y)
 		var nangle = angle_difference(mangle, angle)
 		
+				if keyboard_check(vk_shift) { //snap rotation 
+			nangle = round( (nangle/45)) *45 }
+		
+		
+		if point_distance(sx, sy, mouse_x, mouse_y) > 25*global.zoom {
+			lockjaw = false
+		}
+		
+		if !lockjaw {
 		var list_size = ds_list_size(selected_list)
 			for (var i = 0; i < list_size; i++)
 			{
 				with selected_list[| i] { //move objects
 					image_angle = init_angle + nangle;
 					var newdir = init_dir + nangle;
+					
+					if keyboard_check(vk_shift) { //snap rotation 
+					init_angle = round( (init_angle/45)) *45 
+					init_dir = round( (init_dir/45)) *45 }
+					
 					var cendis = point_distance(xstart, ystart, other.sx, other.sy); //dist to center, which stays same
 					x = other.sx + lengthdir_x(cendis, newdir);
 					y = other.sy + lengthdir_y(cendis, newdir);
 				}
 			}
+		}
+			
 		if mouse_check_button_released(mb_left) { //let go
 			ds_list_clear(selected_list);
 			state = 0;

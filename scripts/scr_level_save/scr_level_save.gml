@@ -8,13 +8,15 @@ function scr_level_save(filepath){
 				with obj_cheese { //all platforms add self to the list
 					var name = object_get_name(object_index)
 					if name = "obj_slideplatform" ds_list_add(other.save_file, [x, y, layer, name, image_blend, image_xscale, image_yscale, image_angle, spd] )
-					else if name = "obj_movingplatform" ds_list_add(other.save_file, [x, y, layer, name, image_blend, image_xscale, image_yscale, image_angle, target] )
+					else if name = "obj_movingplatform" ds_list_add(other.save_file, [x, y, layer, name, image_blend, image_xscale, image_yscale, image_angle, target, topspeed] )
 					else ds_list_add(other.save_file, [x, y, layer, name, image_blend, image_xscale, image_yscale, image_angle, newsprite] )
 				}
 				with obj_onbeat { //all enemies/stuff add self to the list
 					var name = object_get_name(object_index)
 					if name == "obj_wind" ds_list_add(other.save_file, [x, y, layer, name, image_blend, image_xscale, image_yscale, image_angle, spd] )
-					else if name == "obj_splatspawner" ds_list_add(other.save_file, [x, y, layer, name, image_blend, image_xscale, image_yscale, image_angle, cooldown] )
+					else if name == "obj_splatspawner" ds_list_add(other.save_file, [x, y, layer, name, image_blend, image_xscale, image_yscale, image_angle, maxcooldown] )
+					else if name == "obj_cactus" ds_list_add(other.save_file, [x, y, layer, name, image_blend, image_xscale, image_yscale, image_angle, topcooldown] )
+					else if name == "obj_chaser" ds_list_add(other.save_file, [x, y, layer, name, image_blend, image_xscale, image_yscale, image_angle, deadin] )
 					else ds_list_add(other.save_file, [x, y, layer, name, image_blend, image_xscale, image_yscale, image_angle] )
 				}
 				with obj_MadSquare { //mad rat, for starting position
@@ -36,6 +38,8 @@ function scr_level_save(filepath){
 					var name = object_get_name(object_index)
 					ds_list_add(other.save_file, [x, y, layer, name, image_blend, image_xscale, image_yscale, image_angle, sprite_index, spd] )
 				}
+
+
 				
 				//special list entry to save all the scroll/scale/aplha values per stage
 				ds_list_add(save_file, ["f2values", //0

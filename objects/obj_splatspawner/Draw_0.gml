@@ -9,8 +9,8 @@ if obj_MadSquare.state == 99{
 	{
 	draw_sprite_ext( spr_mousewheelicon, 0, x-xoff, y-yoff, scale, scale,  0, c_white, 1)
 	//draw_sprite_ext( spr_mousewheelicon, 0, x-xoff, y+yoff, scale, scale, 0, c_white, 1)
-	draw_set_color(c_purple)
-	draw_text(x, y - 20, "cooldown :" + string(cooldown) )
+	draw_set_color(c_aqua)
+	draw_text(x, y - 20, "cooldown :" + string(maxcooldown) )
 	draw_set_defaults();
 	}
 

@@ -1,2 +1,2 @@
-sprite_index = spr_squarewhite
+newsprite = spr_squarewhite
 image_blend = c_aqua

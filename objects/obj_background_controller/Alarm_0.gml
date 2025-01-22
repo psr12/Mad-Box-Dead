@@ -7,21 +7,29 @@
 //var cam_w = camera_get_view_width(cam)
 
 
-if object_index = obj_foreground {
-	ds_list_add(lay_order, global.ontopsprite)
-}
-if object_index = obj_background {
-	ds_list_add(lay_order, global.farsprite, global.middlesprite, global.nearsprite)
-}
 
-var los = ds_list_size(lay_order) //lay order = sprites
+//bg_far version
+//if object_index = obj_foreground {
+//	ds_list_add(lay_order, global.ontopsprite)
+//}
+//if object_index = obj_background {
+//	ds_list_add(lay_order, global.farsprite, global.middlesprite, global.nearsprite)
+//}
 
+var los = ds_list_size(lay_order) //lay order = list of sprites to use for the background
+//foreground los == 1 (ontop), background los == 3 (far,mid, near)
 
 
 for (var p = 0; p < los; p++)
 {
-		var bgtilenum = lay_order[| p] // lay_order[ 1, 2, 3  ]
-	var sprite = obj_recorder.bg_tiles[| bgtilenum ] //[ 1testo, 2example, 3.... ]
+	
+	//bg_tiles version
+	//var bgtilenum = lay_order[| p] // lay_order[ 1, 2, 3  ]
+	//var sprite = obj_recorder.bg_tiles[| bgtilenum ] //[ 1testo, 2example, 3.... ]
+	
+	//bg_far version
+	var sprite = lay_order[| p]
+	
 	if object_index == obj_foreground {	var layerid = layer_create(950) }
 	else {var layerid = layer_create(999-p) }
 	var bgid = layer_background_create(layerid, sprite )

@@ -2,7 +2,7 @@
 // You can write your code in this editor
 
 
-if place_meeting(x,y,obj_MadSquare)
+if place_meeting(x,y,obj_MadSquare) and obj_MadSquare.state != 99
 {
 	obj_MadSquare.y -= dist;
 	obj_MadSquare.grav = 0

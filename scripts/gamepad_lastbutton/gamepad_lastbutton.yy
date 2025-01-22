@@ -1,5 +1,5 @@
 {
-  "$GMScript":"",
+  "$GMScript":"v1",
   "%Name":"gamepad_lastbutton",
   "isCompatibility":false,
   "isDnD":false,

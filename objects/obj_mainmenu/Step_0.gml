@@ -1,6 +1,9 @@
 /// @description Insert description here
 // You can write your code in this editor
 
+
+
+
 time = (get_timer() - start_time);
 
 
@@ -25,16 +28,26 @@ itskindascale += 0.5
 	
 itskindascale = lerp(itskindascale, itskindascaleinit, 0.1);
 
-selected += keyboard_check_pressed(vk_down) - keyboard_check_pressed(vk_up)
+selected +=sign( (keyboard_check_pressed(vk_down) - keyboard_check_pressed(vk_up)) +
+(input_check_pressed(global.keyDown) - input_check_pressed(global.keyUp) ) +
+ global.v_axis_press )
+
 selected = Wrap(selected, 0, 3)
 if instance_exists(obj_bossmgtransition) selected = 4;
 
 if selected == 0 && 
 ( keyboard_check_pressed(vk_left) || keyboard_check_pressed(vk_right) ) ||
-( keyboard_check_pressed(vk_end) || keyboard_check_pressed(vk_home) )
+( keyboard_check_pressed(vk_end) || keyboard_check_pressed(vk_home) ) ||
+( input_check_pressed(global.keyLeft) || input_check_pressed(global.keyRight) )
+or abs(global.h_axis_press)
 {
+	tscale = 2.1
+	bscale = 1.1
+	//text and story button bulge a little when changing chapters
 	var mult = 1; if keyboard_check(vk_shift) mult = 5;
-	story_level_selected += (keyboard_check_pressed(vk_right) - keyboard_check_pressed(vk_left)) * mult ;
+	if global.methodOfInput == "GAMEPAD" story_level_selected += (keyboard_check_pressed(vk_right) - keyboard_check_pressed(vk_left)) * mult ;
+	story_level_selected += (input_check_pressed(global.keyRight) - input_check_pressed(global.keyLeft)) * mult ;
+	story_level_selected += global.h_axis_press * mult ;
 	story_level_selected += (keyboard_check_pressed(vk_end) - keyboard_check_pressed(vk_home)) * 99 ;
 	story_level_selected = clamp(story_level_selected, 1, array_length( obj_recorder.storylevellist )-1 )
 }

@@ -14,8 +14,8 @@ defeated a bird!", snd_zap, global.heartname],
 
 [scr_changedummyseq, 0, asq_mr_trip1, cs_mr_tripped],
 [scr_changeratface, mr_face12],
-[scr_makeflair, 300,650, obj_flair, 2.2],
-[scr_changevar, obj_flair, 0, "sprite_index", spr_talon],
+[scr_makeflair, 300, 650, spr_talon, 2.2],
+//[scr_changevar, obj_flair, 0, "sprite_index", spr_talon],
 [cs_playsound, snd_hot2],
 
 [scr_wait, 180],
@@ -23,7 +23,7 @@ defeated a bird!", snd_zap, global.heartname],
 [scr_changeheartface, h_face4],
 [scr_textbox, 1000, 300, @"Or maybe not!
 He he heh ha ha!", snd_zap, global.heartname],
-[scr_textbox, 1000, 300, @"You had me worried for a 
+[scr_textbox, 1000, 300, @"I was worried for a 
 second there!", snd_zap, global.heartname],
 
 [scr_changeratface, mr_face9],

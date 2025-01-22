@@ -1,9 +1,11 @@
 /// @description Insert description here
 // You can write your code in this editor
 
+depth = 500;
+//global.snaptogrid = true;
+//global.checkerboard = true;
 alarm[5] = 120;
-
-snaptogrid = false;
+lockjaw = false; //locks angle rotations until mouse has moved enough
 snapdis = 64;
 asset_transparency = 0.3;
 alarm[1] = 2; //after loading
@@ -286,17 +288,21 @@ size = platform_list_size ; //initial size of the sidebar
 
 custombg = ds_list_create()
 customfg = ds_list_create()
-//ds_list_copy(custombg, obj_recorder.custombg)
-//ds_list_copy(customfg, obj_recorder.customfg)
-ds_list_add(custombg, global.farsprite, global.middlesprite, global.nearsprite);
-ds_list_add(customfg, global.ontopsprite)
+
+//bg_far, bg_near, ect...
+ds_list_copy(custombg, obj_recorder.custombg)
+ds_list_copy(customfg, obj_recorder.customfg)
+
+//imports from bg_tiles
+//ds_list_add(custombg, global.farsprite, global.middlesprite, global.nearsprite);
+//ds_list_add(customfg, global.ontopsprite)
 
 
 #region background
 
- backie = instance_create_depth(0,0, 0, obj_background)
- fourie = instance_create_depth(0,0, 0, obj_foreground)
+ backie = instance_create_layer(0,0, "obj_background", obj_background)
+ fourie = instance_create_layer(0,0, "obj_foreground", obj_foreground)
 
-//with backie {ds_list_copy(lay_order, obj_recorder.custombg)}
-//with fourie {ds_list_copy(lay_order, obj_recorder.customfg)}
+with backie {ds_list_copy(lay_order, obj_recorder.custombg)}
+with fourie {ds_list_copy(lay_order, obj_recorder.customfg)}
 #endregion

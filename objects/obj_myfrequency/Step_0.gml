@@ -27,6 +27,8 @@ if state == 1 { //ramp up
 if state == 2 { //dialing
 	
 	var input = (input_check(global.keyRight) - input_check(global.keyLeft)) *5
+	+ sign(round(gamepad_axis_value(global.activeController, gp_axislh)) 
+	+round(gamepad_axis_value(global.activeController, gp_axisrh))) *5
 	dial1 -= input
 	dial1 = clamp(dial1, 0, 3000);
 	

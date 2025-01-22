@@ -29,7 +29,7 @@
     "name":"cutscene heart",
     "path":"folders/Sequences/corner heart/cutscene heart.yy",
   },
-  "playback":1,
+  "playback":0,
   "playbackSpeed":30.0,
   "playbackSpeedType":0,
   "resourceType":"GMSequence",

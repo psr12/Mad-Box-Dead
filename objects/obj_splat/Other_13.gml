@@ -6,11 +6,11 @@ event_inherited();
 
 
 if state == 0 {
-	var dist = topspeed + extra
+	var dist = topspeed
 hsp = lengthdir_x(dist, image_angle)
 vsp = lengthdir_y(dist, image_angle)
 
-extra = lerp(extra, 0, 0.1)
+//extra = lerp(extra, 0, 0.1)
 
 x += floor( hsp )  * image_xscale
 y += floor( vsp )  * image_yscale

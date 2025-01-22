@@ -12,3 +12,4 @@ if toxicness >= 1 {
 	{obj_MadSquare.enemy_collision_timer = -1;}
 
 }
+

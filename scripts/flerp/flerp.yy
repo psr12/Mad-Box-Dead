@@ -1,5 +1,5 @@
 {
-  "$GMScript":"",
+  "$GMScript":"v1",
   "%Name":"flerp",
   "isCompatibility":false,
   "isDnD":false,

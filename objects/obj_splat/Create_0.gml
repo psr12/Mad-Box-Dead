@@ -7,11 +7,9 @@ event_inherited();
 grav = 0
 state = 0;
 
-maxcountdown = 10;
+maxcountdown = 15;
 countdown = maxcountdown
 
-topspeed = 0;
-topextra = 20
+topspeed = 4;
 
-extra = topextra
 

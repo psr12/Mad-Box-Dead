@@ -25,3 +25,5 @@ topspeed  = 10;
 grace_time = 3; //have to touch the platform for this long before falling
 
 target = [x, y ]
+
+scale = 2.5; //for mouse icon

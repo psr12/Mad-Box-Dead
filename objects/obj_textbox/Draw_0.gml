@@ -4,7 +4,7 @@
 
 draw_set_alpha(alpha)
 
-var font = Font1;
+var font = font_rowdy;
 
 if instance_exists(obj_glitchy) and string(name) == string(global.heartname) { 
 	glitch_timer--;
@@ -37,9 +37,9 @@ dir_thing+90, c_white, alpha)
 
 draw_sprite_stretched(spr_textbox, 0, dx, dy, wid, hei)
 
-draw_sprite_stretched(spr_bg_black, 0, dx, dy-24, max(string_width(name), 50)+buffer*2, string_height(name)-10)//name
+draw_sprite_stretched(spr_bg_black, 0, dx+5, dy-24, max(string_width(name), 50)+buffer*2, string_height(name)-5 )//name
 		draw_set_color(c_white)
-draw_text(dx+buffer, dy-24, name)
+draw_text(dx+buffer, dy-28, name)
 
 
 

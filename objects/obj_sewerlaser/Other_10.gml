@@ -10,7 +10,7 @@ timeuntil--;
 
 if timeuntil == 0 	{scr_shakecamera(30) 
 	
-	if instance_exists(obj_ratgodboss) play_sound(snd_chaosbreaker, 0.5) 
+	if instance_exists(obj_ratgodboss) or instance_exists(obj_ratgod) play_sound(snd_chaosbreaker, 0.5) 
 	// instance_exists(obj_sewerboss) or 
 	//audio_sound_gain(soun, 1/instance_number(obj_sewerlaser), 0)
 	//with obj_sewerlaser {if timeuntil <=0 timeuntil = -1}

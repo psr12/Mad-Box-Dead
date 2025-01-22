@@ -8,3 +8,5 @@ image_xscale = 4;
 image_yscale = 4;
 
 life = 120 * 20; 
+
+mask_index = rg_meteor_mask

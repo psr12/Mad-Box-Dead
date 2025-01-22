@@ -29,6 +29,7 @@ ds_list_add(que,
 
 [scr_moveobj, obj_cameraman, 0, room_width/2, room_height/2, 9999],
 
+[scr_moveobj, obj_seqdummy, 1, ph_5.x, ph_5.y, 5],
 [scr_changeratface, mr_face13],
 [scr_changedummyseq, 1, csh_uploading],
 
@@ -37,9 +38,10 @@ ds_list_add(que,
 [scr_wait, 160],
 [scr_changedummyseq, 0, asq_mr_shocked, asq_mr_shockedext],
 [cs_playsound, snd_taser],
-[css_makeobj, ph_2.x,ph_2.y-30, obj_makesparks, 0],
+[css_makeobj, ph_5.x,ph_5.y-30, obj_makesparks, 0],
 [scr_changevar, obj_makesparks, 0, "on", true],
-[scr_changedummyseq, 1, ch_shocked],
+[scr_changeheartface, h_face16],
+[scr_changedummyseq, 1, csh_shocked],
 
 [scr_wait, 160],
 [scr_deleteobj, obj_makesparks, 0],
@@ -47,10 +49,9 @@ ds_list_add(que,
 [scr_changedummyseq, 1, ch_dizzy],
 [scr_wait, 160],
 [scr_changedummyseq, 1, csh_headbonk],
-[scr_changeheartface, h_face7],
-[scr_wait, 160],
-[scr_changedummyseq, 1, ch_spin, csh_thumbsup, 1],
-[scr_changeheartface, h_face4],
+//[scr_wait, 160],
+//[scr_changedummyseq, 1, ch_spin, csh_thumbsup, 1],
+//[scr_changeheartface, h_face4],
 
 [scr_textbox, ph_2.x,ph_2.y-300, @"Woah! That's really something else!", snd_zap, global.heartname],
 
@@ -60,6 +61,8 @@ ds_list_add(que,
 us out of here now?", snd_madtalk, global.ratname],
 
 [scr_changeheartface, h_face6],
+[scr_changedummyseq, 1, csh_defib2, csh_defib4, 1],
+
 [scr_changedummyseq, 0, asq_mr_shocked, asq_mr_shockedext],
 [scr_textbox, ph_2.x,ph_2.y-300, @"I'm pretty sure I could take over
 the world right now!", snd_zap, global.heartname],
@@ -70,13 +73,14 @@ the world right now!", snd_zap, global.heartname],
 [scr_wait, 100],
 
 [scr_changeheartface, h_face4],
+[scr_changedummyseq, 1, csh_defib3],
 [scr_textbox, ph_2.x,ph_2.y-300, @"...Juuuust kidding!", snd_zap, global.heartname],
 
-[scr_changedummyseq, 1, csh_idle],
 [scr_changeheartface, h_face1],
 
 [scr_spookytext, 100, 100, "...I'm not done...", 120],
 
+[scr_changedummyseq, 1, csh_idle],
 [scr_changedummyseq, 0, asq_mr_crossed, asq_mr_crossed, 1],
 
 [css_makeobj, ph_3.x, ph_3.y, obj_ratgodflair, depth],

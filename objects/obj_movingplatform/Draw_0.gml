@@ -27,4 +27,22 @@ draw_set_defaults()
 
 draw_sprite_ext(spr_arrow, 0, x, y, 1, 1, 0, c_white, 1)
 
+
+if obj_MadSquare.state == 99{
+	
+	//draw_self()
+
+	if mouse_x == clamp(mouse_x, bbox_left, bbox_right)
+	and mouse_y == clamp(mouse_y, bbox_top, bbox_bottom)
+	{
+	draw_sprite_ext( spr_mousewheelicon, 0, x, y, scale, scale,  0, c_white, 1)
+	//draw_sprite_ext( spr_mousewheelicon, 0, x-xoff, y+yoff, scale, scale, 0, c_white, 1)
+	draw_set_color(c_aqua)
+	draw_text(x, y - 20, "speed :" + string(topspeed) )
+	draw_set_defaults();
+	}
+
+}
+
+
 //draw_ctext_transformed(x, y, string(target[0]) + ", " + string(target[1]) , 4)

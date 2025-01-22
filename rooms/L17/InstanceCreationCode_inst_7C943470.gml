@@ -2,7 +2,7 @@ text = @"
 level 19?
 
 Surfaces and cameras are fucking complicated!
-But it was worth it! Look at that sweet monitor wall!
+But it was worth it; Look at that sweet monitor wall.
 
 
 Song is You Are Mine, by Pinosuke.

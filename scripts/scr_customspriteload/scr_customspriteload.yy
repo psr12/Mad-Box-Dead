@@ -1,5 +1,5 @@
 {
-  "$GMScript":"",
+  "$GMScript":"v1",
   "%Name":"scr_customspriteload",
   "isCompatibility":false,
   "isDnD":false,

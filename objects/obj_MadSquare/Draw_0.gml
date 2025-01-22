@@ -16,7 +16,7 @@ if state == 404 { //game over
 
 if state == 99
 {
-		var see_through = 0.3;
+		var see_through = 1;
 	draw_sprite_ext(spr_editor_crosshair_ver, 0, x,y, 1, 1, 0, c_white, see_through)
 	draw_sprite_ext(spr_editor_crosshair_hor, 0, x,y, 1, 1, 0, c_white, see_through)
 	draw_sprite_ext(spr_editor_crosshair_hor, 0, x,y, -1, 1, 0, c_white, see_through)

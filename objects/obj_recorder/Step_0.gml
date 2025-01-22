@@ -1,5 +1,46 @@
 /// @description Insert description here
 // You can write your code in this editor
+#region //check of joypad pressed
+
+/// STEP EVENT
+var v_axis_pressed = false;
+if v_axis_pressed == false && v_axis_prev == false
+{
+if gamepad_axis_value(global.activeController,gp_axislv) < 0 or
+gamepad_axis_value(global.activeController,gp_axisrv) < 0 or
+ gamepad_axis_value(global.activeController,gp_axislv) > 0 or
+gamepad_axis_value(global.activeController,gp_axisrv) > 0
+    {
+    v_axis_pressed = sign( round (gamepad_axis_value(global.activeController,gp_axislv)+
+gamepad_axis_value(global.activeController,gp_axisrv)))
+    }
+}
+
+global.v_axis_press = ( v_axis_pressed )
+
+var h_axis_pressed = false;
+if h_axis_pressed == false && h_axis_prev == false
+{
+if gamepad_axis_value(global.activeController, gp_axislh) < 0 or
+gamepad_axis_value(global.activeController,gp_axisrh) < 0 or
+ gamepad_axis_value(global.activeController, gp_axislh) > 0 or
+gamepad_axis_value(global.activeController,gp_axisrh) > 0
+    {
+    h_axis_pressed = sign( round(gamepad_axis_value(global.activeController, gp_axislh)+
+gamepad_axis_value(global.activeController,gp_axisrh) ))
+    }
+}
+
+global.h_axis_press = ( h_axis_pressed )
+
+#endregion
+
+
+
+if mouse_check_button_pressed(mb_left) {
+	//	var conf = instance_create_depth(mouse_x-400,mouse_y,depth-1, obj_confetti)
+	//	conf.text = 0	
+}
 
 update_input() //always
 if keyboard_check_pressed(vk_control) seefps = !seefps
@@ -15,10 +56,14 @@ switch state
 		if instance_exists(obj_mainmenu) {mainmenuselect = obj_mainmenu.selected;
 			story_level_selected = obj_mainmenu.story_level_selected
 			}
-		if (keyboard_check_pressed(vk_space) ||
+		if (
+		keyboard_check_pressed(vk_space) ||
 		keyboard_check_pressed(vk_enter) ||
 		keyboard_check_pressed(ord("D")) ||
-		keyboard_check_pressed(ord("Z"))   )
+		keyboard_check_pressed(ord("Z"))  ||
+		input_check_pressed(global.keyDash) or
+		input_check_pressed(global.keyJump)
+		)
 		and mainmenuselect >= 0
 		and !instance_exists(obj_bossmgtransition) //no selecting during microgame transition  
 		{
@@ -361,6 +406,9 @@ switch state
 	
 	case 5: //editing
 		{
+			var songsecs = audio_sound_length(music)
+			songends = min(songends, songsecs*gamespeed-1 )
+			
 			//swapping note types
 			if keyboard_check_pressed( ord("1" ) ) || 
 			keyboard_check_pressed( ord("2" ) ) || 
@@ -1099,7 +1147,7 @@ switch state
 			//rewind_leftright_select = ds_list_size(rewind_path_list)-1;
 			//audio_pause_sound(songinst);
 		}
-		if keyboard_check_pressed(vk_escape) //pause
+		if keyboard_check_pressed(vk_escape) or gamepad_button_check_pressed(global.activeController,gp_start) //pause
 		{
 			pause_menu_select = 0
 			state = 404; 
@@ -1141,6 +1189,7 @@ switch state
 	break;
 	
 	case 404: //paused
+	case 405:
 		alarm[0]++; //stop the song from restarting while paused, not toally sure why i did that
 		var leavenow = false;
 		
@@ -1148,15 +1197,22 @@ switch state
 		and device_mouse_y_to_gui(0) == clamp(device_mouse_y_to_gui(0), 50, 50+64 )
 		{scr_changevolume();}
 			
-		if keyboard_check_pressed(vk_up) || keyboard_check_pressed(vk_down)
+		if keyboard_check_pressed(vk_up) || keyboard_check_pressed(vk_down) or 
+		input_check_pressed(global.keyDown) or input_check_pressed(global.keyUp)
+		or abs(global.v_axis_press)
 		{
-			pause_menu_select+= keyboard_check_pressed(vk_down) - keyboard_check_pressed(vk_up);
+			//pause_menu_select+= keyboard_check_pressed(vk_down) - keyboard_check_pressed(vk_up);
+			pause_menu_select+= sign( (-keyboard_check_pressed(vk_up) + keyboard_check_pressed(vk_down)) +
+			(input_check_pressed(global.keyDown) - input_check_pressed(global.keyUp))
+			+ global.v_axis_press )
 			if pause_menu_select < 0 pause_menu_select = 2
 			if pause_menu_select > 2 pause_menu_select = 0
 			pause_menu_select = clamp(pause_menu_select, 0, 2);
 		}
 		
 		if keyboard_check_pressed(vk_enter) || keyboard_check_pressed(vk_space)
+		or input_check_pressed(global.keyDash)
+		or input_check_pressed(global.keyJump)
 		{ //selected an option
 			switch pause_menu_select
 			{
@@ -1170,21 +1226,27 @@ switch state
 					break;
 			}
 		}
-		if keyboard_check_pressed(vk_escape) {leavenow = true;}
+		if keyboard_check_pressed(vk_escape) or gamepad_button_check_pressed(global.activeController, gp_start) 
+			{leavenow = true;}
 		
 		if leavenow//unpause
-		{			
-			with obj_onbeat {time = other.save_tome}
-			with obj_MadSquare {time = other.save_tome
-				if layer_sequence_exists(layer, seq) { //current animation is sped up based on notes
-				layer_sequence_speedscale(seq, other.save_tome)
+		{		
+			if state == 404 { //normal gameplay pause
+				with obj_onbeat {time = other.save_tome}
+				with obj_MadSquare {time = other.save_tome
+					if layer_sequence_exists(layer, seq) { //current animation is sped up based on notes
+					layer_sequence_speedscale(seq, other.save_tome)
+					}
 				}
-			}
 				
-			state = 11;
-			//audio_sound_set_track_position(songinst, takemeback/gamespeed)//resync the song if desynced
-			//busted in some way due to introends
-			audio_resume_sound(songinst)
+				state = 11;
+				//audio_sound_set_track_position(songinst, takemeback/gamespeed)//resync the song if desynced
+				//busted in some way due to introends
+				audio_resume_sound(songinst)
+			}
+			if state == 405 { //level editor pause
+				state = 99				
+			}
 		}
 		
 	break;
@@ -1245,7 +1307,7 @@ switch state
 
 	case 99: //nothing, level editing
 	
-		break;
+	break;
 }
 
 

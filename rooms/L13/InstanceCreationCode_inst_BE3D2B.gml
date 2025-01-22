@@ -1,15 +1,14 @@
 text = @"
 level 14?
 
-A real wacky yet boring level. Sorry...
+A real wacky yet boring level. 
 
-The platforms are supposed to be bricks that are sticking out
-from the wall, which will be hellish to draw.
-Remember you only get one dash in the air!
+The platforms are supposed to represent bricks sticking out from the wall.
 
-Song is Pristine Office, from Kirby Planet Robobot.
-Was originally gonna have you go straight to the lab from the factory,
-then use this as a music contrast.
-I rerouted Mad Rat outside for story reasons, but I still think it fits.
+The song is Pristine Office, from Kirby Planet Robobot.
+This song was supposed to be really different from the last 2, 
+to show the difference of the 'upper lab' and 'lower lab'.
+I rerouted Mad Rat outside so he would end up on the roof,
+but I think it still fits. 
 
 "

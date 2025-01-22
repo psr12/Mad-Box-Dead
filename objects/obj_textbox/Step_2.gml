@@ -31,10 +31,10 @@ if show < totallength && !wait //advance text, text isn't finished and not waiti
 }
 
 if keyboard_check_pressed(vk_space) ||
-keyboard_check_pressed(global.keyDash) ||
-keyboard_check_pressed(global.keyDrop) ||
-keyboard_check_pressed(global.keyJump) ||
-keyboard_check_pressed(global.keyCharge) ||
+input_check_pressed(global.keyDash) ||
+input_check_pressed(global.keyDrop) ||
+input_check_pressed(global.keyJump) ||
+input_check_pressed(global.keyCharge) ||
 keyboard_check_pressed(vk_enter)
 {
 	if show < totallength //text is note finished

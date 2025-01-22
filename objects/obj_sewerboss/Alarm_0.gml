@@ -9,3 +9,8 @@ if instance_exists(obj_cameraman)
 	obj_cameraman.y = 800
 
 }
+
+with obj_cheese {
+	sprite_index = spr_bg_dkgray;
+	newsprite = spr_bg_dkgray;
+}

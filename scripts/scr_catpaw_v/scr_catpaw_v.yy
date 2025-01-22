@@ -1,5 +1,5 @@
 {
-  "$GMScript":"",
+  "$GMScript":"v1",
   "%Name":"scr_catpaw_v",
   "isCompatibility":false,
   "isDnD":false,

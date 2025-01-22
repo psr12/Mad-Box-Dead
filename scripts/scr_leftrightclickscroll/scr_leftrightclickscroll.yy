@@ -1,5 +1,5 @@
 {
-  "$GMScript":"",
+  "$GMScript":"v1",
   "%Name":"scr_leftrightclickscroll",
   "isCompatibility":false,
   "isDnD":false,

@@ -12,3 +12,8 @@ else draw_self();
 
 //draw_text(x, y, x)
 //draw_text(x, y+40, y)
+
+
+//draw_text(x, y, image_alpha)
+//draw_text(x, y+30, image_blend)
+//draw_text(x, y+60, sprite_get_name(newsprite))

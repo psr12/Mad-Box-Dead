@@ -220,7 +220,7 @@ Invisible to the eye.", snd_godtalkin, global.virusname],
 [css_makeobj, 0, 0, obj_glitchy, depth],
 [scr_textbox, ph_2.x,ph_2.y-300, "!!!", snd_zap, global.heartname],
 
-[scr_textbox, ph_7.x,ph_1.y-300, @"Gh-!", snd_madtalk, global.ratname],
+[scr_textbox, ph_7.x,ph_1.y-300, @"Gh...!", snd_madtalk, global.ratname],
 [scr_changedummyseq, 0, asq_mr_trip1, asq_mr_trip2],
 
 

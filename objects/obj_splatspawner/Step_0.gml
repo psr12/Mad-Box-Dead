@@ -10,8 +10,8 @@ if instance_exists(obj_MadSquare) //spd controls
 	if mouse_x == clamp(mouse_x, x-xoff, x-xoff+spize) //top wheel
 	and mouse_y == clamp(mouse_y, y-yoff, y-yoff+spize)
 		{
-			cooldown += whel;
-			cooldown = clamp(cooldown, 0, 150)
+			maxcooldown += whel;
+			maxcooldown = clamp(maxcooldown, 0, 150)
 		}
 	}
 	else visible = false;

@@ -4,7 +4,7 @@
 
 if keyboard_check_pressed(vk_space)  { 
 	
-	sprite_index = sprite
+	sprite_index = newsprite
 	top = bbox_top; 
 	sprite_index = -1
 

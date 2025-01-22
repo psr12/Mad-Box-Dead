@@ -2,13 +2,16 @@
 // You can write your code in this editor
 
 
+tscale = 2
+bscale = 1
+
 seq = layer_sequence_create(layer, x, y, asq_mr_howsthat) //start with idle animation
 scale = 2;
 layer_sequence_xscale(seq, scale)
 //layer_sequence_speedscale(seq, 2)
 layer_sequence_yscale(seq, scale)
 
-itskindascaleinit = 3;
+itskindascaleinit = 4;
 itskindascale = itskindascaleinit;
 
 selected = 0;

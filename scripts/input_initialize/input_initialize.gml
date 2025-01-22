@@ -62,9 +62,9 @@ function input_initialize() {
 	global.keyDown_gp = gp_padd;
 
 		global.keyCharge_gp = gp_face4
-	    global.keyDrop_gp =  gp_face3
+	    global.keyDrop_gp =  gp_face2
 	    global.keyJump_gp =  gp_face1
-	    global.keyDash_gp = gp_face2
+	    global.keyDash_gp = gp_face3
 		
 	/*
 	    These hold the controller index for each player. PC's start the controller index at 0, 

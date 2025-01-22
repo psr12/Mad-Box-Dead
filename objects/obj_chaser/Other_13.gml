@@ -20,3 +20,5 @@ if !deadin {image_alpha = lerp(image_alpha, 0, 0.1)
 	}
 
 pulse = lerp(pulse, 0, 0.2); //shrink blue circle
+
+outards_spin += -hsp/2 + -1

@@ -4,8 +4,9 @@ event_inherited();
 
 //collision ect
 
-hsp = topspeed + extra
-extra = lerp(extra, 0, 0.1)
+extra = zlerp(extra, 0.15)
+bounce = Approach(bounce, 0, 0.05)
+hsp = topspeed
 
 vsp += grav;
 if place_meeting(x,y+vsp, obj_cheese) //vertical collision
@@ -32,7 +33,8 @@ if place_meeting(x+hsp,y, obj_cheese) //vertical collision
 			{
 				x += sign(hsp)
 			}
-			image_xscale = -image_xscale
+			turnaround = 1
+			hsp = 0;
 		}
 		else //there is space, above the wall
 		{		
@@ -40,5 +42,5 @@ if place_meeting(x+hsp,y, obj_cheese) //vertical collision
 		}
 	//stopcol = true;
 }
-x += floor( hsp ) * sign(image_xscale)
+x += hsp //* sign(image_xscale)
 

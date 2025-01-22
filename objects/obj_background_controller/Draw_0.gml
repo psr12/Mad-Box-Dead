@@ -1,10 +1,10 @@
 /// @description Insert description here
 // You can write your code in this editor
-/*
-//original size of camera
 
-var cam_w = 1366 * global.zoom
-var cam_h = 768 * global.zoom
+//original size of camera
+//var cam_w = 1366 * global.zoom
+//var cam_h = 768 * global.zoom
+
 
 if ds_exists(lay_order,ds_type_list)
 {
@@ -22,7 +22,8 @@ if ds_exists(lay_order,ds_type_list)
 			var scale = cam_h/sh;
 		}
 		//if custom background, use global scale values
-		if obj_level_editor.theme_count == obj_level_editor.theme_size
+		//if obj_level_editor.theme_count == obj_level_editor.theme_size
+		if 1 == 1
 		{
 			if p == 0 {
 				if object_index == obj_foreground {sh *= scale * global.ontopscale sw *= scale * global.ontopscale}
@@ -44,7 +45,8 @@ if ds_exists(lay_order,ds_type_list)
 		//negative = runs opposite direction of camera = really fast scrolling
 		
 		//if custom background, use global scroll values
-		if obj_level_editor.theme_count == obj_level_editor.theme_size
+		//if obj_level_editor.theme_count == obj_level_editor.theme_size
+		if 1 == 1
 		{
 			if p == 0 { if object_index == obj_foreground mult = global.ontopscroll
 					else mult = global.farscroll
@@ -59,6 +61,9 @@ if ds_exists(lay_order,ds_type_list)
 		var new_y = cam_y*mult;
 		
 		new_y = clamp(new_y, cam_y-wiggleroom, cam_y);
+		
+		if obj_recorder.state == 99 and object_index == obj_foreground draw_set_alpha(0.2) 
+		else draw_set_alpha(1)
 
 		var mmm = 0;
 		do {
@@ -66,5 +71,6 @@ if ds_exists(lay_order,ds_type_list)
 			mmm+=sw; //one loop for each time the bg needs to repeat to cover the screen
 		}
 		until (mmm > cam_w+sw)
+		draw_set_alpha(1)
 	}
 }

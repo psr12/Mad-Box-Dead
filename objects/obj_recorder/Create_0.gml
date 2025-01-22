@@ -2,17 +2,26 @@
 /// @description Insert description here
 // You can write your code in this editor
 
+v_axis_prev = false;
+h_axis_prev = false;
+global.v_axis_press = 0
+global.h_axis_press = 0
+
+
+global.snaptogrid = true
+global.checkerboard = true;
+
 //room_goto(TheTestRoom)
 small_note_pitch = 0.8
 controller_in = 0;
 ley = layer_create(-500, "recorder_layer")
-partlay = layer_create(100, "underparticles")
+
 layer = ley
 fuckmeDeltaTime = 0;
 global.zoom = 1;
 asdf = 0; // for onbeat's 'step' event
 //alarm[3] = 3; //visual culling, breaks for oneways because they
-/*
+
 #region custom backgrounds
 
 	//create custom background
@@ -37,7 +46,7 @@ ds_list_add(customfg, sp4,)
 
 
 #endregion
-*/
+
 #region custome bg asset tile sprites
 
 	bg_tiles = ds_list_create() //holds the sprites
@@ -83,15 +92,15 @@ snap_to_nearest = 0;
 
 bpmsquare_size = 64; 
 bpmsquare_top = 360;
-bpmsquare_left = 450;
+bpmsquare_left = 460;
 
 snapsquare_size = 64;
 snapsquare_top = bpmsquare_top;
 snapsquare_left = 1200;
 
 volsquare_size = 64;
-volsquare_top = 45;
-volsquare_left = 350;
+volsquare_top = 85;
+volsquare_left = 310;
 
 
 
@@ -588,8 +597,10 @@ rewind_leftright_select = 0;
 alarm[8] = 3; //set bbox references for drawGUI, incase of custom sprites
 
 #region particles
-global.partsys = part_system_create_layer(layer, true)
-global.under_partsys = part_system_create_layer(partlay, true)
+part_layer = layer_create(0, "part_layer")
+global.partsys = part_system_create_layer("part_layer", true)
+partlay = layer_create(100, "underparticles")
+global.under_partsys = part_system_create_layer("underparticles", true)
 
 // Setup:
 global.part_cloud = part_type_create() //smoke

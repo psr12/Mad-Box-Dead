@@ -7,7 +7,7 @@ This level is a bit basic. The reason will become clear next stage...
 
 Considered songs: 
 	Noitu Love 2 - Dystorque
-		^ I have a 'alarm' ready for that one, but decided on Zombie		
+		^ I was going to use the 'alarm' from that song, but decided on Zombie		
 	Mighty Switch Force 2 - Exothermic
 	The Big O - Stand a Chance
 

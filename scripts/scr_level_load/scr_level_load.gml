@@ -42,10 +42,13 @@ if file_exists(filepath)
 			//anything else is an object 
 		var stringtoindex = asset_get_index(ar[3])
 		var newb = instance_create_layer(ar[0], ar[1], ar[2], stringtoindex) //else recreate instance
-		if (stringtoindex == obj_cheese) {
+		if (stringtoindex == obj_cheese) or (stringtoindex == obj_dropplatform){
 			//if variable_instance_exists(newb, sprite_index) 
-			{
-			newb.sprite_index = spr_squarewhite} } //change platforms to be white, but not default ones
+				newb.sprite_index = spr_squarewhite
+				newb.newsprite = spr_squarewhite
+			
+			} //change platforms to be white, but not default ones
+			
 		if stringtoindex == obj_assetlayer {newb.sprite_index = ar[8]
 			newb.layer = ar[2] } //change placed asset sprites to their ... sprites...
 		if newb newb.image_blend = ar[4]; // pass in platform color
@@ -58,8 +61,13 @@ if file_exists(filepath)
 		if ar[3] == "obj_speed_trigger" and array_length(ar) > 9 {newb.spd = ar[9];} //speed trigger, pass in speed
 		if ar[3] == "obj_wind" and array_length(ar) > 8 {newb.spd = ar[8];} //
 		if ar[3] == "obj_slideplatform" and array_length(ar) > 8 {newb.spd = ar[8];} //
-		if ar[3] == "obj_movingplatform" and array_length(ar) > 8 {newb.target = ar[8]; newb.state = 2;} //state2 = cannot change target
-		if ar[3] == "obj_splatspawner" and array_length(ar) > 8 {newb.cooldown = ar[8];} //how frequently to spawn splats
+		if ar[3] == "obj_movingplatform" and array_length(ar) > 8 {newb.target = ar[8]; 
+			if array_length(ar) > 9 newb.topspeed = ar[9]; 
+			newb.state = 2;} //state2 = cannot change target
+		if ar[3] == "obj_splatspawner" and array_length(ar) > 8 {newb.maxcooldown = ar[8];} //how frequently to spawn splats
+		if ar[3] == "obj_cactus" and array_length(ar) > 8 {newb.topcooldown = ar[8];} //how frequently to step
+		if ar[3] == "obj_chaser" and array_length(ar) > 8 {newb.deadin = ar[8];} //how many beats it lasts
+
 	}
 	var cheese_layer = layer_get_id("cheese")
 	var enemy_layer = layer_get_id("enemies")

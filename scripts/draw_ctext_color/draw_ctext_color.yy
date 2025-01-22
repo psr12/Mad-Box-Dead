@@ -1,5 +1,5 @@
 {
-  "$GMScript":"",
+  "$GMScript":"v1",
   "%Name":"draw_ctext_color",
   "isCompatibility":false,
   "isDnD":false,

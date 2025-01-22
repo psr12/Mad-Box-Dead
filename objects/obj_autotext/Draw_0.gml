@@ -3,6 +3,7 @@
 
 
 draw_set_alpha(alpha)
+draw_set_font(font_rowdy)
 var buffer = 25
 
 var wid = max(string_width(textminusbars), widmin)/introscale  +buffer*2

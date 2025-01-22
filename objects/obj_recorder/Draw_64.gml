@@ -1,6 +1,6 @@
 /// @description Insert description here
 // You can write your code in this editor
-
+//draw_text(500, 500, state)
 //draw_text(100,10, takemeback)
 if seefps draw_text(500,30, "FPS: " + string(fps) + " (Ctrl)" )// + string(alarm[0])
 if seefps draw_text(500,70, string(fps_real))// + string(alarm[0])
@@ -377,8 +377,8 @@ The default beatmap has to be deleted manually, from the .exe folder."
 if state == 5{ //editing
 	var texx = 10; //controls text
 	draw_set_font(Font1)
-	draw_text(texx, 20, "Intro ends at: " + string(introends/gamespeed))
-	draw_text(texx, 50, "Song ends at: " + string(songends/gamespeed) )
+	draw_text(texx, 20, "Intro ends at: " + string( floor( (introends/gamespeed)*(BPM/60)) ) + " beats, " + string(introends/gamespeed) + " seconds")
+	draw_text(texx, 50, "Song ends at: " + string( floor((songends/gamespeed)*(BPM/60)) )  + " beats, " + string(songends/gamespeed) + " seconds")
 	draw_text(texx, 80, "Song volume: " + string(songvolume) )
 	draw_text(texx, 90, @"
 Click and drag to move through the song, and to change note speed.
@@ -707,7 +707,7 @@ if state == 69 //scoring
 	draw_text(scorex,500, "Max Combo: " + string(maxcombo) )
 }
 
-if state == 404 //pause menu
+if state == 404 or state == 405 //pause menu
 {
 			draw_set_defaults();
 	draw_set_alpha(0.6)
@@ -750,6 +750,7 @@ if controller_in > 2 {
 	draw_set_font(Font1)
 	draw_text_transformed(50, 100, @"Hey, do you have a controller plugged in?
 That disables keyboard controls.", 1,1, 0)
+	if controller_in > 6 draw_text_transformed(50, 100, @"I know, it sucks.", 1,1, 0)
 draw_set_defaults()
 }
 

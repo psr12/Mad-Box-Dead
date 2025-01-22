@@ -21,3 +21,6 @@ deadin = 8;
 
 pulse = 0;
 maxpulse = 0.2;
+
+outards_spin = 0
+scale = 2.5 //just for mouse icon
