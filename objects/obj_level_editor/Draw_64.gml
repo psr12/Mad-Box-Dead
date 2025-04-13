@@ -9,6 +9,18 @@ squareh = 64;
 squarew = 64;
 
 
+if state == 2050 and instance_exists(top_left_object) and keyboard_check(vk_shift) { //mark rotation center when group rotating
+
+with top_left_object {
+	var gui_x = relerp(camera_get_view_x(view_camera[0]), camera_get_view_x(view_camera[0])+camera_get_view_width(view_camera[0]), x, view_xport[0], view_xport[0]+view_wport[0]);
+	var gui_y = relerp(camera_get_view_y(view_camera[0]), camera_get_view_y(view_camera[0])+camera_get_view_height(view_camera[0]), y, view_yport[0], view_yport[0]+view_hport[0]);
+}
+draw_sprite(spr_warningex, 0, gui_x, gui_y)
+
+}
+
+
+
 //draw_text(500,200, left)
 //draw_text(500,230, right)
 //draw_text(500,250, up)

@@ -410,6 +410,7 @@
     {"name":"is_mouse_here","order":10,"path":"scripts/is_mouse_here/is_mouse_here.yy",},
     {"name":"key_value","order":11,"path":"scripts/key_value/key_value.yy",},
     {"name":"play_sound","order":4,"path":"scripts/play_sound/play_sound.yy",},
+    {"name":"relerp","order":12,"path":"scripts/relerp/relerp.yy",},
     {"name":"scr_artymoves","order":53,"path":"scripts/scr_artymoves/scr_artymoves.yy",},
     {"name":"scr_catpaw_v","order":16,"path":"scripts/scr_catpaw_v/scr_catpaw_v.yy",},
     {"name":"scr_change_background","order":22,"path":"scripts/scr_change_background/scr_change_background.yy",},

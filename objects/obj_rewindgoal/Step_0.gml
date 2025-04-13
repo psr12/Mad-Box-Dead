@@ -15,7 +15,8 @@ if state == 0 {
 //end level
 if place_meeting(x,y,obj_MadSquare) and state = 0
 {
-		with obj_recorder	takemeback = ds_list_size(backup) - (ds_list_size(notelist) - ds_list_size(backup) ) ; //where the song was stopped
+		//with obj_recorder	takemeback = ds_list_size(backup) - (ds_list_size(notelist) - ds_list_size(backup) ) ; //where the song was stopped
+		//not needed, and messes up song sync
 	state=1;
 	room_goto(romlist[onroom] )
 	onroom++;

@@ -90,6 +90,8 @@ snap_to_nearest = 0;
 		[1/1 = full beat, 1/4 = quarter note]...
 */
 
+firstbeat = 0; // /LIST SLOT/ to start counting beats from, instead of always zero
+
 bpmsquare_size = 64; 
 bpmsquare_top = 360;
 bpmsquare_left = 460;

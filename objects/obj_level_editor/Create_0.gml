@@ -9,6 +9,9 @@ lockjaw = false; //locks angle rotations until mouse has moved enough
 snapdis = 64;
 asset_transparency = 0.3;
 alarm[1] = 2; //after loading
+
+tempx = 0
+tempy = 0; //for holding mouse pos for group rotation, sx/sy is already used for center of mass
 #region f2 menu
 
 global.farsprite = 1 //which sprite in the bg folder to use

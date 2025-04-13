@@ -36,6 +36,7 @@ function scr_setupbeatmap(gotostate) { //reads beatmap, sets up  notelist/backup
 				//retrieve BPM from ini
 				ini_open("BPM.ini")
 					BPM = ini_read_real("BPM", songname, 120)
+					firstbeat = ini_read_real("firstbeat", songname, 0)
 				ini_close()
 
 			}

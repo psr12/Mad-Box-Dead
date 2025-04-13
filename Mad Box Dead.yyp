@@ -1,5 +1,5 @@
 {
-  "$GMProject":"",
+  "$GMProject":"v1",
   "%Name":"Mad Box Dead",
   "AudioGroups":[
     {"$GMAudioGroup":"","%Name":"audiogroup_default","name":"audiogroup_default","resourceType":"GMAudioGroup","resourceVersion":"2.0","targets":-1,},
@@ -95,6 +95,7 @@
     {"$GMFolder":"","%Name":"Tile Sets","folderPath":"folders/Tile Sets.yy","name":"Tile Sets","resourceType":"GMFolder","resourceVersion":"2.0",},
     {"$GMFolder":"","%Name":"Timelines","folderPath":"folders/Timelines.yy","name":"Timelines","resourceType":"GMFolder","resourceVersion":"2.0",},
   ],
+  "ForcedPrefabProjectReferences":[],
   "IncludedFiles":[
     {"$GMIncludedFile":"","%Name":"Alternate World The Fairy Queens Domain.txt","CopyToMask":-1,"filePath":"datafiles/beatmaps","name":"Alternate World The Fairy Queens Domain.txt","resourceType":"GMIncludedFile","resourceVersion":"2.0",},
     {"$GMIncludedFile":"","%Name":"automatic action.txt","CopyToMask":-1,"filePath":"datafiles/beatmaps","name":"automatic action.txt","resourceType":"GMIncludedFile","resourceVersion":"2.0",},
@@ -331,7 +332,7 @@
   "isEcma":false,
   "LibraryEmitters":[],
   "MetaData":{
-    "IDEVersion":"2024.11.0.179",
+    "IDEVersion":"2024.13.0.190",
   },
   "name":"Mad Box Dead",
   "resources":[
@@ -696,6 +697,7 @@
     {"id":{"name":"key_value","path":"scripts/key_value/key_value.yy",},},
     {"id":{"name":"object_get_depth","path":"scripts/object_get_depth/object_get_depth.yy",},},
     {"id":{"name":"play_sound","path":"scripts/play_sound/play_sound.yy",},},
+    {"id":{"name":"relerp","path":"scripts/relerp/relerp.yy",},},
     {"id":{"name":"scr_artymoves","path":"scripts/scr_artymoves/scr_artymoves.yy",},},
     {"id":{"name":"scr_catpaw_v","path":"scripts/scr_catpaw_v/scr_catpaw_v.yy",},},
     {"id":{"name":"scr_change_background","path":"scripts/scr_change_background/scr_change_background.yy",},},

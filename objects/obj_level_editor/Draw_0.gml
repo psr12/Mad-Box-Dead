@@ -12,6 +12,8 @@ if ds_list_size(selected_list) > 0 { //bbox on group selection
 	//draw_circle(sx, sy, 10 ,false);
 }
 
+
+
 if state != 99 and global.checkerboard //checkered background
 {
 	draw_set_alpha(0.3)

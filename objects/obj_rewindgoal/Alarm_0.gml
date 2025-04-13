@@ -16,7 +16,7 @@ state = 0;
 
 global.zoom = 1.5
 
-	with obj_recorder	audio_sound_set_track_position(songinst, takemeback/gamespeed)//resync the song if desynced
+	//with obj_recorder	audio_sound_set_track_position(songinst, takemeback/gamespeed)//resync the song if desynced
 
 
 buggy = true;

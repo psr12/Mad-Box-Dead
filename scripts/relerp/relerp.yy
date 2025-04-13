@@ -1,0 +1,13 @@
+{
+  "$GMScript":"v1",
+  "%Name":"relerp",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"relerp",
+  "parent":{
+    "name":"MISC",
+    "path":"folders/Scripts/MISC.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}

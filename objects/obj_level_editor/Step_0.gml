@@ -1,5 +1,6 @@
 if obj_recorder.state == 405 state = 405
 if keyboard_check_pressed(vk_f6) global.checkerboard = !global.checkerboard
+var snapdist = snapdis/2
 
 
 			if keyboard_check_pressed(ord("C") ) and keyboard_check(vk_control) {//copy	
@@ -23,16 +24,26 @@ if keyboard_check_pressed(vk_f6) global.checkerboard = !global.checkerboard
 			if keyboard_check_pressed(ord("V") ) and keyboard_check(vk_control) { //paste
 				if ds_list_size( copy_list) == 0 {state = 0; exit} //nothing was even copied, idiot
 				
-				var buff = 35; //so the pasted objects don't overlap the originals
+				var buff = snapdist*4; //so the pasted objects don't overlap the originals
 				ds_list_clear(selected_list); //always
 				baby = noone; //always, fixes a crash when copy/pasting 1 object
+	
+						var camerax = obj_cameraman.x //pos of cameraman, incase far from original
+						var cameray = obj_cameraman.y
+
+				
 					for (var i = 0; i < ds_list_size(copy_list); i++) {
 						var ar = copy_list[| i]; 
 						var newb = noone
 						
+						var copyx = ar[0] //initial pos of object
+						var copyy = ar[1]
+
+
 						//if scrolled far from original before pasting, put by camera instead
-						if point_distance(obj_cameraman.x, obj_cameraman.y, ar[0], ar[1]) > 800*global.zoom  newb = instance_create_layer( obj_cameraman.x, obj_cameraman.y, ar[2], ar[3] )
-						else newb = instance_create_layer( ar[0]+buff, ar[1]+buff, ar[2], ar[3] )
+						if point_distance(obj_cameraman.x, obj_cameraman.y, ar[0], ar[1]) > 800*global.zoom  
+							newb = instance_create_layer( camerax, cameray, ar[2], ar[3] )
+						else newb = instance_create_layer( copyx+buff, copyy+buff, ar[2], ar[3] )
 						
 								if newb newb.image_blend = ar[4]; // pass in platform color
 								if newb newb.image_xscale = ar[5]; // pass in xscale
@@ -50,6 +61,7 @@ if keyboard_check_pressed(vk_f6) global.checkerboard = !global.checkerboard
 						ds_list_add(selected_list, newb);//add new instances to selected list
 					}
 					state = 2002; // "just selected many objects" state
+					
 			}
 				
 	//ds_list_clear(custombg)
@@ -141,6 +153,7 @@ switch state
 						var objtype = object_list[| selection]
 						baby = instance_create_layer(mouse_x, mouse_y, layer_get_id("cheese"), objtype )
 						if objtype == obj_pickup or object_get_parent(objtype) == par_mobrat {
+							baby = noone
 							exit	
 						}
 						state = 10;
@@ -202,6 +215,9 @@ switch state
 											state = 21; baby = victim; //go to selection state
 											sx = victim.x - mouse_x //distance of obj X to the mouse
 											sy = victim.y - mouse_y
+											lockjaw = true;
+											tempx = mouse_x
+											tempy = mouse_y
 											break; //break loop
 										} //if valid
 							} //for templist
@@ -325,6 +341,7 @@ switch state
 	if selection != 0 {state = 0; baby = noone;} //moved off move tool, reset target and state
 		//if click inside object, state = 22, move obj
 		//if click outside ocject, state = 23, rotate obj
+		
 		if mouse_check_button(mb_left)
 		{					
 			if collision_point(mouse_x, mouse_y,  baby, true, false)
@@ -373,12 +390,15 @@ switch state
 	
 	case 22: //clicked on an existing object... move it
 
-			var snapdist = snapdis/2
-				if global.snaptogrid { //snap scaling to grid
-					var mxsnap = round(mouse_x / snapdist) * snapdist
+			if point_distance(tempx, tempy, mouse_x, mouse_y) > 5*global.zoom {
+			lockjaw = false}
+			
+			if !lockjaw { //don't move if mouse hasn't moved
+				if global.snaptogrid { //snap  to grid
+					var mxsnap = round(mouse_x / snapdist) * snapdist //snap mouse position
 					var mysnap = round(mouse_y / snapdist) * snapdist
 					
-					var sxsnap = round(sx / snapdist) * snapdist
+					var sxsnap = round(sx / snapdist) * snapdist //snap offset from initial mouse click
 					var sysnap = round(sy / snapdist) * snapdist
 					baby.x = mxsnap + sxsnap
 					baby.y = mysnap + sysnap
@@ -387,6 +407,7 @@ switch state
 					baby.x = mouse_x + sx
 					baby.y = mouse_y + sy	
 				}
+			}
 				
 		if !mouse_check_button(mb_left) //if release
 		{
@@ -401,7 +422,7 @@ switch state
 		
 		var newangle = point_direction(baby.x, baby.y, mouse_x, mouse_y)
 		
-		if point_distance(sx, sy, mouse_x, mouse_y) > 25*global.zoom lockjaw = false; //prevent angle change unless mouse has moved minimum distance
+		if point_distance(sx, sy, mouse_x, mouse_y) > 5*global.zoom lockjaw = false; //prevent angle change unless mouse has moved minimum distance
 		
 		if angle != newangle and !lockjaw
 		{
@@ -704,8 +725,8 @@ switch state
 					for ( var i = 0; i < ls; i++) //it's fucked up to have two loops...
 						{ //but sx/sy requires a full loop to check all bboxes
 							var victim = selected_list[| i];
-							with victim {init_angle = image_angle;  //add to this when rotate
-								init_dir = point_direction(other.sx, other.sy, x, y); //
+							with victim {init_angle = image_angle;  //hold initial rotation, add to this when rotate
+								init_dir = point_direction(other.sx, other.sy, x, y); //direction from center mass to center of each object
 							}
 						}
 			if mouse_check_button_pressed(mb_left)
@@ -725,6 +746,7 @@ switch state
 								state = 2003; //successful grab
 								sx = mouse_x; 
 								sy = mouse_y;
+
 								lockjaw = true;
 								//if global.snaptogrid { //do not, because just selecting something will displace it
 									//have the snapping occur once you make a move
@@ -744,6 +766,25 @@ switch state
 						state = 2050;
 						lockjaw = true; //lock rotation until ninimum mouse movement
 						angle = point_direction(sx, sy, mouse_x, mouse_y)
+						tempx = mouse_x
+						tempy = mouse_y
+						
+						//get top left most object, for relative rotation
+							var dist_to_zero = 999999999
+		
+							top_left_object = selected_list[| 0]	
+							for (var i = 0; i < list_size; i++)
+								{
+									with selected_list[| i] { //move objects
+										var curdist = distance_to_point(mouse_x, mouse_y) 
+										if curdist < dist_to_zero
+										{
+											other.top_left_object = id	
+											dist_to_zero = curdist
+										}
+									}
+								}
+						
 						
 					}
 			} //if mb_left
@@ -773,6 +814,10 @@ switch state
 						ds_list_clear(selected_list); 
 						state = 0; //and return to neutral
 					}
+					else { //didn't click anything, just deselect
+						ds_list_clear(selected_list); 
+						state = 0; //and return to neutral	
+					}
 				} //mb_right
 
 	break;
@@ -799,26 +844,23 @@ switch state
 					}	
 				}
 	
-		var xoff = mouse_x - sx; 
+		var xoff = mouse_x - sx; //holds where mouse is, relative to center mass
 		var yoff = mouse_y - sy;
+
 		
-		
-		if point_distance(sx, sy, mouse_x, mouse_y) > 25*global.zoom {
+		if point_distance(sx, sy, mouse_x, mouse_y) > 5*global.zoom {
 			lockjaw = false	} //lockjaw for dragging groups is only for resetting the sx/sy initial click
 				//so clicking a group won't insta-move it if your mouse isn't grid-aligned
 			
-		if !lockjaw {
+		if !lockjaw { //
 			if global.snaptogrid { 
-				var snapdist = snapdis/2
-				sx = round(sx/snapdist)*snapdist
+				
+				sx = round(sx/snapdist)*snapdist //align center point to grid
 				sy = round(sy/snapdist)*snapdist	
+				
+				xoff = round(xoff/snapdist)*snapdist //align target destination to grid
+				yoff = round(yoff/snapdist)*snapdist
 			}	
-		}
-		
-		if global.snaptogrid {
-			var snapdist = snapdis/2
-			xoff = round(xoff/snapdist)*snapdist
-			yoff = round(yoff/snapdist)*snapdist
 		}
 		
 		var list_size = ds_list_size(selected_list)
@@ -838,29 +880,39 @@ switch state
 	case 2050: //rotating, centered on sx/sy, the midpoint of combined bboxes
 		
 		//lengthdir around center, angle is normal
-		var mangle = point_direction(sx, sy, mouse_x, mouse_y)
-		var nangle = angle_difference(mangle, angle)
+		var mangle = point_direction(sx, sy, mouse_x, mouse_y) //from origin to mouse
+		var nangle = angle_difference(mangle, angle) //the difference between (origin to mouse) and (the origin to first click)
 		
 				if keyboard_check(vk_shift) { //snap rotation 
-			nangle = round( (nangle/45)) *45 }
+				nangle = round( (nangle/45)) *45			
+			}
 		
 		
-		if point_distance(sx, sy, mouse_x, mouse_y) > 25*global.zoom {
+		if point_distance(tempx, tempy, mouse_x, mouse_y) > 5*global.zoom {
 			lockjaw = false
 		}
 		
 		if !lockjaw {
 		var list_size = ds_list_size(selected_list)
+		
+				var snap_angle_offset = 0
+
+				
+				with top_left_object {//get angle offset from top left, instead of individually
+					if keyboard_check(vk_shift) {
+						snap_angle_offset = round(init_angle/45)*45
+						snap_angle_offset = init_angle-snap_angle_offset
+					}
+					
+				}
+		
 			for (var i = 0; i < list_size; i++)
 			{
 				with selected_list[| i] { //move objects
-					image_angle = init_angle + nangle;
-					var newdir = init_dir + nangle;
 					
-					if keyboard_check(vk_shift) { //snap rotation 
-					init_angle = round( (init_angle/45)) *45 
-					init_dir = round( (init_dir/45)) *45 }
-					
+					image_angle = init_angle + nangle - snap_angle_offset;
+					var newdir = init_dir + nangle -  snap_angle_offset;
+
 					var cendis = point_distance(xstart, ystart, other.sx, other.sy); //dist to center, which stays same
 					x = other.sx + lengthdir_x(cendis, newdir);
 					y = other.sy + lengthdir_y(cendis, newdir);
@@ -869,8 +921,11 @@ switch state
 		}
 			
 		if mouse_check_button_released(mb_left) { //let go
-			ds_list_clear(selected_list);
-			state = 0;
+			if !lockjaw state = 2002;
+			else {
+				ds_list_clear(selected_list);
+				state = 0; 
+			}
 		}
 	break;
 	
